@@ -1,20 +1,31 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchCount } from './counterAPI';
+import { fetchContactEntries, fetchEntries } from './registerAPI';
 
 const initialState = {
   value: 0,
   status: 'idle',
+  PersonalInfo: "",
+  ContactInfo: "",
 };
-export const incrementAsync = createAsyncThunk(
-  'counter/fetchCount',
-  async (amount) => {
-    const response = await fetchCount(amount);
+
+export const fetchEntriesAsync = createAsyncThunk(
+  'register/fetchEntries',
+  async () => {
+    const response = await fetchEntries();
     return response.data;
   }
 );
 
-export const counterSlice = createSlice({
-  name: 'counter',
+export const fetchContactEntriesAsync = createAsyncThunk(
+  'register/fetchContactEntries',
+  async () => {
+    const response = await fetchContactEntries();
+    return response.data;
+  }
+);
+
+export const registerSlice = createSlice({
+  name: 'register',
   initialState,
   reducers: {
     increment: (state) => {
@@ -29,18 +40,27 @@ export const counterSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(incrementAsync.pending, (state) => {
+      .addCase(fetchEntriesAsync.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(incrementAsync.fulfilled, (state, action) => {
+      .addCase(fetchEntriesAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.value += action.payload;
+        state.PersonalInfo = action.payload;
+      })
+      .addCase(fetchContactEntriesAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchContactEntriesAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.ContactInfo = action.payload;
       });
   },
 });
 
-export const { increment, decrement, incrementByAmount } = counterSlice.actions;
-export const selectCount = (state) => state.counter.value;
+export const { increment, decrement, incrementByAmount } = registerSlice.actions;
 
+export const selectCount = (state) => state.register.value;
+export const selectPersonalInfo = (state) => state.register.PersonalInfo;
+export const selectContactInfo = (state) => state.register.ContactInfo;
 
-export default counterSlice.reducer;
+export default registerSlice.reducer;
