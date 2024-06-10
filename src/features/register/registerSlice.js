@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchContactEntries, fetchEntries } from './registerAPI';
+import { createAccount, fetchContactEntries, fetchEntries } from './registerAPI';
 
 const initialState = {
   value: 0,
@@ -20,6 +20,13 @@ export const fetchContactEntriesAsync = createAsyncThunk(
   'register/fetchContactEntries',
   async () => {
     const response = await fetchContactEntries();
+    return response.data;
+  }
+);
+export const createAccountAsync = createAsyncThunk(
+  'register/createAccount',
+  async (data) => {
+    const response = await createAccount(data);
     return response.data;
   }
 );
@@ -53,7 +60,14 @@ export const registerSlice = createSlice({
       .addCase(fetchContactEntriesAsync.fulfilled, (state, action) => {
         state.status = 'idle';
         state.ContactInfo = action.payload;
-      });
+      })
+      // .addCase(createAccountAsync.pending, (state) => {
+      //   state.status = 'loading';
+      // })
+      // .addCase(createAccountAsync.fulfilled, (state, action) => {
+      //   state.status = 'idle';
+      //   state.ContactInfo = action.payload;
+      // })
   },
 });
 

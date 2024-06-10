@@ -1,34 +1,34 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchContactEntriesAsync, fetchEntriesAsync, selectContactInfo, selectPersonalInfo } from "./registerSlice";
+import { createAccountAsync, fetchContactEntriesAsync, fetchEntriesAsync, selectContactInfo, selectPersonalInfo } from "./registerSlice";
 
 const Register = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(fetchContactEntriesAsync())
     dispatch(fetchEntriesAsync())
-  }, [])
+  }, [dispatch])
 
 
   const ContactInfo = useSelector(selectContactInfo)
   const PersonalInfo = useSelector(selectPersonalInfo)
+
+  // console.log(ContactInfo, PersonalInfo);
 
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
+    // reset,
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
-    reset()
+    // console.log(data);
+    dispatch(createAccountAsync(data))
+    // reset()
   };
-
-
-  // console.log(watch("example"));
 
   if (ContactInfo && PersonalInfo) {
     return (
