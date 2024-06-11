@@ -1,6 +1,10 @@
-// A mock function to mimic making an async request for data
-export function fetchCount(amount = 1) {
-  return new Promise((resolve) =>
-    setTimeout(() => resolve({ data: amount }), 500)
+export function fetchContactEntries() {
+  return new Promise(async (resolve) =>{
+    // console.log("here")
+    const response = await fetch("/contactinfo") 
+    const data = await response.json()
+    // console.log(data)
+    resolve({data})
+    }
   );
 }
