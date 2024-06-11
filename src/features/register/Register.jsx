@@ -21,13 +21,13 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-    // reset,
+    reset,
   } = useForm();
 
   const onSubmit = (data) => {
     // console.log(data);
     dispatch(createAccountAsync(data))
-    // reset()
+    reset()
   };
 
   if (ContactInfo && PersonalInfo) {
@@ -52,7 +52,7 @@ const Register = () => {
               <form noValidate onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-wrap">
                   <div
-                    class="flex items-center justify-center w-full"
+                    class="flex items-center justify-center w-full p-4  flex-col lg:flex-row  "
                     style={{ margin: "1rem" }}
                   >
                     <label
@@ -65,7 +65,7 @@ const Register = () => {
                       for="dropzone-file"
                       class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
                     >
-                      <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                      <div class="flex flex-col  items-center justify-center pt-5 pb-6">
                         <svg
                           class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
                           aria-hidden="true"
