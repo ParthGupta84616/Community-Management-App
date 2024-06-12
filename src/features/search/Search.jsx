@@ -3,17 +3,23 @@ import { FaLocationDot } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { SearchUsersAsync, selectquery } from "./searchSlice";
+import { useNavigate } from "react-router-dom";
+import { FaUserSlash } from "react-icons/fa";
+import { useMediaQuery } from "react-responsive";
+
 function Search() {
   const [inputValue, setInputValue] = useState("");
   const dispatch = useDispatch();
-  const query = useSelector(selectquery)
-  console.log(query);
+  var query = useSelector(selectquery);
+  const navigation = useNavigate();
 
   useEffect(() => {
     if (inputValue.toString().length > 5) {
       dispatch(SearchUsersAsync(inputValue));
+    } else {
+      dispatch(SearchUsersAsync(null));
     }
-  }, [dispatch , inputValue])
+  }, [dispatch, inputValue]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -21,6 +27,14 @@ function Search() {
       dispatch(SearchUsersAsync(inputValue));
     }
   };
+
+  const handleProfile = (id) => {
+    setInputValue("");
+    dispatch(SearchUsersAsync(null));
+    navigation(`/profile/${id}`);
+  };
+  const isMobile = useMediaQuery({ query: '(max-width: 450px)' });
+
   return (
     <div className="">
       <div class="relative isolate overflow-hidden bg-gray-900">
@@ -64,109 +78,116 @@ function Search() {
         </div>
         <div class=" flex h-screen items-center justify-center">
           {/* from here */}
-        <div className="h-screen ">
-        <form className=" mx-auto pt-24   ">
-          <div className="flex items-center justify-center ">
-            <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
-              Your Email
-            </label>
-            <div className="relative w-2/3 lg:w-1/2"> 
-              <input
-                type="search"
-                className="block p-2.5 w-full rounded-l-lg  z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-                placeholder="Search with Phone Number Or Aadhar Number"
-                // value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                required
-              />
-              <button
-                type="submit"
-                onClick={onSubmit}
-                className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                <svg
-                  className="w-4 h-4"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+          <div className="h-screen ">
+            <form className=" mx-auto pt-24   ">
+              <div className="flex items-center justify-center w-screen">
+                <div className="relative w-2/3 lg:w-1/2">
+                  <input
+                    type="search"
+                    className="block p-2.5 w-full rounded-l-lg text-center  z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                    placeholder="Search with Phone Number "
+                    // value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    required
                   />
-                </svg>
-                <span className="sr-only">Search</span>
-              </button>
-            </div>
-          </div>
-        </form>
-        <div className="mx-auto mt-24 h-40 flex flex-col items-center w-full justify-center gap-2 text-gray-900">
-          <div className="flex gap-3 bg-gray-400 border lg:40 border-gray-300 rounded-xl overflow-hidden items-center lg:h-36 lg:max-w-4xl lg:w-screen m-4">
-            <div className="relative w-32 flex justify-start h-32 flex-shrink-0">
-              <img
-                className="absolute left-0 top-0 w-full h-full object-cover object-center transition duration-50 rounded-lg px-2 p-2"
-                loading="lazy"
-                src="https://via.placeholder.com/150"
-                alt="Placeholder"
-              />
-            </div>
+                  <button
+                    type="submit"
+                    onClick={onSubmit}
+                    className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                      />
+                    </svg>
+                    <span className="sr-only">Search</span>
+                  </button>
+                </div>
+              </div>
+            </form>
+            <div className="mx-auto mt-24 h-40 flex flex-col items-center w-full justify-center gap-2 text-gray-900">
+              {query ? (
+                query?.query.map(
+                  (profile, index) => (
+                    // <Link to={"/profile/"+profile._id}>
+                    <div className="flex gap-3 bg-gray-400 border lg:40 border-gray-300 rounded-xl overflow-hidden items-center lg:h-36 lg:max-w-4xl lg:w-screen m-4">
+                      <div className="relative w-32 flex justify-start h-32 flex-shrink-0">
+                        <img
+                          className="absolute left-0 top-0 w-full h-full object-cover object-center transition duration-50 rounded-lg px-2 p-2"
+                          loading="lazy"
+                          src="https://via.placeholder.com/150"
+                          alt="Placeholder"
+                        />
+                      </div>
 
-            <div className="flex flex-col justify-start flex-grow p-2">
-              <p className="text-xl font-bold p-2 ">Name</p>
+                      <div className="flex flex-col justify-start flex-grow p-2">
+                        <p className="text-xl font-bold p-2 ">{profile.नाम}</p>
 
-              <span className="flex items-center p-1">
-                <FaLocationDot className="text-red-500 mr-2" />
-                <a
-                  href="https://amitpachange.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  District
-                </a>
-              </span>
+                        <span className="flex items-center p-1">
+                          <FaLocationDot className="text-red-500 mr-2" />
+                          <a
+                            href="https://amitpachange.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {profile.जिला}
+                          </a>
+                        </span>
 
-              <span className="flex items-center  p-1 ">
-                <FaPhoneAlt className="text-red-500 mr-2" />
-                <a
-                  href="https://amitpachange.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Phone Number
-                </a>
-              </span>
+                        <span className="flex items-center  p-1 ">
+                          <FaPhoneAlt className="text-red-500 mr-2" />
+                          <a
+                            href="https://amitpachange.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {profile.मो}
+                          </a>
+                        </span>
+                      </div>
+                      <span className="flex justify-end items-center pr-3">
+                        <svg
+                          className="w-4 h-4 mr-1 mt-1"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
+                            clipRule="evenodd"
+                          ></path>
+                        </svg>
+                        <div onClick={() => handleProfile(profile._id)}>
+                          <h1 className="lg:text-lg text-sm font-medium">
+                            Go To Profile
+                          </h1>
+                        </div>
+                      </span>
+                    </div>
+                  )
+                  // </Link>
+                )
+              ) : (
+                <div className="lg:text-5xl text-3xl mt-10  font-bold text-gray-300">
+                  <FaUserSlash className="lg:ml-14 ml-10" size={isMobile ? 125 : 200} />
+                  <h1 className=""> No User Found</h1>
+                </div>
+              )}
             </div>
-            <span className="flex justify-end items-center pr-3">
-              <svg
-                className="w-4 h-4 mr-1 mt-1"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-              <a
-                href="https://amitpachange.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <h1 className="lg:text-lg text-sm font-medium">Go To Profile</h1>
-              </a>
-            </span>
           </div>
         </div>
       </div>
-        </div>
-      </div>
-      
     </div>
   );
 }

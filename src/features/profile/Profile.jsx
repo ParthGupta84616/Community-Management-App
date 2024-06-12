@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { fetchUserProfileAsync, selectUser } from './profileSlice';
 import { fetchContactEntriesAsync, fetchEntriesAsync, selectContactInfo, selectPersonalInfo } from '../register/registerSlice';
 
@@ -29,12 +29,12 @@ function Profile() {
                 <h6 className="text-blueGray-700 text-xl font-bold">
                   {data.नाम} Profile
                 </h6>
-                <button
+                <Link to="/search"
                   className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="button"
                 >
                   Back
-                </button>
+                </Link>
               </div>
             </div>
             <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
