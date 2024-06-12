@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
-import { FaPhoneAlt } from "react-icons/fa";
+import { FaHome, FaPhoneAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { SearchUsersAsync, selectquery } from "./searchSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaUserSlash } from "react-icons/fa";
 import { useMediaQuery } from "react-responsive";
 
@@ -114,6 +114,7 @@ function Search() {
                     <span className="sr-only">Search</span>
                   </button>
                 </div>
+                  
               </div>
             </form>
             <div className="mx-auto mt-24 h-40 flex flex-col items-center w-full justify-center gap-2 text-gray-900">
@@ -186,7 +187,25 @@ function Search() {
                 </div>
               )}
             </div>
+            <div class="flex justify-center mt-20">
+            <Link
+              to={"/register"}
+              class="mr-5 inline-block rounded-xl bg-gray-900 px-8 py-4 text-center font-semibold text-white [box-shadow:rgb(19,_83,_254)_6px_6px] md:mr-6"
+            >
+              Register
+            </Link>
+            <Link
+              to={"/"}
+              class="flex max-w-full flex-row items-center bg-slate-700  justify-center rounded-xl border border-solid border-[#1353fe] px-6 py-3 font-semibold  [box-shadow:rgb(19,_83,_254)_6px_6px]"
+            >
+              <FaHome class="mr-2 text-[#1353fe]" size={20} />
+              <p class="text-blue-700">
+                Home
+              </p>
+            </Link>
           </div>
+          </div>
+          
         </div>
       </div>
     </div>

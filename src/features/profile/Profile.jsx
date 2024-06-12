@@ -52,11 +52,11 @@ function Profile() {
                     </label>
                     <label
                       for="dropzone-file"
-                      class="flex flex-col items-center justify-center lg:w-1/3 w-full md:w-1/2 h-64 border-2 border-dashed bg-slate-500 rounded-3xl border-gray-300 cursor-pointer bg-gray-50 dark:hover:bg-bray-800  hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                      class="flex flex-col items-center justify-center lg:w-1/3 w-full md:w-1/2 h-64 border-2 border-dashed bg-slate-500 rounded-3xl border-gray-300 cursor-pointer dark:hover:bg-bray-800  hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
                     >
                       <div class="flex flex-col  items-center justify-center pt-5 pb-6">
 
-                       <img src={data.imageURL} className='w-fit h-fit' />
+                       <img src={data.imageURL} alt='profileURL' className='w-fit h-fit' />
 
                         </div>
                     </label>
