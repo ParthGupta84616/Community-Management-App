@@ -1,10 +1,7 @@
-export function fetchContactEntries() {
-  return new Promise(async (resolve) =>{
-    // console.log("here")
-    const response = await fetch("/contactinfo") 
-    const data = await response.json()
-    // console.log(data)
-    resolve({data})
-    }
-  );
+export function SearchUsers(query) {
+  return new Promise(async (resolve) => {
+    const response = await fetch("/user?search=" + query);
+    const data = await response.json();
+    resolve({ data });
+  });
 }

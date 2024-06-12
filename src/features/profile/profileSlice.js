@@ -33,6 +33,7 @@ export const userSlice = createSlice({
     builder
       .addCase(fetchUserProfileAsync.pending, (state) => {
         state.status = 'loading';
+        state.user = null;
       })
       .addCase(fetchUserProfileAsync.fulfilled, (state, action) => {
         state.status = 'idle';
