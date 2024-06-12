@@ -1,7 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
 import { createAccountAsync, fetchContactEntriesAsync, fetchEntriesAsync, selectContactInfo, selectPersonalInfo } from "./registerSlice";
+import { storage } from '../../firebaseConfig';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 const Register = () => {
   const dispatch = useDispatch()
@@ -13,6 +15,8 @@ const Register = () => {
 
   const ContactInfo = useSelector(selectContactInfo)
   const PersonalInfo = useSelector(selectPersonalInfo)
+  // const [image, setImage] = useState(null);
+  const [url, setUrl] = useState(null);
 
   // console.log(ContactInfo, PersonalInfo);
 
@@ -26,9 +30,38 @@ const Register = () => {
 
   const onSubmit = (data) => {
     // console.log(data);
-    dispatch(createAccountAsync(data))
-    reset()
+    if(url){
+      data["imageURL"] = url
+      console.log(data);
+      dispatch(createAccountAsync(data))
+      reset()
+    }
+
   };
+
+  const handleFileUpload = (e) => {
+    if (e.target.files[0]) {
+      const file = e.target.files[0];
+      const storageRef = ref(storage, `images/${file.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          // Handle progress, pause, and resume
+        },
+        (error) => {
+          console.error('Upload failed:', error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            // console.log('File available at', downloadURL);
+            setUrl(downloadURL);
+          });
+        }
+      );
+    }
+  }
+
 
   if (ContactInfo && PersonalInfo) {
     return (
@@ -50,24 +83,24 @@ const Register = () => {
             </div>
             <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
               <form noValidate onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex flex-wrap">
+              <div className="flex flex-wrap">
                   <div
-                    class="flex items-center justify-center w-full p-4  flex-col lg:flex-row  "
+                    className="flex items-center justify-center w-full p-4 flex-col lg:flex-row"
                     style={{ margin: "1rem" }}
                   >
                     <label
-                      className=" uppercase text-blueGray-600 text-xs font-bold mb-2 flex justify-center items-center w-1/2"
+                      className="uppercase text-blueGray-600 text-xs font-bold mb-2 flex justify-center items-center w-1/2"
                       htmlFor="grid-password"
                     >
                       फ़ोटो
                     </label>
                     <label
-                      for="dropzone-file"
-                      class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                      htmlFor="dropzone-file"
+                      className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
                     >
-                      <div class="flex flex-col  items-center justify-center pt-5 pb-6">
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
                         <svg
-                          class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                          className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
                           aria-hidden="true"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
@@ -75,21 +108,20 @@ const Register = () => {
                         >
                           <path
                             stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                           />
                         </svg>
-                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                          <span class="font-semibold">Click to upload</span> or
-                          drag and drop
+                        <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                          <span className="font-semibold">Click to upload</span> or drag and drop
                         </p>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
                           SVG, PNG, JPG or GIF (MAX. 800x400px)
                         </p>
                       </div>
-                      <input id="dropzone-file" type="file" class="hidden" />
+                      <input id="dropzone-file" type="file" className="hidden" onChange={handleFileUpload} />
                     </label>
                   </div>
                   {PersonalInfo?.map((item) => (

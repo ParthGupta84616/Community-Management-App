@@ -35,6 +35,7 @@ function Search() {
   };
   const isMobile = useMediaQuery({ query: '(max-width: 450px)' });
 
+
   return (
     <div className="">
       <div class="relative isolate overflow-hidden bg-gray-900">
