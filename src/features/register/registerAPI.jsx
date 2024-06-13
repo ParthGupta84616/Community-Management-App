@@ -33,15 +33,3 @@ export function createAccount(data) {
     }
   );
 }
-
-// export function sendPhoto(image) {
-//   return new Promise(async (resolve) =>{
-//     const response = await fetch("/user",{
-//       method: 'POST',
-//       body: image,
-//     }) 
-//     const data = await response.json();
-//     resolve({data})
-//     }
-//   );
-// }

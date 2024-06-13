@@ -5,6 +5,7 @@ import { createAccountAsync, fetchContactEntriesAsync, fetchEntriesAsync, select
 import { storage } from '../../firebaseConfig';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { useNavigate } from "react-router-dom";
+import ImageCompressor from 'image-compressor.js';
 
 const Register = () => {
   const dispatch = useDispatch()
@@ -44,23 +45,38 @@ const Register = () => {
   const handleFileUpload = (e) => {
     if (e.target.files[0]) {
       const file = e.target.files[0];
-      const storageRef = ref(storage, `images/${file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      uploadTask.on('state_changed',
-        (snapshot) => {
-          // Handle progress, pause, and resume
-        },
-        (error) => {
-          console.error('Upload failed:', error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            // console.log('File available at', downloadURL);
-            setUrl(downloadURL);
-          });
-        }
-      );
+  
+      // Create an instance of ImageCompressor
+      const compressor = new ImageCompressor();
+      
+      // Compress the file
+      compressor.compress(file, {
+        quality: 0.6, // Adjust the quality as needed
+        maxWidth: 800, // Maximum width of the output image
+        maxHeight: 600, // Maximum height of the output image
+        convertSize: 5000000, // Limit in bytes for converting to a Blob
+      }).then((compressedFile) => {
+        // Once compressed, proceed with uploading the compressed file
+        const storageRef = ref(storage, `images/${compressedFile.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, compressedFile);
+  
+        uploadTask.on('state_changed',
+          (snapshot) => {
+            // Handle progress, pause, and resume
+          },
+          (error) => {
+            console.error('Upload failed:', error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              // console.log('File available at', downloadURL);
+              setUrl(downloadURL);
+            });
+          }
+        );
+      }).catch((error) => {
+        console.error('Compression error:', error);
+      });
     }
   }
 
