@@ -117,7 +117,7 @@ function Search() {
                   
               </div>
             </form>
-            <div className="mx-auto mt-24 h-40 flex flex-col items-center w-full justify-center gap-2 text-gray-900">
+            <div className="mx-auto mt-24  flex flex-col items-center w-full justify-center gap-2 text-gray-900">
               {query ? (
                 query?.query.map(
                   (profile, index) => (
@@ -125,9 +125,9 @@ function Search() {
                     <div className="flex gap-3 bg-gray-400 border lg:40 border-gray-300 rounded-xl overflow-hidden items-center lg:h-36 lg:max-w-4xl lg:w-screen m-4">
                       <div className="relative w-32 flex justify-start h-32 flex-shrink-0">
                         <img
-                          className="absolute left-0 top-0 w-full h-full object-cover object-center transition duration-50 rounded-lg px-2 p-2"
+                          className="absolute rounded-2xl left-0 top-0 w-full h-full object-cover object-center transition duration-50  px-2 p-2"
                           loading="lazy"
-                          src="https://via.placeholder.com/150"
+                          src={profile.imageURL}
                           alt="Placeholder"
                         />
                       </div>

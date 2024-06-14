@@ -6,6 +6,7 @@ import ErrorPage from "./Components/ErrorPage";
 import Home from "./Components/homePage/Home";
 import Navbar from "./Components/homePage/Navbar";
 import Footer from "./Components/homePage/Footer";
+// import "./App.css";
 
 export default function App() { 
   const router = createBrowserRouter([
@@ -35,7 +36,7 @@ export default function App() {
 
   return (
           <>
-          <div>
+          <div class="scrollbar-container">
             
           <RouterProvider router={router} />
           
