@@ -37,14 +37,27 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    // console.log(data);
-    if (url) {
-      data["imageURL"] = url;
-      setUrl(null);
-      dispatch(createAccountAsync(data));
+    // Function to preprocess data and replace empty fields with "N/A"
+    const preprocessData = (data) => {
+      const processedData = { ...data };
+      for (const key in processedData) {
+        if (processedData[key].trim() === "") {
+          processedData[key] = "N/A";
+        }
+      }
+      return processedData;
+    };
+    const processedData = preprocessData(data);
+    // if (url) {
+      processedData["imageURL"] = url;
+      setUrl(null); // Reset the 'url' state after using it
+  
+      // Dispatch action with processed data
+      dispatch(createAccountAsync(processedData));
       reset();
-    }
+    // }
   };
+  
 
   const handleFileUpload = (e) => {
     if (e.target.files[0]) {
@@ -77,9 +90,10 @@ const Register = () => {
             () => {
               getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                 // console.log('File available at', downloadURL);
-                setUrl(downloadURL);
+                setUrl(downloadURL || "https://imgs.search.brave.com/oB6fgT45DC10B0RQfk3kTBtZ0W-2p7udZUxPnfvKT3M/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA0LzYyLzkzLzY2/LzM2MF9GXzQ2Mjkz/NjY4OV9CcEVFY3hm/Z011WVBmVGFJQU9D/MXRDRHVybXNubzdT/cC5qcGc");
               });
             }
+            
           );
         })
         .catch((error) => {
@@ -130,7 +144,7 @@ const Register = () => {
                           <img
                             src={url}
                             alt="profileURL"
-                            className="w-fit h-fit"
+                            className="size-64 rounded-lg"
                           />
                         </div>
                         
@@ -197,7 +211,7 @@ const Register = () => {
                       <input
                         type={item.type}
                         placeholder={item.placeholder}
-                        {...register(item.name, { required: true })}
+                        {...register(item.name)}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
                       {errors[item.name] && <p>This field is required</p>}
@@ -225,7 +239,9 @@ const Register = () => {
                       <input
                         type={item.type}
                         placeholder={item.placeholder}
-                        {...register(item.name, { required: true })}
+                        {...register(item.name, {
+                          required: item.name === 'मो' // Conditionally apply required rule
+                        })}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
                       {errors[item.name] && <p>This field is required</p>}

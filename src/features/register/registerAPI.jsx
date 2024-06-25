@@ -1,7 +1,7 @@
 export function fetchEntries() {
   return new Promise(async (resolve) =>{
     // console.log("here")
-    const response = await fetch("/personalinfo") 
+    const response = await fetch("https://socialgeathering-deploy.onrender.com/personalinfo") 
     const data = await response.json()
     // console.log(data)
     resolve({data})
@@ -12,7 +12,7 @@ export function fetchEntries() {
 export function fetchContactEntries() {
   return new Promise(async (resolve) =>{
     // console.log("here")
-    const response = await fetch("/contactinfo") 
+    const response = await fetch("https://socialgeathering-deploy.onrender.com/contactinfo") 
     const data = await response.json()
     // console.log(data)
     resolve({data})
@@ -22,7 +22,7 @@ export function fetchContactEntries() {
 
 export function createAccount(data) {
   return new Promise(async (resolve) =>{
-    await fetch("/user",{
+    await fetch("https://socialgeathering-deploy.onrender.com/user",{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
