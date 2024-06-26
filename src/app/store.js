@@ -3,7 +3,7 @@ import counterReducer from '../features/counter/counterSlice';
 import registerReducer from "../features/register/registerSlice"
 import userReducer from "../features/profile/profileSlice"
 import searchReducer from "../features/search/searchSlice"
-
+import editReducer from "../features/editor/editSlice"
 
 
 export const store = configureStore({
@@ -12,5 +12,6 @@ export const store = configureStore({
     register : registerReducer ,
     user : userReducer,
     search : searchReducer,
+    edit : editReducer,
   },
 });

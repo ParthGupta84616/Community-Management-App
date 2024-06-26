@@ -1,15 +1,14 @@
-import React, { useEffect, useRef} from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { fetchUserProfileAsync, selectUser } from './profileSlice';
+import { fetchUserProfileAsync, selectUser } from '../profile/profileSlice';
 import { fetchContactEntriesAsync, fetchEntriesAsync, selectContactInfo, selectPersonalInfo } from '../register/registerSlice';
-import { ReactToPrint } from 'react-to-print';
+
 
 function Profile() {
   const id = useParams().id;
   const dispatch = useDispatch();
   var data = useSelector(selectUser)
-  const componentRef = useRef(null);
   const ContactInfo = useSelector(selectContactInfo)
   const PersonalInfo = useSelector(selectPersonalInfo)
   const navigate = useNavigate()
@@ -20,53 +19,24 @@ function Profile() {
   }, [dispatch , id])
 
   data = data?.user
-  const handlePrint = () => {
-    if (componentRef.current) {
-      // Accessing the DOM element for printing
-      console.log(componentRef.current);
-    }
-  };
-
 
   if(data && ContactInfo && PersonalInfo){
     return (
       <section className="py-1 bg-blueGray-50">
         <div className="w-full lg:w-11/12 px-4 mx-auto mt-6" >
-          <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0" ref={componentRef}>
+          <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
             <div className="rounded-t bg-white mb-0 px-6 py-6" >
               <div className="text-center flex justify-between">
                 <h6 className="text-blueGray-700 text-xl font-bold">
                   {data.नाम} Profile
                 </h6>
-                <ReactToPrint
-                  trigger={() => (
-                    <button
-                      className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                      onClick={handlePrint}
-                    >
-                      Print
-                    </button>
-                  )}
-                  content={() => componentRef.current} // Use componentRef.current to access the DOM element
-                  documentTitle={data.नाम}
-                  pageStyle={`
-                    @page {
-                      size: 1920px 1080px;
-                      margin: 0;
-                    }
-                    @media print {
-                      body {
-                        -webkit-print-color-adjust: exact;
-                        margin: 0; /* Reset body margin for print */
-                      }
-                    }
-                  `}
-                />
+                
+
                 <button
                   className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                  onClick={() => navigate(`/edit/${id}`)}
+                  onClick={() => navigate(`/profile/${data._id}`)}
                 >
-                  Edit
+                  Save
                 </button>
 
 
@@ -115,10 +85,10 @@ function Profile() {
                       </label>
                       <input
                         type={item.type}
-                        value={data[item.name] || 'N/A'}
+                        defaultValue={data[item.name] || 'N/A'}
                         placeholder={item.placeholder}
 
-                        className=" pointer-events-none border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                        className=" border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
                     </div>
                   ))}
@@ -143,9 +113,9 @@ function Profile() {
                       </label>
                       <input
                         type={item.type}
-                        value={data[item.name] || 'N/A'}
+                        defaultValue={data[item.name] || 'N/A'}
                         placeholder={item.placeholder}
-                        className="pointer-events-none border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
                     </div>
                   ))}
@@ -165,7 +135,7 @@ function Profile() {
                       </label>
                       <input
                         type="text"
-                        value={data.phone1 || 'N/A'}
+                        defaultvalue={data.phone1 || 'N/A'}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
                     </div>
@@ -180,7 +150,7 @@ function Profile() {
                       </label>
                       <input
                         type="text"
-                        value={data.phone2 || 'N/A'}
+                        defaultValue={data.phone2 || 'N/A'}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
                     </div>
@@ -195,7 +165,7 @@ function Profile() {
                       </label>
                       <input
                         type="text"
-                        value={data.phone3 || 'N/A'}
+                        defaultValue={data.phone3 || 'N/A'}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
                     </div>

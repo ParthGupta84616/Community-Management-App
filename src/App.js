@@ -6,6 +6,7 @@ import ErrorPage from "./Components/ErrorPage";
 import Home from "./Components/homePage/Home";
 import Navbar from "./Components/homePage/Navbar";
 import Footer from "./Components/homePage/Footer";
+import EditPage from "./Components/EditPage";
 // import "./App.css";
 
 export default function App() { 
@@ -22,9 +23,14 @@ export default function App() {
       path: "/search",
       element: (<><Navbar bg={"bg-slate-900"} text={"text-gray-300"} /><SearchPage /><Footer bg={"bg-slate-900"} text={"text-gray-300"}  /></>),
     },
+
     {
       path: "/profile/:id",
       element: (<><Navbar bg={"bg-gray-300"} text={"text-gray-900"} /><ProfilePage /><Footer bg={"bg-gray-300"} text={"text-gray-900"} /></>),
+    },
+    {
+      path: "/edit/:id",
+      element: (<><Navbar bg={"bg-gray-300"} text={"text-gray-900"} /><EditPage /><Footer bg={"bg-gray-300"} text={"text-gray-900"} /></>),
     },
     {
       path: "/*",
