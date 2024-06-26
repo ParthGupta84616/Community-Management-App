@@ -5,6 +5,7 @@ import { fetchUserProfileAsync, selectUser } from './profileSlice';
 import { fetchContactEntriesAsync, fetchEntriesAsync, selectContactInfo, selectPersonalInfo } from '../register/registerSlice';
 import { ReactToPrint } from 'react-to-print';
 
+
 function Profile() {
   const id = useParams().id;
   const dispatch = useDispatch();

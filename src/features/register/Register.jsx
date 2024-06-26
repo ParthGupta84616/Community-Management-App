@@ -49,10 +49,8 @@ const Register = () => {
     };
     const processedData = preprocessData(data);
     // if (url) {
-      processedData["imageURL"] = url;
-      setUrl(null); // Reset the 'url' state after using it
-  
-      // Dispatch action with processed data
+      processedData["imageURL"] = url || "https://imgs.search.brave.com/oB6fgT45DC10B0RQfk3kTBtZ0W-2p7udZUxPnfvKT3M/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA0LzYyLzkzLzY2/LzM2MF9GXzQ2Mjkz/NjY4OV9CcEVFY3hm/Z011WVBmVGFJQU9D/MXRDRHVybXNubzdT/cC5qcGc";
+      setUrl(null); 
       dispatch(createAccountAsync(processedData));
       reset();
     // }
@@ -72,7 +70,7 @@ const Register = () => {
           quality: 0.2, // Adjust the quality as needed
           maxWidth: 800, // Maximum width of the output image
           maxHeight: 600, // Maximum height of the output image
-          convertSize: 5000000, // Limit in bytes for converting to a Blob
+          convertSize: 50000, // Limit in bytes for converting to a Blob
         })
         .then((compressedFile) => {
           // Once compressed, proceed with uploading the compressed file
