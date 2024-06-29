@@ -48,7 +48,7 @@ function Profile() {
     }
     console.log(id, processedData)
     dispatch(updateUserAsync({ data: { id: data?._id }, processedData }));
-    navigate("/profile/" + data?._id);
+    navigate("/search" );
   };
 
   const handleFileUpload = (e) => {

@@ -28,6 +28,7 @@ function Profile() {
     }
   };
 
+  console.log(data);
 
   if(data && ContactInfo && PersonalInfo){
     return (
@@ -93,23 +94,22 @@ function Profile() {
                     </label>
                     <label
                       for="dropzone-file"
-                      class="flex flex-col items-center justify-center lg:w-1/4 w-full md:w-1/2 h-64 lg:h-36   border-gray-300 cursor-pointer "
+                      class="flex flex-col items-center justify-center lg:w-1/4 w-full md:w-1/2 h-64 lg:h-48   border-gray-300 cursor-pointer "
                     >
                       <div class="flex flex-col  items-center justify-center pt-5 pb-6">
 
-                       <img src={data.imageURL || "https://via.placeholder.com/150"} alt='profileURL' className='rounded-xl lg:h-36' />
+                       <img src={data.imageURL || "https://via.placeholder.com/150"} alt='profileURL' className='rounded-xl lg:h-48' />
 
                         </div>
                     </label>
                   </div>
                   {PersonalInfo?.map((item) => (
-                    <div
-                      className="relative lg:w-1/5 w-full mb-3 px-4 md:w-1/2"
-                      key={item.name}
-                      
-                    >
+                   <div
+                   className={`flex ${item.name === "पारिवारिक सदस्य का नाम" ? "lg:w-2/5" : "lg:w-1/5"} md:w-full gap-2 w-full mb-3 px-2`}
+                   key={item.name}
+                 >
                       <label
-                        className="block uppercase text-blueGray-600 text-sm font-bold mb-2"
+                        className={`uppercase text-blueGray-600 text-sm font-bold items-center justify-center flex ${item.name === "पारिवारिक सदस्य का नाम" ? "lg:w-3/5" : "lg:w-1/3"} w-64`}
                         htmlFor="grid-password"
                       >
                         {item.label}
@@ -119,37 +119,37 @@ function Profile() {
                         value={data[item.name] || 'N/A'}
                         placeholder={item.placeholder}
 
-                        className=" pointer-events-none border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                        className=" pointer-events-none border-0 px-3 py-3 lg:w-full md:3/5  placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring  ease-linear transition-all duration-150"
                       />
                     </div>
                   ))}
-                </div>
-
-                <hr className="mt-6 border-b-1 border-blueGray-300" />
-
-                <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-                  Contact Information
-                </h6>
-                <div className="flex flex-wrap">
-                  {ContactInfo?.map((item) => (
-                    <div
-                      className="relative lg:w-1/6 w-full mb-3 px-4 md:w-1/2"
-                      key={item.name}
-                    >
-                      <label
-                        className="block uppercase text-blueGray-600 text-sm font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        {item.label}
-                      </label>
-                      <input
-                        type={item.type}
-                        value={data[item.name] || 'N/A'}
-                        placeholder={item.placeholder}
-                        className="pointer-events-none border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      />
-                    </div>
+                   {ContactInfo?.map((item) => (
+                     <div
+                     className={`flex md:w-full lg:w-auto mt-4 gap-2 w-full mb-3 px-2 `}
+                     key={item.name}
+                   >
+                        <label
+                          className={`uppercase text-blueGray-600 text-sm font-bold items-center justify-center flex lg:w-1/2 w-64`}
+                          htmlFor="grid-password"
+                        >
+                          {item.label}
+                        </label>
+                        <div className="flex">
+                        {data[item.name].split('').map((value, index) => (
+                          <input
+                            type="text"
+                            maxLength="1"
+                            className="border text-center w-9  pointer-events-none px-3 py-3 lg:w-9 md:3/5"
+                            value={value}
+                            key={`${item.name}-${index}`}
+                            readOnly
+                          />
+                        ))}
+                      </div>
+                        
+                      </div>
                   ))}
+                   {/* </div> */}
                 </div>
                       <hr className="mt-6 border-b-1 border-blueGray-300 " />
                 <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
@@ -157,52 +157,177 @@ function Profile() {
                 </h6>
                 <div className="flex flex-wrap">
                   <div className="w-full lg:w-4/12 px-4">
-                    <div className="relative w-full mb-3">
+                    <div className=" gap-4 w-full mb-3 flex">
                       <label
-                        className="block uppercase text-blueGray-600 text-sm font-bold mb-2"
+                        className="flex justify-center items-center uppercase text-blueGray-600 text-sm font-bold mb-2"
                         htmlFor="grid-password"
                       >
                         मो
                       </label>
-                      <input
-                        type="text"
-                        value={data.phone1 || 'N/A'}
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      />
+                      <div className="flex">
+                      {data?.phone1?.split('').map((value, index) => (
+                          <input
+                            type="text"
+                            maxLength="1"
+                            className="border text-center w-9  pointer-events-none px-3 py-3 lg:w-9 md:3/5"
+                            value={value}
+                            // key={`${item.name}-${index}`}
+                            readOnly
+                          />
+                        ))}
+                      </div>
                     </div>
                   </div>
                   <div className="w-full lg:w-4/12 px-4">
-                    <div className="relative w-full mb-3">
+                    <div className=" gap-4 w-full mb-3 flex">
                       <label
-                        className="block uppercase text-blueGray-600 text-sm font-bold mb-2"
+                        className="flex justify-center items-center uppercase text-blueGray-600 text-sm font-bold mb-2"
                         htmlFor="grid-password"
                       >
                         मो
                       </label>
-                      <input
-                        type="text"
-                        value={data.phone2 || 'N/A'}
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      />
+                      <div className="flex">
+                      {data?.phone2?.split('').map((value, index) => (
+                          <input
+                            type="text"
+                            maxLength="1"
+                            className="border text-center w-9  pointer-events-none px-3 py-3 lg:w-9 md:3/5"
+                            value={value}
+                            // key={`${item.name}-${index}`}
+                            readOnly
+                          />
+                        ))}
+                      </div>
                     </div>
                   </div>
                   <div className="w-full lg:w-4/12 px-4">
-                    <div className="relative w-full mb-3">
+                    <div className=" gap-4 w-full mb-3 flex">
                       <label
-                        className="block uppercase text-blueGray-600 text-sm font-bold mb-2"
+                        className="flex justify-center items-center uppercase text-blueGray-600 text-sm font-bold mb-2"
                         htmlFor="grid-password"
                       >
                         मो
                       </label>
-                      <input
-                        type="text"
-                        value={data.phone3 || 'N/A'}
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      />
+                      <div className="flex">
+                      {data?.phone3?.split('').map((value, index) => (
+                          <input
+                            type="text"
+                            maxLength="1"
+                            className="border text-center w-9  pointer-events-none px-3 py-3 lg:w-9 md:3/5"
+                            value={value}
+                            // key={`${item.name}-${index}`}
+                            readOnly
+                          />
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
               </form>
+                  {/* <form class="max-w-3xl mx-auto p-4 border border-gray-400 rounded">
+        <div class="flex items-center mb-4">
+            <label class="w-32">प्राधार सं:</label>
+            <input type="number" maxlength="1" class="border text-center w-8" value= />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+        </div>
+        <div class="flex items-center mb-4">
+            <label class="w-32">प. ह. नं:</label>
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+        </div>
+        <div class="flex items-center mb-4">
+            <label class="w-32">वॉर्ड नं:</label>
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+        </div>
+        <div class="flex items-center mb-4">
+            <label class="w-32">मतदाता परिचयपत्र:</label>
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+        </div>
+        <div class="flex items-center mb-4">
+            <label class="w-32">परिवार श्रेणी:</label>
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+        </div>
+        <div class="flex items-center mb-4">
+            <label class="w-32">इलेक्ट्रिक रेकॉर्डिंग:</label>
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+        </div>
+        <div class="flex items-center mb-4">
+            <label class="w-32">आधार लिंकिंग:</label>
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+        </div>
+        <div class="flex items-center mb-4">
+            <label class="w-32">स्थिति पॅटर्न:</label>
+            <label class="flex items-center">
+                <input type="checkbox" name="status" value="पुर्ण" class="mr-2" checked /> पुर्ण
+            </label>
+            <label class="flex items-center">
+                <input type="checkbox" name="status" value="प्रोसेस" class="mr-2" /> प्रोसेस
+            </label>
+            <label class="flex items-center">
+                <input type="checkbox" name="status" value="पटकी" class="mr-2" /> पटकी
+            </label>
+            <label class="flex items-center">
+                <input type="checkbox" name="status" value="भाई" class="mr-2" /> भाई
+            </label>
+            <label class="flex items-center">
+                <input type="checkbox" name="status" value="छोरी" class="mr-2" /> छोरी
+            </label>
+        </div>
+        <div class="flex items-center mb-4">
+            <label class="w-32">मो:</label>
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+            <input type="text" maxlength="1" class="border text-center  w-8 " />
+        </div>
+    </form> */}
             </div>
           </div>
         </div>
