@@ -246,18 +246,18 @@ function Profile() {
                     </div>
                   ))}
                 </div>
-                <div className="flex flex-wrap mt-8 items-center mb-4 gap-11">
+                <div className="flex flex-wrap mt-8 items-center mb-4 lg:gap-11 gap-4">
                   <label className="w-32 ">स्थिति पॅटर्न:</label>
                   {ContactInfo?.slice(9).map((item) => (
                     // <div className="flex justify-b">
                       <label className="flex items-center w-auto" key={item.name}>
+                        {item.label}
                       <input
                         type="checkbox"
                         name="status"
                         {...register(item.name)}
-                        className="mr-2"
+                        className="ml-2"
                       />
-                      {item.label}
                     </label>
                     // </div>
                   ))}
