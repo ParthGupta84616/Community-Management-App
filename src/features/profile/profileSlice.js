@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchUserProfile } from './profileAPI';
+import { fetchUserProfile, updateUser } from './profileAPI';
 
 const initialState = {
   value: 0,
@@ -11,6 +11,13 @@ export const fetchUserProfileAsync = createAsyncThunk(
   'user/fetchUserProfile',
   async (id) => {
     const response = await fetchUserProfile(id);
+    return response.data;
+  }
+);
+export const updateUserAsync = createAsyncThunk(
+  'user/updateUser',
+  async (data) => {
+    const response = await updateUser(data);
     return response.data;
   }
 );

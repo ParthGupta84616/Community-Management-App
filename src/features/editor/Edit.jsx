@@ -4,9 +4,10 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { fetchUserProfileAsync, selectUser } from '../profile/profileSlice';
 import { fetchContactEntriesAsync, fetchEntriesAsync, selectContactInfo, selectPersonalInfo } from '../register/registerSlice';
 import { useForm } from "react-hook-form";
-import { ImageCompressor } from 'image-compressor';
+import ImageCompressor from "image-compressor.js";
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../../firebaseConfig';
+import { updateUserAsync } from '../profile/profileSlice';
 
 function Profile() {
   const { id } = useParams();
@@ -20,7 +21,7 @@ function Profile() {
   const {
     register,
     handleSubmit,
-    reset,
+    // reset,
   } = useForm();
 
   useEffect(() => {
@@ -45,8 +46,9 @@ function Profile() {
       setUrl(null);
 
     }
-    console.log(processedData);
-    reset();
+    console.log(id, processedData)
+    dispatch(updateUserAsync({ data: { id: data?._id }, processedData }));
+    navigate("/profile/" + data?._id);
   };
 
   const handleFileUpload = (e) => {
@@ -138,7 +140,7 @@ function Profile() {
                       className="flex flex-col items-center justify-center lg:w-1/4 w-full md:w-1/2 h-64 lg:h-36 border-gray-300 cursor-pointer"
                     >
                       <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        <img src={data.imageURL || "https://via.placeholder.com/150"} alt="profileURL" className="rounded-xl lg:h-36" />
+                        <img src={url || "https://via.placeholder.com/150"} alt="profileURL" className="rounded-xl lg:h-36" />
                       </div>
                     </label>
                     <button
@@ -154,7 +156,7 @@ function Profile() {
                     <div className="w-full m-10 flex justify-center items-center">
                       <label
                         htmlFor="dropzone-file"
-                        className="flex flex-col items-center justify-center w-1/4 h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                        className="flex flex-col items-center justify-center lg:w-1/4 h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
                       >
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
                           <svg
