@@ -14,6 +14,7 @@ function Profile() {
   const ContactInfo = useSelector(selectContactInfo)
   const PersonalInfo = useSelector(selectPersonalInfo)
   const navigate = useNavigate()
+  const newData = {}
   useEffect(() => {
     dispatch(fetchUserProfileAsync(id))
     dispatch(fetchContactEntriesAsync())
@@ -21,6 +22,11 @@ function Profile() {
   }, [dispatch , id])
 
   data = data?.user
+  if(data){
+    newData["नियुक्ति तिथि"] = data["नियुक्ति तिथि"]?.split('-').reverse().join('') || 'N/A';
+    newData["जन्म दिन"] = data["जन्म दिन"]?.split('-').reverse().join('') || 'N/A';
+  }
+  console.log(newData)
   const handlePrint = () => {
     if (componentRef.current) {
       // Accessing the DOM element for printing
@@ -43,7 +49,7 @@ function Profile() {
                 <ReactToPrint
                   trigger={() => (
                     <button
-                      className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                      className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                       onClick={handlePrint}
                     >
                       Print
@@ -65,7 +71,7 @@ function Profile() {
                   `}
                 />
                 <button
-                  className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   onClick={() => navigate(`/edit/${id}`)}
                 >
                   Edit
@@ -73,7 +79,7 @@ function Profile() {
 
 
                 <Link to="/search"
-                  className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="button"
                 >
                   Back
@@ -88,7 +94,7 @@ function Profile() {
                     style={{ margin: "1rem" }}
                   >
                     <label
-                      className=" uppercase text-blueGray-600 text-xs font-bold mb-2 flex justify-center items-center "
+                      className=" uppercase  text-sm font-bold mb-2 flex justify-center items-center "
                       htmlFor="grid-password"
                     >
                     </label>
@@ -109,7 +115,7 @@ function Profile() {
                    key={item.name}
                  >
                       <label
-                        className={`uppercase text-blueGray-600 text-sm font-bold items-center justify-center flex ${item.name === "पारिवारिक सदस्य का नाम" ? "lg:w-3/5" : "lg:w-1/3"} w-64`}
+                        className={`uppercase  text-sm font-bold items-center justify-center flex ${item.name === "पारिवारिक सदस्य का नाम" ? "lg:w-3/5" : "lg:w-1/3"} w-64`}
                         htmlFor="grid-password"
                       >
                         {item.label}
@@ -119,38 +125,78 @@ function Profile() {
                         value={data[item.name] || 'N/A'}
                         placeholder={item.placeholder}
 
-                        className=" pointer-events-none border-0 px-3 py-3 lg:w-full md:3/5  placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring  ease-linear transition-all duration-150"
+                        className=" pointer-events-none border-0 px-3 py-3 lg:w-full md:3/5  placeholder-blueGray-300  bg-white rounded text-sm shadow focus:outline-none focus:ring  ease-linear transition-all duration-150"
                       />
                     </div>
                   ))}
-                   {ContactInfo?.map((item) => (
-                     <div
-                     className={`flex md:w-full lg:w-auto mt-4 gap-2 w-full mb-3 px-2 `}
-                     key={item.name}
-                   >
+                   {ContactInfo?.slice(0, 7).map((item) => (
+                      <div
+                        className={`flex md:w-full lg:w-auto mt-4 gap-2 w-full mb-3 px-2`}
+                        key={item.name}
+                      >
                         <label
-                          className={`uppercase text-blueGray-600 text-sm font-bold items-center justify-center flex lg:w-1/2 w-64`}
+                          className={`uppercase  text-sm font-bold items-center justify-center flex lg:w-1/2 w-64`}
                           htmlFor="grid-password"
                         >
                           {item.label}
                         </label>
                         <div className="flex">
-                        {data[item.name].split('').map((value, index) => (
-                          <input
-                            type="text"
-                            maxLength="1"
-                            className="border text-center w-9  pointer-events-none px-3 py-3 lg:w-9 md:3/5"
-                            value={value}
-                            key={`${item.name}-${index}`}
-                            readOnly
-                          />
-                        ))}
+                          {data[item.name].split('').map((value, index) => (
+                            <input
+                              type="text"
+                              maxLength="1"
+                              className="border text-center pointer-events-none px-3 py-3 lg:w-10 md:3/5"
+                              value={value}
+                              key={`${item.name}-${index}`}
+                              readOnly
+                            />
+                          ))}
+                        </div>
                       </div>
-                        
-                      </div>
-                  ))}
-                   {/* </div> */}
+                    ))}
                 </div>
+                <div className="flex flex-wrap mt-8 items-center mb-4 gap-16">
+                      {ContactInfo?.slice(7,9).map((item) => (
+                        <div
+                        className={`flex md:w-full lg:w-auto mt-4 gap-2 w-full mb-3 px-2`}
+                        key={item.name}
+                      >
+                        <label
+                          className={`uppercase  text-sm font-bold items-center justify-center flex lg:w-1/2 w-64`}
+                          htmlFor="grid-password"
+                        >
+                          {item.label}
+                        </label>
+                        <div className="flex">
+                          {newData[item.name].split('').map((value, index) => (
+                            <input
+                              type="text"
+                              maxLength="1"
+                              className="border text-center  pointer-events-none px-3 py-3 lg:w-9 md:3/5"
+                              value={value}
+                              key={`${item.name}-${index}`}
+                              readOnly
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      ))}
+                    </div>
+                    <div className="flex flex-wrap mt-8 items-center mb-4 gap-16 font-bold">
+                      {ContactInfo?.slice(9).map((item) => (
+                        <>
+                          <label className="flex items-center w-auto" key={item.name}>
+                          {item.label}
+                          <input
+                            type="checkbox"
+                            name="status"
+                            checked={data[item.name]}
+                            className="ml-4"
+                          />
+                        </label>
+                        </>
+                      ))}
+                    </div>
                       <hr className="mt-6 border-b-1 border-blueGray-300 " />
                 <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
                   मो
@@ -159,7 +205,7 @@ function Profile() {
                   <div className="w-full lg:w-4/12 px-4">
                     <div className=" gap-4 w-full mb-3 flex">
                       <label
-                        className="flex justify-center items-center uppercase text-blueGray-600 text-sm font-bold mb-2"
+                        className="flex justify-center items-center uppercase  text-sm font-bold mb-2"
                         htmlFor="grid-password"
                       >
                         मो
@@ -171,7 +217,6 @@ function Profile() {
                             maxLength="1"
                             className="border text-center w-9  pointer-events-none px-3 py-3 lg:w-9 md:3/5"
                             value={value}
-                            // key={`${item.name}-${index}`}
                             readOnly
                           />
                         ))}
@@ -181,7 +226,7 @@ function Profile() {
                   <div className="w-full lg:w-4/12 px-4">
                     <div className=" gap-4 w-full mb-3 flex">
                       <label
-                        className="flex justify-center items-center uppercase text-blueGray-600 text-sm font-bold mb-2"
+                        className="flex justify-center items-center uppercase  text-sm font-bold mb-2"
                         htmlFor="grid-password"
                       >
                         मो
@@ -203,7 +248,7 @@ function Profile() {
                   <div className="w-full lg:w-4/12 px-4">
                     <div className=" gap-4 w-full mb-3 flex">
                       <label
-                        className="flex justify-center items-center uppercase text-blueGray-600 text-sm font-bold mb-2"
+                        className="flex justify-center items-center uppercase  text-sm font-bold mb-2"
                         htmlFor="grid-password"
                       >
                         मो
@@ -213,7 +258,7 @@ function Profile() {
                           <input
                             type="text"
                             maxLength="1"
-                            className="border text-center w-9  pointer-events-none px-3 py-3 lg:w-9 md:3/5"
+                            className="border text-center w-10  pointer-events-none lg:w-9 md:3/5"
                             value={value}
                             // key={`${item.name}-${index}`}
                             readOnly
@@ -224,110 +269,6 @@ function Profile() {
                   </div>
                 </div>
               </form>
-                  {/* <form class="max-w-3xl mx-auto p-4 border border-gray-400 rounded">
-        <div class="flex items-center mb-4">
-            <label class="w-32">प्राधार सं:</label>
-            <input type="number" maxlength="1" class="border text-center w-8" value= />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-        </div>
-        <div class="flex items-center mb-4">
-            <label class="w-32">प. ह. नं:</label>
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-        </div>
-        <div class="flex items-center mb-4">
-            <label class="w-32">वॉर्ड नं:</label>
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-        </div>
-        <div class="flex items-center mb-4">
-            <label class="w-32">मतदाता परिचयपत्र:</label>
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-        </div>
-        <div class="flex items-center mb-4">
-            <label class="w-32">परिवार श्रेणी:</label>
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-        </div>
-        <div class="flex items-center mb-4">
-            <label class="w-32">इलेक्ट्रिक रेकॉर्डिंग:</label>
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-        </div>
-        <div class="flex items-center mb-4">
-            <label class="w-32">आधार लिंकिंग:</label>
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-        </div>
-        <div class="flex items-center mb-4">
-            <label class="w-32">स्थिति पॅटर्न:</label>
-            <label class="flex items-center">
-                <input type="checkbox" name="status" value="पुर्ण" class="mr-2" checked /> पुर्ण
-            </label>
-            <label class="flex items-center">
-                <input type="checkbox" name="status" value="प्रोसेस" class="mr-2" /> प्रोसेस
-            </label>
-            <label class="flex items-center">
-                <input type="checkbox" name="status" value="पटकी" class="mr-2" /> पटकी
-            </label>
-            <label class="flex items-center">
-                <input type="checkbox" name="status" value="भाई" class="mr-2" /> भाई
-            </label>
-            <label class="flex items-center">
-                <input type="checkbox" name="status" value="छोरी" class="mr-2" /> छोरी
-            </label>
-        </div>
-        <div class="flex items-center mb-4">
-            <label class="w-32">मो:</label>
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-            <input type="text" maxlength="1" class="border text-center  w-8 " />
-        </div>
-    </form> */}
             </div>
           </div>
         </div>

@@ -41,12 +41,12 @@ const Register = () => {
     const preprocessData = (data) => {
       const processedData = { ...data };
       for (const key in processedData) {
-        if (processedData[key].trim() === "") {
+        if (typeof processedData[key] === 'string' && processedData[key].trim() === "") {
           processedData[key] = "N/A";
         }
       }
       return processedData;
-    };
+    };    
     const processedData = preprocessData(data);
     // if (url) {
       processedData["imageURL"] = url || "https://imgs.search.brave.com/oB6fgT45DC10B0RQfk3kTBtZ0W-2p7udZUxPnfvKT3M/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA0LzYyLzkzLzY2/LzM2MF9GXzQ2Mjkz/NjY4OV9CcEVFY3hm/Z011WVBmVGFJQU9D/MXRDRHVybXNubzdT/cC5qcGc";
@@ -223,7 +223,7 @@ const Register = () => {
                   Contact Information
                 </h6>
                 <div className="flex flex-wrap">
-                  {ContactInfo?.map((item) => (
+                  {ContactInfo?.slice(0, 9).map((item) => (
                     <div
                       className="relative lg:w-3/12 w-full mb-3 px-4"
                       key={item.name}
@@ -244,6 +244,23 @@ const Register = () => {
                       />
                       {errors[item.name] && <p>This field is required</p>}
                     </div>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap mt-8 items-center mb-4 gap-11">
+                  <label className="w-32 ">स्थिति पॅटर्न:</label>
+                  {ContactInfo?.slice(9).map((item) => (
+                    // <div className="flex justify-b">
+                      <label className="flex items-center w-auto" key={item.name}>
+                      <input
+                        type="checkbox"
+                        name="status"
+                        {...register(item.name)}
+                        className="mr-2"
+                      />
+                      {item.label}
+                    </label>
+                    // </div>
                   ))}
                 </div>
                 <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">

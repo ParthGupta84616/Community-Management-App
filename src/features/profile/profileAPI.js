@@ -1,6 +1,6 @@
 export function fetchUserProfile(id) {
   return new Promise(async (resolve) =>{
-    const response = await fetch("http://127.0.0.1:8080/profile?id="+ id) 
+    const response = await fetch("https://socialgeathering-deploy.onrender.com/profile?id="+ id) 
     const data = await response.json()
     resolve({data})
     }
@@ -9,7 +9,7 @@ export function fetchUserProfile(id) {
 export function updateUser(data) {
   // console.log()
   return new Promise(async (resolve) => {
-    const response = await fetch(`http://127.0.0.1:8080/updateuser?id=${data.data.id}`, {
+    const response = await fetch(`https://socialgeathering-deploy.onrender.com?id=${data.data.id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

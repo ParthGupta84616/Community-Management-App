@@ -34,7 +34,7 @@ function Profile() {
     const preprocessData = (data) => {
       const processedData = { ...data };
       for (const key in processedData) {
-        if (processedData[key].trim() === "") {
+        if (typeof processedData[key] === 'string' && processedData[key].trim() === "") {
           processedData[key] = "N/A";
         }
       }
@@ -223,7 +223,7 @@ function Profile() {
                   Contact Information
                 </h6>
                 <div className="flex flex-wrap">
-                  {ContactInfo?.map((item) => (
+                {ContactInfo?.slice(0, 9).map((item) => (
                     <div
                       className="relative lg:w-1/6 w-full mb-3 px-4 md:w-1/2"
                       key={item.name}
@@ -244,6 +244,22 @@ function Profile() {
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
                     </div>
+                  ))}
+                </div>
+                <div className="flex flex-wrap mt-8 items-center mb-4 gap-11">
+                  <label className="w-32 ">स्थिति पॅटर्न:</label>
+                  {ContactInfo?.slice(9).map((item) => (
+                    // <div className="flex justify-b">
+                      <label className="flex items-center w-auto" key={item.name}>
+                      <input
+                        type="checkbox"
+                        name="status"
+                        {...register(item.name)}
+                        className="mr-2"
+                      />
+                      {item.label}
+                    </label>
+                    // </div>
                   ))}
                 </div>
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
