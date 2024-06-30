@@ -9,7 +9,7 @@ export function fetchUserProfile(id) {
 export function updateUser(data) {
   // console.log()
   return new Promise(async (resolve) => {
-    const response = await fetch(`https://socialgeathering-deploy.onrender.com?id=${data.data.id}`, {
+    const response = await fetch(`https://socialgeathering-deploy.onrender.com/updateuser?id=${data.data.id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
