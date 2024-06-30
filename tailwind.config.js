@@ -6,7 +6,10 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        print: { raw: "print" },
+        'xsm': '640px', // custom breakpoint at 640px
+      },
+      fontSize: {
+        '2px': '8px', // custom font size
       },
     },
   },

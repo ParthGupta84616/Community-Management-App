@@ -39,108 +39,48 @@ function Profile() {
   if(data && ContactInfo && PersonalInfo){
     return (
       <section className="py-1 bg-blueGray-50">
-        <div className="w-full lg:w-11/12 px-4 mx-auto mt-6 " ref={componentRef} >
-          <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0" >
+        <div className="w-full sm:w-full mx-auto mt-6 " ref={componentRef} >
+          <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-sm rounded-sm bg-blueGray-100 border-0" >
             <div className="rounded-t bg-white mb-0 px-6 py-6" >
               <div className="text-center flex justify-between">
                 <h6 className="text-blueGray-700 text-xl font-bold">
                   {data.नाम} Profile
                 </h6>
                 <ReactToPrint
-  trigger={() => (
-    <button
-      className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase lg:text-sm text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-      onClick={handlePrint}
-    >
-      Print
-    </button>
-  )}
-  content={() => componentRef.current} // Use componentRef.current to access the DOM element
-  documentTitle={data.नाम}
-  pageStyle={`
-    @page {
-      size: 1440px 1299px;
-      margin: 0;
-    }
-    @media print {
-                      body {
-                        -webkit-print-color-adjust: exact;
+                    trigger={() => (
+                      <button
+                        className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase lg:text-sm text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                        onClick={handlePrint}
+                      >
+                        Print
+                      </button>
+                    )}
+                    content={() => componentRef.current} // Correctly placed outside of `pageStyle`
+                    documentTitle={data.नाम} // Correctly placed outside of `pageStyle`
+                    pageStyle={`
+                      @page {
+                        size: 1440px 1299px;
+                        margin: 0;
                       }
-                      .no-print {
-                        display: none;
+                      @media print {
+                        body {
+                          -webkit-print-color-adjust: exact;
+                        }
+                        .no-print {
+                          display: none;
+                        }
+                        .print-only {
+                          display: block;
+                        }
+                        .container {
+                          width: 100%;
+                          height: 100%;
+                        }
                       }
-                      .print-only {
-                        display: block;
-                      }
-                      .container {
-                        width: 100%;
-                        height: 100%;
-                      }
-                      .flex {
-                        display: flex;
-                      }
-                      .flex-col {
-                        flex-direction: column;
-                      }
-                      .flex-row {
-                        flex-direction: row;
-                      }
-                      .flex-wrap {
-                        flex-wrap: wrap;
-                      }
-                      .items-center {
-                        align-items: center;
-                      }
-                      .justify-center {
-                        justify-content: center;
-                      }
-                      .lg\\:w-11\\/12 {
-                        width: 91.666667%;
-                      }
-                      .lg\\:w-1\\/5 {
-                        width: 20%;
-                      }
-                      .lg\\:w-2\\/5 {
-                        width: 40%;
-                      }
-                      .lg\\:w-4\\/12 {
-                        width: 33.333333%;
-                      }
-                      .lg\\:w-1\\/2 {
-                        width: 50%;
-                      }
-                      .lg\\:text-sm {
-                        font-size: 0.875rem;
-                      }
-                      .text-xs {
-                        font-size: 0.75rem;
-                      }
-                      .uppercase {
-                        text-transform: uppercase;
-                      }
-                      .bg-blueGray-50 {
-                        background-color: #F8FAFC;
-                      }
-                      .bg-blueGray-100 {
-                        background-color: #F1F5F9;
-                      }
-                      .bg-white {
-                        background-color: #FFFFFF;
-                      }
-                      .border {
-                        border-width: 1px;
-                      }
-                      .rounded-lg {
-                        border-radius: 0.5rem;
-                      }
-                      .shadow-lg {
-                        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-                      }
-                    }
-                  `}
-                />
+                    `}
+                  />
                 <button
-                  className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase lg:text-sm text-xs  px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  className="bg-pink-500 print:hidden text-white active:bg-pink-600 font-bold uppercase sm:text-2px lg:text-sm text-xs  px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   onClick={() => navigate(`/edit/${id}`)}
                 >
                   Edit
@@ -148,43 +88,43 @@ function Profile() {
 
 
                 <Link to="/search"
-                  className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase lg:text-sm text-xs  px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  className="bg-pink-500 print:hidden text-white active:bg-pink-600 font-bold uppercase sm:text-2px lg:text-sm text-xs  px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="button"
                 >
                   Back
                 </Link>
               </div>
             </div>
-            <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
+            <div className="flex-auto px-4 sm:px-10 py-10 pt-0">
               <form noValidate>
                 <div className="flex flex-wrap">
                   <div
-                    class="flex sm:flex items-center justify-center w-full p-4  flex-col md:flex-row lg:flex-row sm:flex-row  "
+                    class="flex sm:flex items-center justify-center w-full p-4  flex-col md:flex-row sm:flex-row sm:flex-row  "
                     style={{ margin: "1rem" }}
                   >
                     <label
-                      className=" uppercase  lg:text-sm text-xs  font-bold mb-2 flex justify-center items-center "
+                      className=" uppercase  sm:text-2px lg:text-sm text-xs  font-bold mb-2 flex justify-center items-center "
                       htmlFor="grid-password"
                     >
                     </label>
                     <label
                       for="dropzone-file"
-                      class="flex flex-col items-center justify-center lg:w-1/4 w-full md:w-1/4 h-64 lg:h-48   border-gray-300 cursor-pointer "
+                      class="flex flex-col items-center justify-center sm:w-1/4 w-full md:w-1/4 h-64 sm:h-48   border-gray-300 cursor-pointer "
                     >
                       <div class="flex flex-col   items-center justify-center pt-5 pb-6">
 
-                       <img src={data.imageURL || "https://via.placeholder.com/150"} alt='profileURL' className='rounded-xl lg:h-48 ' />
+                       <img src={data.imageURL || "https://via.placeholder.com/150"} alt='profileURL' className='rounded-xl sm:h-48 sm:w-48' />
 
                         </div>
                     </label>
                   </div>
                   {PersonalInfo?.map((item) => (
                    <div
-                   className={`flex ${item.name === "पारिवारिक सदस्य का नाम" ? "lg:w-2/5 md:w-2/5  sm:w-2/5" : "lg:w-1/5 md:w-1/5 sm:2/3"}  gap-2 w-full mb-3 px-2`}
+                   className={`flex ${item.name === "पारिवारिक सदस्य का नाम" ? " md:w-2/5  sm:w-2/5 lg:w-2/5" : "sm:w-1/4 md:w-1/5 sm:2/3 lg:w-1/5"}  gap-2 w-full mb-3 px-2`}
                    key={item.name}
                  >
                       <label
-                        className={`uppercase  lg:text-sm text-xs  font-bold items-center justify-center flex ${item.name === "पारिवारिक सदस्य का नाम" ? "lg:w-3/5 md:w-3/5 sm:1/5" : "lg:w-1/3 md:w-1/3 sm:1/5"} `}
+                        className={`uppercase  sm:text-2px lg:text-sm font-bold items-center justify-center flex ${item.name === "पारिवारिक सदस्य का नाम" ? "sm:w-3/5 md:w-3/5 sm:1/5" : "sm:w-1/3 md:w-1/3 sm:1/5"} `}
                         htmlFor="grid-password"
                       >
                         {item.label}
@@ -194,27 +134,28 @@ function Profile() {
                         value={data[item.name] || 'N/A'}
                         placeholder={item.placeholder}
 
-                        className=" pointer-events-none border-0 px-3 py-3 lg:w-full md:w-full  placeholder-blueGray-300  bg-white rounded lg:text-sm text-xs  shadow focus:outline-none focus:ring  ease-linear transition-all duration-150"
+                        className=" pointer-events-none border-0 font-semibold lg:px-3 lg:py-3 sm:p-2 sm:w-full md:w-full placeholder-blueGray-300  bg-white rounded sm:text-2px lg:text-sm text-xs  shadow focus:outline-none focus:ring  ease-linear transition-all duration-150"
                       />
                     </div>
                   ))}
                    {ContactInfo?.slice(0, 7).map((item) => (
                       <div
-                        className={`flex md:w-auto lg:w-auto mt-4 gap-2 w-full mb-3`}
+                        className={`flex md:w-auto sm:w-auto mt-4 gap-2 w-full mb-3`}
                         key={item.name}
                       >
                         <label
-                          className={`uppercase  lg:md:text-xs text-xs  font-bold items-center justify-center flex lg:w-1/2 md:w-1/2 lg:p-4 md:p-2`}
+                          className={`uppercase sm:text-2px lg:text-sm  font-bold items-center justify-center flex sm:w-1/2 md:w-1/2 mr-2 ml-2 md:p-2`}
                           htmlFor="grid-password"
+
                         >
                           {item.label}
                         </label>
-                        <div className="flex">
+                        <div className="flex sm:h-5">
                           {data[item.name].split('').map((value, index) => (
                             <div
                               // type="text"
                               // maxLength="1"
-                              className="border bg-white border-black text-center pointer-events-none lg:p-4 md:p-3"
+                              className="border bg-white border-black flex justify-center items-center text-center pointer-events-none sm:p-2 sm:text-2px lg:text-sm font-semibold lg:p-4 md:p-3"
                               // value={value}
                               key={`${item.name}-${index}`}
                               readOnly
@@ -226,24 +167,24 @@ function Profile() {
                       </div>
                     ))}
                 </div>
-                <div className="flex lg:flex-wrap lg:flex-row md:flex-row flex-col flex-shrink-0 lg:mt-4 items-center lg:mb-4 lg:gap-16">
+                <div className="flex sm:flex-wrap sm:flex-row md:flex-row flex-col flex-shrink-0 sm:mt-4 items-center sm:mb-4 sm:gap-16">
                       {ContactInfo?.slice(7,9).map((item) => (
                         <div
-                        className={`flex lg:w-auto md:w-auto mt-4 gap-2 mb-3`}
+                        className={`flex sm:w-auto md:w-auto mt-4 gap-2 mb-3`}
                         key={item.name}
                       >
                         <label
-                          className={`uppercase  lg:text-sm text-sm  font-bold items-center justify-center flex md:p-4 lg:w-1/2 md:w-1/2`}
+                          className={`uppercase sm:text-2px lg:text-sm  font-bold items-center justify-center flex sm:w-1/2 md:w-1/2 mr-2 ml-2 md:p-2`}
                           htmlFor="grid-password"
                         >
                           {item.label}
                         </label>
-                        <div className="flex">
+                        <div className="flex sm:h-5">
                         {newData[item.name].split('').map((value, index) => (
                             <div
                               // type="text"
                               // maxLength="1"
-                              className="border bg-white border-black text-center pointer-events-none lg:p-4 md:p-3 "
+                              className="border bg-white border-black flex justify-center items-center text-center pointer-events-none sm:p-2 sm:text-2px lg:text-sm font-semibold lg:p-4 md:p-3"
                               // value={value}
                               key={`${item.name}-${index}`}
                               readOnly
@@ -255,7 +196,7 @@ function Profile() {
                       </div>
                       ))}
                     </div>
-                    <div className="flex flex-wrap mt-8 items-center mb-4 lg:gap-16 gap-4 font-bold">
+                    <div className="flex flex-wrap mt-8 items-center mb-4 sm:text-2px lg:text-sm sm:gap-4 lg:gap-16 gap-4 font-bold">
                       {ContactInfo?.slice(9).map((item) => (
                         <>
                           <label className="flex items-center w-auto" key={item.name}>
@@ -264,31 +205,30 @@ function Profile() {
                             type="checkbox"
                             name="status"
                             checked={data[item.name]}
-                            className="ml-4 " 
+                            className="sm:ml-1 sm:mr-2 lg:ml-4" 
                           />
                         </label>
                         </>
                       ))}
                     </div>
                       <hr className="mt-6 border-b-1 border-blueGray-300 " />
-                <h6 className="text-blueGray-400 lg:text-sm text-xs  mt-3 mb-6 font-bold uppercase">
+                <h6 className="text-blueGray-400 sm:text-2px lg:text-sm text-xs  mt-3 mb-6 font-bold uppercase">
                   मो
                 </h6>
-                <div className="flex flex-wrap ">
-                  <div className=" lg:w-4/12 md:w-1/3 ">
+                <div className="flex flex-wrap sm:w-full">
+                  <div className=" sm:w-1/3 lg:w-1/3 md:w-1/3 ">
                     <div className=" gap-4 w-full mb-3 flex">
                       <label
-                        className="flex justify-center items-center uppercase  lg:text-sm text-sm  font-bold mb-2"
+                        className="flex justify-center items-center uppercase  sm:text-2px lg:text-sm text-sm  font-bold mb-2"
                         htmlFor="grid-password"
                       >
-                        मो
                       </label>
-                      <div className="flex">
+                      <div className="flex sm:h-5">
                       {data?.phone1?.split('').map((value, index) => (
                           <div
                             type="text"
                             maxLength="1"
-                            className="border text-center  pointer-events-none lg:p-4 md:p-2 "
+                            className="border text-center  pointer-events-none flex items-center justify-center sm:p-2 sm:text-2px lg:p-4 lg:text-sm font-semibold md:p-3 "
                             value={value}
                             readOnly
                           >
@@ -298,52 +238,51 @@ function Profile() {
                       </div>
                     </div>
                   </div>
-                  <div className=" lg:w-4/12 md:w-1/3 px-4">
+                  <div className=" sm:w-1/3 lg:w-1/3 md:w-1/3 ">
                     <div className=" gap-4 w-full mb-3 flex">
                       <label
-                        className="flex justify-center items-center uppercase  lg:text-sm text-sm  font-bold mb-2"
+                        className="flex justify-center items-center uppercase  sm:text-2px lg:text-sm text-sm  font-bold mb-2"
                         htmlFor="grid-password"
                       >
-                        मो
                       </label>
-                      <div className="flex">
+                      <div className="flex sm:h-5">
                       {data?.phone2?.split('').map((value, index) => (
                           <div
-                          type="text"
-                          maxLength="1"
-                          className="border text-center p-1.5  pointer-events-none lg:w-9 lg:p-4 md:p-2 "
-                          value={value}
-                          readOnly
-                        >
-                          {value}
-                        </div>
+                            type="text"
+                            maxLength="1"
+                            className="border text-center  pointer-events-none flex items-center justify-center sm:p-2 sm:text-2px lg:p-4 lg:text-sm font-semibold md:p-3 "
+                            value={value}
+                            readOnly
+                          >
+                            {value}
+                          </div>
                         ))}
                       </div>
                     </div>
                   </div>
-                  <div className="lg:w-4/12 md:w-1/3 px-4">
+                  <div className=" sm:w-1/3 lg:w-1/3 md:w-1/3 ">
                     <div className=" gap-4 w-full mb-3 flex">
                       <label
-                        className="flex justify-center items-center uppercase  lg:text-sm textsm  font-bold mb-2"
+                        className="flex justify-center items-center uppercase  sm:text-2px lg:text-sm text-sm  font-bold mb-2"
                         htmlFor="grid-password"
                       >
-                        मो
                       </label>
-                      <div className="flex">
+                      <div className="flex sm:h-5">
                       {data?.phone3?.split('').map((value, index) => (
                           <div
-                          type="text"
-                          maxLength="1"
-                          className="border text-center p-1.5  pointer-events-none lg:w-9 lg:p-4 md:p-2 "
-                          value={value}
-                          readOnly
-                        >
-                          {value}
-                        </div>
+                            type="text"
+                            maxLength="1"
+                            className="border text-center  pointer-events-none flex items-center justify-center sm:p-2 sm:text-2px lg:text-sm font-semibold lg:p-4 md:p-3 "
+                            value={value}
+                            readOnly
+                          >
+                            {value}
+                          </div>
                         ))}
                       </div>
                     </div>
                   </div>
+                  
                 </div>
               </form>
             </div>

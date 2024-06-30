@@ -20,7 +20,7 @@ class ScrollToBottomButton extends React.Component {
 
 function Navbar({ bg, text }) {
   return (
-    <header className={`lg:px-16 px-4 ${bg} flex flex-wrap items-center py-4 shadow-md`}>
+    <header className={`lg:px-16 px-4 ${bg} flex flex-wrap items-center py-4 shadow-md print:hidden`}>
       <div className="flex-1 flex justify-between items-center">
         <Link to={"/"} className="text-xl">Company</Link>
       </div>

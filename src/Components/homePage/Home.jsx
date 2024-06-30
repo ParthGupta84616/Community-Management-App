@@ -4,7 +4,7 @@ import { FaSearch } from "react-icons/fa";
 
 function Home() {
   return (
-    <section class="relatve bg-slate-300">
+    <section class="relatve bg-slate-300 ">
       {/* <!-- Container --> */}
       <div class="mx-auto w-full max-w-7xl px-5 py-16 md:px-10 md:py-24 lg:py-32">
         {/* <!-- Heading Div --> */}
