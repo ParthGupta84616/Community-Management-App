@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   createAccountAsync,
-  fetchContactEntriesAsync,
-  fetchEntriesAsync,
-  selectContactInfo,
-  selectPersonalInfo,
 } from "./registerSlice";
 import { storage } from "../../firebaseConfig";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -15,11 +11,6 @@ import ImageCompressor from "image-compressor.js";
 
 const Register = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchContactEntriesAsync());
-    dispatch(fetchEntriesAsync());
-  }, [dispatch]);
-
   const navigate = useNavigate();
 
   const ContactInfo = [

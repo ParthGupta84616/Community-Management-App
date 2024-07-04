@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { fetchUserProfileAsync, selectUser } from '../profile/profileSlice';
-import { fetchContactEntriesAsync, fetchEntriesAsync, selectContactInfo, selectPersonalInfo } from '../register/registerSlice';
+import { fetchEntriesAsync} from '../register/registerSlice';
 import { useForm } from "react-hook-form";
 import ImageCompressor from "image-compressor.js";
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
@@ -334,8 +334,6 @@ function Profile() {
   } = useForm();
 
   useEffect(() => {
-    dispatch(fetchUserProfileAsync(id));
-    dispatch(fetchContactEntriesAsync());
     dispatch(fetchEntriesAsync());
   }, [dispatch, id]);
 

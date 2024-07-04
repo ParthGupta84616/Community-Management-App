@@ -20,8 +20,8 @@ module.exports = {
       addBase({
         '@media print': {
           '@page': {
-            // size: 'A4',
-            margin: '0',
+            margins: "None",
+            size: 'landscape',
           },
           'html, body': {
             // width: '210mm',
@@ -31,7 +31,7 @@ module.exports = {
             // '-webkit-print-color-adjust': 'exact',
           },
           '@page :left': {
-            size: 'A4 landscape',
+            size: 'landscape',
           },
         },
       });

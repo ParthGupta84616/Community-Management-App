@@ -2,13 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchUserProfileAsync, selectUser } from "./profileSlice";
-import {
-  fetchContactEntriesAsync,
-  fetchEntriesAsync,
-  selectContactInfo,
-  selectPersonalInfo,
-} from "../register/registerSlice";
-import { ReactToPrint } from "react-to-print";
+
 
 function Profile() {
   const id = useParams().id;
@@ -330,8 +324,6 @@ function Profile() {
   const newData = {};
   useEffect(() => {
     dispatch(fetchUserProfileAsync(id));
-    dispatch(fetchContactEntriesAsync());
-    dispatch(fetchEntriesAsync());
   }, [dispatch, id]);
 
   data = data?.user;
@@ -341,13 +333,6 @@ function Profile() {
     newData["जन्म दिन"] =
       data["जन्म दिन"]?.split("-").reverse().join("") || "N/A";
   }
-  console.log(newData);
-  const handlePrint = () => {
-    if (componentRef.current) {
-      // Accessing the DOM element for printing
-      console.log(componentRef.current);
-    }
-  };
 
   if (data && ContactInfo && PersonalInfo) {
     return (
@@ -362,39 +347,6 @@ function Profile() {
                 <h6 className="text-blueGray-700 text-xl font-bold">
                   {data.नाम} Profile
                 </h6>
-                {/* <ReactToPrint
-                  trigger={() => (
-                    <button
-                      className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase lg:text-sm text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                      onClick={handlePrint}
-                    >
-                      Print
-                    </button>
-                  )}
-                  content={() => componentRef.current} // Correctly placed outside of `pageStyle`
-                  documentTitle={data.नाम} // Correctly placed outside of `pageStyle`
-                  pageStyle={`
-                      @page {
-                        size: 1440px 1299px;
-                        margin: 0;
-                      }
-                      @media print {
-                        body {
-                          -webkit-print-color-adjust: exact;
-                        }
-                        .no-print {
-                          display: none;
-                        }
-                        .print-only {
-                          display: block;
-                        }
-                        .container {
-                          width: 100%;
-                          height: 100%;
-                        }
-                      }
-                    `}
-                /> */}
                 <button
                   className="bg-pink-500 print:hidden text-white active:bg-pink-600 font-bold uppercase sm:text-sm lg:text-sm text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   onClick={() => window.print()}
@@ -442,7 +394,7 @@ function Profile() {
                   </div>
                   {PersonalInfo?.map((item) => (
                     <div
-                      className={`flex sm:text-base lg:text-sm text-xs ${
+                      className={`flex sm:text-base lg:text-balance text-xs ${
                         item.name === "पारिवारिक सदस्य का नाम"
                           ? " md:w-2/5  sm:w-2/5 lg:w-2/5"
                           : "sm:w-1/5 md:w-1/5 sm:2/3 lg:w-1/5"
@@ -468,11 +420,11 @@ function Profile() {
                   ))}
                   {ContactInfo?.slice(0, 6).map((item) => (
                     <div
-                      className={`flex md:w-auto sm:w-auto mt-4 md:mt-6 gap-0 md:ml-2  w-full `}
+                      className={`flex md:w-auto sm:w-auto mt-4 md:mt-6 gap-0 md:ml-2 lg:text-lg lg:m-4  w-full `}
                       key={item.name}
                     >
                       <label
-                        className={`uppercase sm:text-sm lg:text-sm lg: md:-mt-1  font-bold r flex sm:w-1/2 md:w-2/3 lg:mr-1 lg:ml-2  md:p-2`}
+                        className={`uppercase sm:text-sm   md:-mt-1 lg:items-center lg:justify-center font-bold r flex sm:w-1/2 md:w-2/3  md:p-2`}
                         htmlFor="grid-password"
                       >
                         {item.label}
@@ -482,7 +434,7 @@ function Profile() {
                           <div
                             // type="text"
                             // maxLength="1"
-                            className="border bg-white border-black flex justify-center items-center text-center pointer-events-none sm:p-2 sm:text-sm lg:text-sm font-semibold lg:p-3 md:p-3.5"
+                            className="border bg-white border-black lg:-mt-2 flex justify-center items-center text-center pointer-events-none sm:p-2 sm:text-sm  font-semibold lg:p-4 md:p-3.5"
                             // value={value}
                             key={`${item.name}-${index}`}
                             readOnly
@@ -495,11 +447,11 @@ function Profile() {
                   ))}
                   {ContactInfo?.slice(6,7).map((item) => (
                     <div
-                      className={`flex md:w-auto sm:w-auto mt-4 gap-2 w-full print:hidden`}
+                      className={`flex md:w-auto sm:w-auto mt-4 md:mt-6 gap-0 md:ml-2 lg:text-lg lg:m-4  w-full  print:hidden`}
                       key={item.name}
                     >
                       <label
-                        className={`uppercase sm:text-sm lg:text-sm lg:  font-bold r flex sm:w-1/2 md:w-1/2 mr-2 ml-1 lg:mr-1 lg:ml-2 md:p-2`}
+                        className={`uppercase sm:text-sm   md:-mt-1 lg:items-center lg:justify-center font-bold r flex sm:w-1/2 md:w-2/3  md:p-2`}
                         htmlFor="grid-password"
                       >
                         {item.label}
@@ -509,7 +461,7 @@ function Profile() {
                           <div
                             // type="text"
                             // maxLength="1"
-                            className="border bg-white border-black flex justify-center items-center text-center pointer-events-none sm:p-2 sm:text-sm lg:text-sm font-semibold lg:p-3 md:p-3"
+                            className="border bg-white border-black lg:-mt-2 flex justify-center items-center text-center pointer-events-none sm:p-2 sm:text-sm  font-semibold lg:p-4 md:p-3.5"
                             // value={value}
                             key={`${item.name}-${index}`}
                             readOnly
@@ -522,12 +474,12 @@ function Profile() {
                   ))}
                   {ContactInfo?.slice(7, 8).map((item) => (
                     <div
-                    className={`flex md:w-auto sm:w-auto mt-6 gap-0 md:ml-2   w-full `}
+                    className={`flex md:w-auto sm:w-auto mt-4 md:mt-6 gap-0 md:ml-2 lg:text-lg lg:m-4  w-full `}
                       key={item.name}
                     >
                       <label
-                       className={`uppercase sm:text-sm lg:text-sm lg: md:-mt-1  font-bold r flex sm:w-1/2 md:w-2/3 lg:mr-1 lg:ml-2  md:p-2`}
-                       htmlFor="grid-password"
+                        className={`uppercase sm:text-sm   md:-mt-1 lg:mt-1 lg:items-center lg:justify-center font-bold r flex sm:w-1/2 md:w-2/3  md:p-2`}
+                        htmlFor="grid-password"
                       >
                         {item.label}
                       </label>
@@ -536,7 +488,7 @@ function Profile() {
                           <div
                             // type="text"
                             // maxLength="1"
-                            className="border bg-white border-black flex justify-center items-center text-center pointer-events-none sm:p-2 sm:text-sm lg:text-sm font-semibold lg:p-4 md:p-3"
+                            className="border bg-white border-black flex justify-center items-center text-center pointer-events-none sm:p-2 sm:text-sm  font-semibold lg:p-4 md:p-3"
                             // value={value}
                             key={`${item.name}-${index}`}
                             readOnly
@@ -548,7 +500,7 @@ function Profile() {
                     </div>
                   ))}
                 </div>
-                <div className="flex flex-wrap mt-4 md:mt-8 items-center mb-4 sm:text-sm lg:text-sm sm:gap-4 md:gap-12 lg:gap-14 gap-4 font-bold">
+                <div className="flex flex-wrap mt-4 md:mt-8 items-center mb-4 sm:text-sm lg:text-sm sm:gap-4 md:gap-12 lg:gap-16 gap-4 font-bold">
                   {ContactInfo?.slice(8).map((item) => (
                     <>
                       <label
