@@ -11,8 +11,317 @@ function Profile() {
   const dispatch = useDispatch();
   var data = useSelector(selectUser)
   const componentRef = useRef(null);
-  const ContactInfo = useSelector(selectContactInfo)
-  const PersonalInfo = useSelector(selectPersonalInfo)
+  const ContactInfo = [
+    {
+      "_id": {
+        "$oid": "666718d8bdaeab4fb842b78e"
+      },
+      "name": "आधार नंबर",
+      "type": "number",
+      "placeholder": "अपना आधार नंबर दर्ज करें",
+      "label": "आधार नंबर",
+      "id": "25d2"
+    },
+    {
+      "_id": {
+        "$oid": "666718d8bdaeab4fb842b78f"
+      },
+      "name": "प_ह_ संख्या",
+      "type": "number",
+      "placeholder": "अपना पी.एच. नंबर दर्ज करें",
+      "label": "प.ह. संख्या",
+      "id": "513d"
+    },
+    {
+      "_id": {
+        "$oid": "666718d8bdaeab4fb842b790"
+      },
+      "name": "वार्ड क्रमांक",
+      "type": "number",
+      "placeholder": "अपना वार्ड नंबर दर्ज करें",
+      "label": "वार्ड क्रमांक",
+      "id": "2e1f"
+    },
+    {
+      "_id": {
+        "$oid": "666718d8bdaeab4fb842b791"
+      },
+      "name": "मतदान परिचयापत",
+      "type": "text",
+      "placeholder": "अपना वोटर आईडी दर्ज करें",
+      "label": "मतदान परिचय पत्र",
+      "id": "890a"
+    },
+    {
+    "_id": {
+      "$oid": "666718d8bdaeab4fb842b792"
+    },
+    "name": "परिवार ईद",
+    "type": "text",
+    "placeholder": "अपनी पारिवारिक आईडी दर्ज करें",
+    "label": "परिवार ईद",
+    "id": "7dab"
+    },
+    {
+      "_id": {
+        "$oid": "666718d8bdaeab4fb842b793"
+      },
+      "name": "परिवहन लाइसेंस",
+      "type": "text",
+      "placeholder": "अपना ड्राइविंग लाइसेंस दर्ज करें",
+      "label": "परिवहन लाइसेंस",
+      "id": "c5c8"
+    },
+    {
+      "_id": {
+        "$oid": "666718d8bdaeab4fb842b78d"
+      },
+      "name": "मो",
+      "type": "number",
+      "placeholder": "अपना विभाग दर्ज करें",
+      "label": "मो",
+      "id": "b823"
+    },
+    {
+      "_id": {
+        "$oid": "666718d8bdaeab4fb842b794"
+      },
+      "name": "जन्म दिन",
+      "type": "date",
+      "placeholder": "अपनी जन्म तिथि दर्ज करें",
+      "label": "जन्म दिन",
+      "id": "f5d8"
+    },
+    {
+      "_id": {
+        "$oid": "666718d8bdaeab4fb842b796"
+      },
+      "name": "नियुक्ति पटेल",
+      "type": "text",
+      "placeholder": "अपना नियुक्त पटेल दर्ज करें",
+      "label": "नियुक्ति पटेल",
+      "id": "906f"
+    },
+    {
+      "_id": {
+        "$oid": "666718d8bdaeab4fb842b797"
+      },
+      "name": "पुत्र",
+      "type": "text",
+      "placeholder": "अपने बेटे का नाम दर्ज करें",
+      "label": "पुत्र",
+      "id": "c7a7",
+      "require": false
+    },
+  {
+    "_id": {
+      "$oid": "666718d8bdaeab4fb842b798"
+    },
+    "name": "पौत्र",
+    "type": "text",
+    "placeholder": "अपने पोते का नाम दर्ज करें",
+    "label": "पौत्र",
+    "id": "6a6e",
+    "require": false
+  },
+  {
+    "_id": {
+      "$oid": "666718d8bdaeab4fb842b799"
+    },
+    "name": "पत्नी",
+    "type": "text",
+    "placeholder": "अपनी पत्नी का नाम दर्ज करें",
+    "label": "पत्नी",
+    "id": "9e62",
+    "require": false
+  },
+  {
+    "_id": {
+      "$oid": "666718d8bdaeab4fb842b79a"
+    },
+    "name": "भाई",
+    "type": "text",
+    "placeholder": "अपने भाई का नाम दर्ज करें",
+    "label": "भाई",
+    "id": "fd79",
+    "require": false
+  },
+  {
+    "_id": {
+      "$oid": "666718d8bdaeab4fb842b79b"
+    },
+    "name": "पुत्री",
+    "type": "text",
+    "placeholder": "अपनी बेटी का नाम दर्ज करें",
+    "label": "पुत्री",
+    "id": "b2e2",
+    "require": false
+  },
+  {
+    "_id": {
+      "$oid": "666718d8bdaeab4fb842b79c"
+    },
+    "name": "परिवारिक सदस्य",
+    "type": "text",
+    "placeholder": "अपने परिवार के सदस्य का नाम दर्ज करें",
+    "label": "परिवारिक सदस्य",
+    "id": "f794"
+  },
+  {
+    "_id": {
+      "$oid": "666718d8bdaeab4fb842b79d"
+    },
+    "name": "अन्य",
+    "type": "text",
+    "placeholder": "अन्य विवरण दर्ज करें",
+    "label": "अन्य",
+    "id": "6701"
+  },
+  ]
+  const PersonalInfo = [
+    
+  {
+    "_id": {
+      "$oid": "666718ccbdaeab4fb842b77e"
+    },
+    "name": "नाम",
+    "type": "text",
+    "placeholder": "अपना नाम दर्ज करें",
+    "label": "नाम",
+    "id": "a5b5"
+  },
+  
+  {
+    "_id": {
+      "$oid": "666718ccbdaeab4fb842b77f"
+    },
+    "name": "पिता श्री",
+    "type": "text",
+    "placeholder": "अपने पिता का नाम दर्ज करें",
+    "label": "पिता श्री",
+    "id": "7be4"
+  },
+  {
+    "_id": {
+      "$oid": "666718ccbdaeab4fb842b780"
+    },
+    "name": "दादा श्री",
+    "type": "text",
+    "placeholder": "अपने दादा का नाम दर्ज करें",
+    "label": "दादा श्री",
+    "id": "32ae"
+  },
+    {
+    "_id": {
+      "$oid": "666718ccbdaeab4fb842b781"
+    },
+    "name": "जाति",
+    "type": "text",
+    "placeholder": "अपनी जाति दर्ज करें",
+    "label": "जाति",
+    "id": "69ed"
+  },
+  {
+    "_id": {
+      "$oid": "666718ccbdaeab4fb842b782"
+    },
+    "name": "व्यवसाय",
+    "type": "text",
+    "placeholder": "अपना पेशा दर्ज करें",
+    "label": "व्यवसाय",
+    "id": "c33c"
+  },
+  {
+    "_id": {
+      "$oid": "666718ccbdaeab4fb842b783"
+    },
+    "name": "ग्राम",
+    "type": "text",
+    "placeholder": "अपना गाँव दर्ज करें",
+    "label": "ग्राम",
+    "id": "2495"
+  },
+  {
+    "_id": {
+      "$oid": "666718ccbdaeab4fb842b784"
+    },
+    "name": "पन्यायत",
+    "type": "text",
+    "placeholder": "अपनी पंचायत दर्ज करें",
+    "label": "पन्यायत",
+    "id": "2231"
+  },
+  {
+    "_id": {
+      "$oid": "666718ccbdaeab4fb842b785"
+    },
+    "name": "पोस्ट",
+    "type": "text",
+    "placeholder": "अपनी पोस्ट दर्ज करें",
+    "label": "पोस्ट",
+    "id": "e77c"
+  },
+  {
+    "_id": {
+      "$oid": "666718ccbdaeab4fb842b786"
+    },
+    "name": "थाना",
+    "type": "text",
+    "placeholder": "अपना पुलिस स्टेशन दर्ज करें",
+    "label": "थाना",
+    "id": "3a10"
+  },
+  {
+    "_id": {
+      "$oid": "666718ccbdaeab4fb842b787"
+    },
+    "name": "तहसील",
+    "type": "text",
+    "placeholder": "अपनी तहसील दर्ज करें",
+    "label": "तहसील",
+    "id": "4377"
+  },
+  
+  {
+    "_id": {
+      "$oid": "666718ccbdaeab4fb842b788"
+    },
+    "name": "टप्पा",
+    "type": "text",
+    "placeholder": "अपना टप्पा दर्ज करें",
+    "label": "टप्पा",
+    "id": "4b16"
+  },
+  
+  {
+    "_id": {
+      "$oid": "666718ccbdaeab4fb842b78a"
+    },
+    "name": "संभाग",
+    "type": "text",
+    "placeholder": "अपना विभाग दर्ज करें",
+    "label": "संभाग",
+    "id": "6dc8"
+  },
+  {
+    "_id": {
+      "$oid": "666718ccbdaeab4fb842b789"
+    },
+    "name": "जिला",
+    "type": "text",
+    "placeholder": "अपना जिला दर्ज करें",
+    "label": "जिला",
+    "id": "e1ef"
+  },
+  {
+    "_id": {
+      "$oid": "6680041877511524890c4b8a"
+    },
+    "name": "पारिवारिक सदस्य का नाम",
+    "type": "text",
+    "placeholder": "अपना विभाग दर्ज करें",
+    "label": "पारिवारिक सदस्य का नाम"
+  }]
   const navigate = useNavigate()
   const newData = {}
   useEffect(() => {
@@ -151,7 +460,7 @@ function Profile() {
                           {item.label}
                         </label>
                         <div className="flex sm:h-5">
-                          {data[item.name].split('').map((value, index) => (
+                          {data[item.name]?.split('').map((value, index) => (
                             <div
                               // type="text"
                               // maxLength="1"
@@ -165,10 +474,9 @@ function Profile() {
                           ))}
                         </div>
                       </div>
+                      
                     ))}
-                </div>
-                <div className="flex sm:flex-wrap sm:flex-row md:flex-row flex-col flex-shrink-0 sm:mt-4 items-center sm:mb-4 sm:gap-16">
-                      {ContactInfo?.slice(7,9).map((item) => (
+                    {ContactInfo?.slice(7,8).map((item) => (
                         <div
                         className={`flex sm:w-auto md:w-auto mt-4 gap-2 mb-3`}
                         key={item.name}
@@ -180,7 +488,7 @@ function Profile() {
                           {item.label}
                         </label>
                         <div className="flex sm:h-5">
-                        {newData[item.name].split('').map((value, index) => (
+                        {newData[item.name]?.split('').map((value, index) => (
                             <div
                               // type="text"
                               // maxLength="1"
@@ -197,7 +505,7 @@ function Profile() {
                       ))}
                     </div>
                     <div className="flex flex-wrap mt-8 items-center mb-4 sm:text-2px lg:text-sm sm:gap-4 lg:gap-16 gap-4 font-bold">
-                      {ContactInfo?.slice(9).map((item) => (
+                      {ContactInfo?.slice(8).map((item) => (
                         <>
                           <label className="flex items-center w-auto" key={item.name}>
                           {item.label}
@@ -210,6 +518,9 @@ function Profile() {
                         </label>
                         </>
                       ))}
+                </div>
+                <div className="flex sm:flex-wrap sm:flex-row md:flex-row flex-col flex-shrink-0 sm:mt-4 items-center sm:mb-4 sm:gap-16">
+                      
                     </div>
                       <hr className="mt-6 border-b-1 border-blueGray-300 " />
                 <h6 className="text-blueGray-400 sm:text-2px lg:text-sm text-xs  mt-3 mb-6 font-bold uppercase">
