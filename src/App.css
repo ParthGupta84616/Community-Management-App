@@ -1,0 +1,14 @@
+@media print {
+    @page {
+      size: landscape;
+    }
+    .print\\:landscape {
+      @page {
+        size: landscape;
+      }
+    }
+    .print\\:hidden {
+      display: none !important;
+    }
+  }
+  
