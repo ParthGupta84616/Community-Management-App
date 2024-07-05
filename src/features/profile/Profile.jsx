@@ -1,15 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React, { createRef, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchUserProfileAsync, selectUser } from "./profileSlice";
-
+import { useScreenshot } from 'use-react-screenshot';
 
 function Profile() {
-  const id = useParams().id;
-  const dispatch = useDispatch();
-  var data = useSelector(selectUser);
-  const componentRef = useRef(null);
-  const ContactInfo = [
+  let ContactInfo = [
     {
       _id: {
         $oid: "666718d8bdaeab4fb842b78e",
@@ -176,7 +172,7 @@ function Profile() {
       id: "6701",
     },
   ];
-  const PersonalInfo = [
+  let PersonalInfo = [
     {
       _id: {
         $oid: "666718ccbdaeab4fb842b77e",
@@ -320,11 +316,72 @@ function Profile() {
       label: "पारिवारिक सदस्य का नाम",
     },
   ];
-  const navigate = useNavigate();
-  const newData = {};
+  let { id } = useParams();
+  let dispatch = useDispatch();
+  let data = useSelector(selectUser);
+  let ref = createRef();
+  let [image, takeScreenshot] = useScreenshot({
+    type: 'image/jpeg',
+    quality: 1.0,
+  });
+  let [imageLoaded, setImageLoaded] = useState(false);
+
+  let download = (image, { name = 'img', extension = 'jpeg' } = {}) => {
+    let a = document.createElement('a');
+    a.href = image;
+    a.download = `${name}.${extension}`;
+    a.click();
+  };
+
+  let hideElements = () => {
+    document.querySelectorAll('.hide-in-screenshot').forEach(element => {
+      element.style.visibility = 'hidden';
+    });
+  };
+
+  let showElements = () => {
+    document.querySelectorAll('.hide-in-screenshot').forEach(element => {
+      element.style.visibility = 'visible';
+    });
+  };
+
+  let downloadScreenshot = async () => {
+    if (imageLoaded) {
+      hideElements();
+      try {
+        let img = await takeScreenshot(ref.current);
+        showElements();
+        download(img);
+      } catch (err) {
+        showElements();
+        console.error(err);
+        alert("An error occurred while taking the screenshot.");
+      }
+    } else {
+      alert("Image not loaded. Cannot take screenshot.");
+    }
+  };
+
   useEffect(() => {
     dispatch(fetchUserProfileAsync(id));
   }, [dispatch, id]);
+
+  useEffect(() => {
+    if (data?.imageURL) {
+      let img = new Image();
+      img.src = data.imageURL;
+      img.onload = () => setImageLoaded(true);
+      img.onerror = () => setImageLoaded(false);
+    } else {
+      setImageLoaded(true);
+    }
+  }, [data]);
+
+
+
+  let navigate = useNavigate();
+  let newData = {};
+  
 
   data = data?.user;
   if (data) {
@@ -337,24 +394,30 @@ function Profile() {
   if (data && ContactInfo && PersonalInfo) {
     return (
       <section className="py-1 ">
-        <div className="w-full sm:w-full mx-auto " ref={componentRef}>
-          <div className="relative flex flex-col min-w-0 break-words w-full  border-0">
+        <div className="w-full sm:w-full mx-auto " >
+          <div className="relative flex flex-col min-w-0 break-words w-full  border-0" ref={ref}>
             <div className="rounded-t bg-white mb-0 px-6">
               <div
                 pri
-                className="text-center flex justify-between print:hidden"
+                className="text-center flex justify-between print:hidden hide-in-screenshot"
               >
                 <h6 className="text-blueGray-700 text-xl font-bold">
                   {data.नाम} Profile
                 </h6>
                 <button
-                  className="bg-pink-500 print:hidden text-white active:bg-pink-600 font-bold uppercase sm:text-sm lg:text-sm text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  className="bg-pink-500 print:hidden hide-in-screenshot text-white active:bg-pink-600 font-bold uppercase sm:text-sm lg:text-sm text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   onClick={() => window.print()}
                 >
                   Print
                 </button>
                 <button
-                  className="bg-pink-500 print:hidden text-white active:bg-pink-600 font-bold uppercase sm:text-sm lg:text-sm text-xs  px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  className="bg-pink-500 print:hidden hide-in-screenshot text-white active:bg-pink-600 font-bold uppercase sm:text-sm lg:text-sm text-xs  px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  onClick={() => downloadScreenshot()}
+                >
+                  Download
+                </button>
+                <button
+                  className="bg-pink-500 print:hidden hide-in-screenshot text-white active:bg-pink-600 font-bold uppercase sm:text-sm lg:text-sm text-xs  px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   onClick={() => navigate(`/edit/${id}`)}
                 >
                   Edit
@@ -362,7 +425,7 @@ function Profile() {
 
                 <Link
                   to="/search"
-                  className="bg-pink-500 print:hidden text-white active:bg-pink-600 font-bold uppercase sm:text-sm lg:text-sm text-xs  px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  className="bg-pink-500 print:hidden hide-in-screenshot text-white active:bg-pink-600 font-bold uppercase sm:text-sm lg:text-sm text-xs  px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="button"
                 >
                   Back
@@ -372,26 +435,21 @@ function Profile() {
             <div className="flex-auto px-4 sm:px-10 pt-0">
               <form noValidate>
                 <div className="flex flex-wrap">
-                  <div
-                    class="flex sm:flex items-center justify-center w-full p-4  flex-col md:flex-row  sm:flex-row  "
-                    style={{ margin: "1rem" }}
-                  >
-                    <label
-                      className=" uppercase  sm:text-sm lg:text-sm text-xs  font-bold mb-2 flex justify-center items-center "
-                      htmlFor="grid-password"
-                    >
-                    </label>
-                    <label
-                      for="dropzone-file"
-                      class="flex flex-col items-center justify-center sm:w-1/4 w-full md:w-1/4 h-64 sm:h-48   border-gray-300 cursor-pointer "
-                    >
-                      <div class="flex flex-col   items-center justify-center pt-5 pb-6">
-
-                       <img src={data.imageURL || "https://via.placeholder.com/150"} alt='profileURL' className='rounded-xl sm:h-48 sm:w-48' />
-
-                        </div>
-                    </label>
-                  </div>
+                <div className="flex sm:flex items-center justify-center w-full p-4 flex-col md:flex-row sm:flex-row" style={{ margin: "1rem" }}>
+                  {/* <label className="uppercase sm:text-sm lg:text-sm text-xs font-bold mb-2 flex justify-center items-center"></label> */}
+                  {/* <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center sm:w-1/4 w-full md:w-1/4 h-64 sm:h-48 border-gray-300 cursor-pointer"> */}
+                {/* <div className="flex flex-col items-center justify-center pt-5 pb-6"> */}
+                  <img
+                    // src={data.imageURL || "https://via.placeholder.com/150"}
+                    src="https://via.placeholder.com/150"
+                    alt="Profile"
+                    className="rounded-xl sm:h-48 sm:w-48"
+                    onLoad={() => setImageLoaded(true)}
+                    onError={() => setImageLoaded(false)}
+                  />
+                {/* </div> */}
+              {/* </label> */}
+                </div>
                   {PersonalInfo?.map((item) => (
                     <div
                       className={`flex sm:text-base lg:text-balance text-xs ${
@@ -447,7 +505,7 @@ function Profile() {
                   ))}
                   {ContactInfo?.slice(6,7).map((item) => (
                     <div
-                      className={`flex md:w-auto sm:w-auto mt-4 md:mt-6 gap-0 md:ml-2 lg:text-lg lg:m-4  w-full  print:hidden`}
+                      className={`flex md:w-auto sm:w-auto mt-4 md:mt-6 gap-0 md:ml-2 lg:text-lg lg:m-4  w-full  print:hidden hide-in-screenshot`}
                       key={item.name}
                     >
                       <label

@@ -7,9 +7,12 @@ import Home from "./Components/homePage/Home";
 import Navbar from "./Components/homePage/Navbar";
 import Footer from "./Components/homePage/Footer";
 import EditPage from "./Components/EditPage";
-// import "./App.css";
+
+
+import "./App.css";
 
 export default function App() { 
+  
   const router = createBrowserRouter([
     {
       path: "/register",
