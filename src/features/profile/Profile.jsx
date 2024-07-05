@@ -1,8 +1,21 @@
-import React, { createRef, useEffect, useState } from "react";
+import React, { createRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchUserProfileAsync, selectUser } from "./profileSlice";
-import { useScreenshot } from 'use-react-screenshot';
+import CryptoJS from 'crypto-js';
+
+const generateUniqueIdentifier = (id) => {
+  const hash = CryptoJS.SHA256(id).toString(CryptoJS.enc.Hex);
+  let largeNumber = parseInt(hash.substring(0, 16), 16); 
+  if (largeNumber < 0) {
+    largeNumber *= -1;
+  }
+  
+  const base = 10 ** 6;
+  const uniqueIdentifier = (largeNumber % base).toString().padStart(6, '0');
+  
+  return uniqueIdentifier;
+};
 
 function Profile() {
   let ContactInfo = [
@@ -320,69 +333,67 @@ function Profile() {
   let dispatch = useDispatch();
   let data = useSelector(selectUser);
   let ref = createRef();
-  let [ takeScreenshot] = useScreenshot({
-    type: 'image/jpeg',
-    quality: 1.0,
-  });
-  let [imageLoaded, setImageLoaded] = useState(false);
-  // console.log(image);
+  // let [ takeScreenshot] = useScreenshot({
+  //   type: 'image/jpeg',
+  //   quality: 1.0,
+  // });
+  // let [imageLoaded, setImageLoaded] = useState(false);
+  // // console.log(image);
 
-  let download = (image, { name = 'img', extension = 'jpeg' } = {}) => {
-    let a = document.createElement('a');
-    a.href = image;
-    a.download = `${name}.${extension}`;
-    a.click();
-  };
+  // let download = (image, { name = 'img', extension = 'jpeg' } = {}) => {
+  //   let a = document.createElement('a');
+  //   a.href = image;
+  //   a.download = `${name}.${extension}`;
+  //   a.click();
+  // };
 
-  let hideElements = () => {
-    document.querySelectorAll('.hide-in-screenshot').forEach(element => {
-      element.style.visibility = 'hidden';
-    });
-  };
+  // let hideElements = () => {
+  //   document.querySelectorAll('.hide-in-screenshot').forEach(element => {
+  //     element.style.visibility = 'hidden';
+  //   });
+  // };
 
-  let showElements = () => {
-    document.querySelectorAll('.hide-in-screenshot').forEach(element => {
-      element.style.visibility = 'visible';
-    });
-  };
+  // let showElements = () => {
+  //   document.querySelectorAll('.hide-in-screenshot').forEach(element => {
+  //     element.style.visibility = 'visible';
+  //   });
+  // };
 
-  let downloadScreenshot = async () => {
-    if (imageLoaded) {
-      hideElements();
-      try {
-        let img = await takeScreenshot(ref.current);
-        showElements();
-        download(img);
-      } catch (err) {
-        showElements();
-        console.error(err);
-        alert("An error occurred while taking the screenshot.");
-      }
-    } else {
-      alert("Image not loaded. Cannot take screenshot.");
-    }
-  };
+  // let downloadScreenshot = async () => {
+  //   if (imageLoaded) {
+  //     hideElements();
+  //     try {
+  //       let img = await takeScreenshot(ref.current);
+  //       showElements();
+  //       download(img);
+  //     } catch (err) {
+  //       showElements();
+  //       console.error(err);
+  //       alert("An error occurred while taking the screenshot.");
+  //     }
+  //   } else {
+  //     alert("Image not loaded. Cannot take screenshot.");
+  //   }
+  // };
 
   useEffect(() => {
     dispatch(fetchUserProfileAsync(id));
   }, [dispatch, id]);
 
-  useEffect(() => {
-    if (data?.imageURL) {
-      let img = new Image();
-      img.src = data.imageURL;
-      img.onload = () => setImageLoaded(true);
-      img.onerror = () => setImageLoaded(false);
-    } else {
-      setImageLoaded(true);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data?.imageURL) {
+  //     let img = new Image();
+  //     img.src = data.imageURL;
+  //     img.onload = () => setImageLoaded(true);
+  //     img.onerror = () => setImageLoaded(false);
+  //   } else {
+  //     setImageLoaded(true);
+  //   }
+  // }, [data]);
 
-
-
+  
   let navigate = useNavigate();
   let newData = {};
-  
 
   data = data?.user;
   if (data) {
@@ -395,8 +406,11 @@ function Profile() {
   if (data && ContactInfo && PersonalInfo) {
     return (
       <section className="py-1 ">
-        <div className="w-full sm:w-full mx-auto " >
-          <div className="relative flex flex-col min-w-0 break-words w-full  border-0" ref={ref}>
+        <div className="w-full sm:w-full mx-auto ">
+          <div
+            className="relative flex flex-col min-w-0 break-words w-full  border-0"
+            ref={ref}
+          >
             <div className="rounded-t bg-white mb-0 px-6">
               <div
                 pri
@@ -411,12 +425,12 @@ function Profile() {
                 >
                   Print
                 </button>
-                <button
+                {/* <button
                   className="bg-pink-500 print:hidden hide-in-screenshot text-white active:bg-pink-600 font-bold uppercase sm:text-sm lg:text-sm text-xs  px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   onClick={() => downloadScreenshot()}
                 >
                   Download
-                </button>
+                </button> */}
                 <button
                   className="bg-pink-500 print:hidden hide-in-screenshot text-white active:bg-pink-600 font-bold uppercase sm:text-sm lg:text-sm text-xs  px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   onClick={() => navigate(`/edit/${id}`)}
@@ -433,24 +447,53 @@ function Profile() {
                 </Link>
               </div>
             </div>
-            <div className="flex-auto px-4 sm:px-10 pt-0">
+            <div className="flex-auto px-4 sm:px-10 pt-0 border-black border-2 m-4 rounded-xl">
               <form noValidate>
                 <div className="flex flex-wrap">
-                <div className="flex sm:flex items-center justify-center w-full p-4 flex-col md:flex-row sm:flex-row" style={{ margin: "1rem" }}>
-                  <label className="uppercase sm:text-sm lg:text-sm text-xs font-bold mb-2 flex justify-center items-center"></label>
-                  <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center sm:w-1/4 w-full md:w-1/4 h-64 sm:h-48 border-gray-300 cursor-pointer">
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <img
-                    src={data.imageURL || "https://via.placeholder.com/150"}
-                    // src="https://via.placeholder.com/150"
-                    alt="Profile"
-                    className="rounded-xl sm:h-48 sm:w-48"
-                    onLoad={() => setImageLoaded(true)}
-                    onError={() => setImageLoaded(false)}
-                  />
-                </div>
-              </label>
-                </div>
+                  <div className="p-4 w-full" >
+                        <div className="flex">
+                        <div className="flex items-center justify-start">
+                          <label
+                            className="uppercase sm:text-sm lg:text-sm text-sm font-bold mt-4 lg:mt-3 mb-2 sm:flex  sm:items-center sm:justify-center flex justify-center items-center"
+                            htmlFor="grid-password"
+                          >
+                            ID
+                          </label>
+                          <div className="flex sm:h-5 ml-2">
+                            {generateUniqueIdentifier(id)?.split("").map((value, index) => (
+                              <div
+                                key={index} // Added key for list items
+                                type="text"
+                                maxLength="1"
+                                className="border text-center pointer-events-none flex items-center justify-center sm:p-3 sm:text-sm lg:p-3 lg:text-sm font-semibold md:p-3"
+                                value={value}
+                                readOnly
+                              >
+                                {value}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                    <div className="flex justify-center -ml-52 w-full">
+                      <label
+                        htmlFor="dropzone-file"
+                        className="flex items-center  justify-center sm:w-1/4 w-screen md:w-1/4 h-64 sm:h-48 border-gray-300 cursor-pointer"
+                      >
+                        <div className="pt-5 pb-6">
+                          <img
+                            src={
+                              data.imageURL || "https://via.placeholder.com/150"
+                            }
+                            alt="Profile"
+                            className="rounded-xl sm:h-48 sm:w-48"
+                          />
+                        </div>
+                      </label>
+                    </div>
+                    
+                    </div>
+                  </div>
+
                   {PersonalInfo?.map((item) => (
                     <div
                       className={`flex sm:text-base lg:text-balance text-xs ${
@@ -477,81 +520,84 @@ function Profile() {
                       </div>
                     </div>
                   ))}
-                  <div className="flex w-full flex-wrap sm:gap-10 lg:gap-10 sm:text-base lg:text-balance text-xs 
-                  ">
+                  <div
+                    className="flex w-full flex-wrap sm:gap-8 md:gap-8 lg:gap-8  sm:text-lg lg:text-balance text-xs 
+                  "
+                  >
                     {ContactInfo?.slice(0, 6).map((item) => (
-                    <div
-                      // className={`flex md:w-auto sm:w-auto  gap-0 lg:text-lg  w-full `}
-                      className={`flex md:w-auto sm:w-auto  gap-2 lg:text-lg `}
-                      key={item.name}
-                    >
-                      <label
-                        className={`uppercase sm:text-sm    lg:items-center lg:justify-center sm:items-center sm:justify-center font-bold r flex sm:w-1/2 md:w-2/3  md:p-2`}
-                        htmlFor="grid-password"
-                      >
-                        {item.label}
-                      </label>
-                      <div className="flex  sm:h-5">
-                        {data[item.name]?.split("").map((value, index) => (
-                          <div
-                            // type="text"
-                            // maxLength="1"
-                            className="border bg-white border-black  sm:flex sm:justify-center sm:items-center md:flex md:justify-center md:items-center lg:flex lg:justify-center lg:items-center text-center pointer-events-none sm:text-sm  font-semibold lg:p-5 md:p-3.5 sm:p-3.5"
-                            // value={value}
-                            key={`${item.name}-${index}`}
-                            readOnly
-                          >
-                            {value}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                  {ContactInfo?.slice(7, 8).map((item) => (
-                    <div
-                    className={`flex md:w-auto sm:w-auto gap-4 lg:text-lg   w-full `}
-                      key={item.name}
-                    >
-                      <label
-                        className={`uppercase sm:text-sm    lg:items-center lg:justify-center font-bold r flex sm:w-1/2 md:w-2/3  md:p-2`}
-                        htmlFor="grid-password"
-                      >
-                        {item.label}
-                      </label>
-                      <div className="flex sm:h-5">
-                        {newData[item.name]?.split("").map((value, index) => (
-                          <div
-                            // type="text"
-                            // maxLength="1"
-                            className="border bg-white border-black  sm:flex sm:justify-center sm:items-center p-10 md:flex md:justify-center md:items-center lg:flex lg:justify-center lg:items-center text-center pointer-events-none sm:p-3.5 sm:text-sm  font-semibold lg:p-4 md:p-3.5"
-                             // value={value}
-                            key={`${item.name}-${index}`}
-                            readOnly
-                          >
-                            {value}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                  <div className="flex justify-between gap-16">
-                  {ContactInfo?.slice(8).map((item) => (
-                    <>
-                      <label
-                        className="flex items-center w-auto "
+                      <div
+                        // className={`flex md:w-auto sm:w-auto  gap-0 lg:text-lg  w-full `}
+                        className={`flex md:w-auto sm:w-auto  gap-2 lg:text-lg `}
                         key={item.name}
                       >
-                        {item.label}
-                        <input
-                          type="checkbox"
-                          name="status"
-                          checked={data[item.name]}
-                          className="sm:ml-1 sm:mr-2 lg:ml-4 md:ml-2"
-                        />
-                      </label>
-                    </>
-                  ))}
-                  </div>
+                        <label
+                          className={`uppercase sm:text-sm    lg:items-center mt-1 lg:justify-center sm:items-center sm:justify-center font-bold r flex sm:w-1/2 md:w-1/2  md:p-0`}
+                          htmlFor="grid-password"
+                        >
+                          {item.label}
+                        </label>
+                        <div className="flex sm:h-10">
+                          {data[item.name]?.split("").map((value, index) => (
+                            <div
+                              // type="text"
+                              // maxLength="1"
+                              className="border bg-white border-black  sm:flex sm:justify-center sm:items-center md:flex md:justify-center md:items-center lg:flex lg:justify-center lg:items-center text-center pointer-events-none sm:text-base  font-semibold lg:p-4 md:p-3 sm:p-3 "
+                              // value={value}
+                              key={`${item.name}-${index}`}
+                              readOnly
+                            >
+                              {value}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                    {ContactInfo?.slice(7, 8).map((item) => (
+                      <div
+                        className={`flex md:w-auto sm:w-auto gap-4 lg:text-lg   w-full `}
+                        key={item.name}
+                      >
+                        <label
+                          className={`uppercase sm:text-sm   sm:mt-2 lg:items-center lg:justify-center font-bold r flex sm:w-1/2 md:w-2/3  md:p-2`}
+                          htmlFor="grid-password"
+                        >
+                          {item.label}
+                        </label>
+                        <div className="flex sm:h-10">
+                          {newData[item.name]?.split("").map((value, index) => (
+                            <div
+                              // type="text"
+                              // maxLength="1"
+                              className="border bg-white border-black  sm:flex sm:justify-center sm:items-center p-10 md:flex md:justify-center md:items-center lg:flex lg:justify-center lg:items-center text-center pointer-events-none  sm:text-lg  font-semibold lg:p-4 md:p-3 sm:p-3"
+                              // value={value}
+                              key={`${item.name}-${index}`}
+                              readOnly
+                            >
+                              {value}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                    <div className="flex justify-between w-screen">
+                      {ContactInfo?.slice(8).map((item) => (
+                        <>
+                          <label
+                            // className="flex items-center "
+                            className="flex items-center w-40"
+                            key={item.name}
+                          >
+                            {item.label}
+                            <input
+                              type="checkbox"
+                              name="status"
+                              checked={data[item.name]}
+                              className="sm:ml-1   lg:ml-4 md:ml-2"
+                            />
+                          </label>
+                        </>
+                      ))}
+                    </div>
                   </div>
                   {/* {ContactInfo?.slice(6,7).map((item) => (
                     <div
@@ -580,76 +626,73 @@ function Profile() {
                       </div>
                     </div>
                   ))} */}
-                  
                 </div>
                 {/* <div className="flex flex-wrap mt-3 md:mt-4 items-center sm:text-sm lg:text-sm sm:gap-4 md:gap-12 lg:gap-14 gap-4 font-bold">
                   
                 </div> */}
                 <div className=" md:mt-4 flex  justify-between sm:flex-wrap sm:flex-row  sm:w-full sm:mt-4 items-center sm:mb-4 ">
-                {/* <div className="flex justify-between items-center"> */}
-                {/* <h1>Mobile</h1> */}
-                <div className=" mb-3  border-b-2">
-                      <label
-                        className="flex justify-center items-center uppercase  sm:text-sm lg:text-sm text-sm  font-bold mb-2"
-                        htmlFor="grid-password"
-                      ></label>
-                      <div className="flex sm:h-5 ">
+                  {/* <div className="flex justify-between items-center"> */}
+                  {/* <h1>Mobile</h1> */}
+                  <div className=" mb-3  border-b-2">
+                    <label
+                      className="flex justify-center items-center uppercase  sm:text-sm lg:text-sm text-sm  font-bold mb-2"
+                      htmlFor="grid-password"
+                    ></label>
+                    <div className="flex sm:h-10 ">
                       {data?.phone1?.split("").map((value, index) => (
-                          <div
-                            type="text"
-                            maxLength="1"
-                            className="border text-center  pointer-events-none flex items-center justify-center sm:p-3 sm:text-sm lg:p-3 lg:text-sm font-semibold md:p-3 "
-                            value={value}
-                            readOnly
-                          >
-                            {value}
-                          </div>
-                        ))}
-                         </div>
+                        <div
+                          type="text"
+                          maxLength="1"
+                          className="border text-center  pointer-events-none flex items-center justify-center sm:p-3 sm:text-sm lg:p-3 lg:text-sm font-semibold md:p-3 "
+                          value={value}
+                          readOnly
+                        >
+                          {value}
+                        </div>
+                      ))}
                     </div>
-                    <div className=" mb-3  border-b-2">
-                      <label
-                        className="flex justify-center items-center  uppercase  sm:text-sm lg:text-sm text-sm  font-bold mb-2"
-                        htmlFor="grid-password"
-                      ></label>
-                      <div className="flex sm:h-5 ">
+                  </div>
+                  <div className=" mb-3  border-b-2">
+                    <label
+                      className="flex justify-center items-center  uppercase  sm:text-sm lg:text-sm text-sm  font-bold mb-2"
+                      htmlFor="grid-password"
+                    ></label>
+                    <div className="flex sm:h-10 ">
                       {data?.phone2?.split("").map((value, index) => (
-                          <div
-                            type="text"
-                            maxLength="1"
-                            className="border text-center   pointer-events-none flex items-center justify-center sm:p-3 sm:text-sm lg:p-3 lg:text-sm font-semibold md:p-3 "
-                            value={value}
-                            readOnly
-                          >
-                            {value}
-                          </div>
-                        ))}
-                         </div>
+                        <div
+                          type="text"
+                          maxLength="1"
+                          className="border text-center   pointer-events-none flex items-center justify-center sm:p-3 sm:text-sm lg:p-3 lg:text-sm font-semibold md:p-3 "
+                          value={value}
+                          readOnly
+                        >
+                          {value}
+                        </div>
+                      ))}
                     </div>
-                    <div className=" mb-3  border-b-2">
-                      <label
-                        className="flex justify-center items-center uppercase  sm:text-sm lg:text-sm text-sm  font-bold mb-2"
-                        htmlFor="grid-password"
-                      ></label>
-                      <div className="flex sm:h-5 ">
+                  </div>
+                  <div className=" mb-3  border-b-2">
+                    <label
+                      className="flex justify-center items-center uppercase  sm:text-sm lg:text-sm text-sm  font-bold mb-2"
+                      htmlFor="grid-password"
+                    ></label>
+                    <div className="flex sm:h-10 ">
                       {data?.phone3?.split("").map((value, index) => (
-                          <div
-                            type="text"
-                            maxLength="1"
-                            className="border text-center  pointer-events-none flex items-center justify-center sm:p-3 sm:text-sm lg:p-3 lg:text-sm font-semibold md:p-3 "
-                            value={value}
-                            readOnly
-                          >
-                            {value}
-                          </div>
-                        ))}
-                         </div>
-                    </div>       
-                    
-                {/* </div> */}
-                
+                        <div
+                          type="text"
+                          maxLength="1"
+                          className="border text-center  pointer-events-none flex items-center justify-center sm:p-3 sm:text-sm lg:p-3 lg:text-sm font-semibold md:p-3 "
+                          value={value}
+                          readOnly
+                        >
+                          {value}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* </div> */}
                 </div>
-                
               </form>
             </div>
           </div>
