@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useRef, useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchUserProfileAsync, selectUser } from "./profileSlice";
@@ -320,11 +320,12 @@ function Profile() {
   let dispatch = useDispatch();
   let data = useSelector(selectUser);
   let ref = createRef();
-  let [image, takeScreenshot] = useScreenshot({
+  let [ takeScreenshot] = useScreenshot({
     type: 'image/jpeg',
     quality: 1.0,
   });
   let [imageLoaded, setImageLoaded] = useState(false);
+  // console.log(image);
 
   let download = (image, { name = 'img', extension = 'jpeg' } = {}) => {
     let a = document.createElement('a');
@@ -436,34 +437,34 @@ function Profile() {
               <form noValidate>
                 <div className="flex flex-wrap">
                 <div className="flex sm:flex items-center justify-center w-full p-4 flex-col md:flex-row sm:flex-row" style={{ margin: "1rem" }}>
-                  {/* <label className="uppercase sm:text-sm lg:text-sm text-xs font-bold mb-2 flex justify-center items-center"></label> */}
-                  {/* <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center sm:w-1/4 w-full md:w-1/4 h-64 sm:h-48 border-gray-300 cursor-pointer"> */}
-                {/* <div className="flex flex-col items-center justify-center pt-5 pb-6"> */}
+                  <label className="uppercase sm:text-sm lg:text-sm text-xs font-bold mb-2 flex justify-center items-center"></label>
+                  <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center sm:w-1/4 w-full md:w-1/4 h-64 sm:h-48 border-gray-300 cursor-pointer">
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <img
-                    // src={data.imageURL || "https://via.placeholder.com/150"}
-                    src="https://via.placeholder.com/150"
+                    src={data.imageURL || "https://via.placeholder.com/150"}
+                    // src="https://via.placeholder.com/150"
                     alt="Profile"
                     className="rounded-xl sm:h-48 sm:w-48"
                     onLoad={() => setImageLoaded(true)}
                     onError={() => setImageLoaded(false)}
                   />
-                {/* </div> */}
-              {/* </label> */}
+                </div>
+              </label>
                 </div>
                   {PersonalInfo?.map((item) => (
                     <div
                       className={`flex sm:text-base lg:text-balance text-xs ${
                         item.name === "पारिवारिक सदस्य का नाम"
                           ? " md:w-2/5  sm:w-2/5 lg:w-2/5"
-                          : "sm:w-1/5 md:w-1/5 sm:2/3 lg:w-1/5"
-                      }  gap-2 w-full mb-3 p-2`}
+                          : "sm:w-1/5 md:w-1/5 lg:w-1/5"
+                      }  gap-2 justify-between w-full mb-4 p-2`}
                       key={item.name}
                     >
                       <label
                         className={`uppercase  font-bold justify-center flex ${
                           item.name === "पारिवारिक सदस्य का नाम"
-                            ? "sm:w-3/5 md:w-4/5 lg:w-4/5"
-                            : "sm:w-1/3 md:w-2/5 lg:w-2/5"
+                            ? "sm:w-full md:w-4/5 lg:w-4/5"
+                            : "sm:w-2/3 md:w-2/5 lg:w-2/5"
                         } `}
                         htmlFor="grid-password"
                       >
@@ -476,13 +477,16 @@ function Profile() {
                       </div>
                     </div>
                   ))}
-                  {ContactInfo?.slice(0, 6).map((item) => (
+                  <div className="flex w-full flex-wrap sm:gap-10 lg:gap-10 sm:text-base lg:text-balance text-xs 
+                  ">
+                    {ContactInfo?.slice(0, 6).map((item) => (
                     <div
-                      className={`flex md:w-auto sm:w-auto mt-4 md:mt-6 gap-0 md:ml-2 lg:text-lg lg:m-4  w-full `}
+                      // className={`flex md:w-auto sm:w-auto  gap-0 lg:text-lg  w-full `}
+                      className={`flex md:w-auto sm:w-auto  gap-2 lg:text-lg `}
                       key={item.name}
                     >
                       <label
-                        className={`uppercase sm:text-sm   md:-mt-1 lg:items-center lg:justify-center font-bold r flex sm:w-1/2 md:w-2/3  md:p-2`}
+                        className={`uppercase sm:text-sm    lg:items-center lg:justify-center sm:items-center sm:justify-center font-bold r flex sm:w-1/2 md:w-2/3  md:p-2`}
                         htmlFor="grid-password"
                       >
                         {item.label}
@@ -492,34 +496,7 @@ function Profile() {
                           <div
                             // type="text"
                             // maxLength="1"
-                            className="border bg-white border-black lg:-mt-2 flex justify-center items-center text-center pointer-events-none sm:p-2 sm:text-sm  font-semibold lg:p-4 md:p-3.5"
-                            // value={value}
-                            key={`${item.name}-${index}`}
-                            readOnly
-                          >
-                            {value}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                  {ContactInfo?.slice(6,7).map((item) => (
-                    <div
-                      className={`flex md:w-auto sm:w-auto mt-4 md:mt-6 gap-0 md:ml-2 lg:text-lg lg:m-4  w-full  print:hidden hide-in-screenshot`}
-                      key={item.name}
-                    >
-                      <label
-                        className={`uppercase sm:text-sm   md:-mt-1 lg:items-center lg:justify-center font-bold r flex sm:w-1/2 md:w-2/3  md:p-2`}
-                        htmlFor="grid-password"
-                      >
-                        {item.label}
-                      </label>
-                      <div className="flex  sm:h-5">
-                        {data[item.name]?.split("").map((value, index) => (
-                          <div
-                            // type="text"
-                            // maxLength="1"
-                            className="border bg-white border-black lg:-mt-2 flex justify-center items-center text-center pointer-events-none sm:p-2 sm:text-sm  font-semibold lg:p-4 md:p-3.5"
+                            className="border bg-white border-black  sm:flex sm:justify-center sm:items-center md:flex md:justify-center md:items-center lg:flex lg:justify-center lg:items-center text-center pointer-events-none sm:text-sm  font-semibold lg:p-5 md:p-3.5 sm:p-3.5"
                             // value={value}
                             key={`${item.name}-${index}`}
                             readOnly
@@ -532,11 +509,11 @@ function Profile() {
                   ))}
                   {ContactInfo?.slice(7, 8).map((item) => (
                     <div
-                    className={`flex md:w-auto sm:w-auto mt-4 md:mt-6 gap-0 md:ml-2 lg:text-lg lg:m-4  w-full `}
+                    className={`flex md:w-auto sm:w-auto gap-4 lg:text-lg   w-full `}
                       key={item.name}
                     >
                       <label
-                        className={`uppercase sm:text-sm   md:-mt-1 lg:mt-1 lg:items-center lg:justify-center font-bold r flex sm:w-1/2 md:w-2/3  md:p-2`}
+                        className={`uppercase sm:text-sm    lg:items-center lg:justify-center font-bold r flex sm:w-1/2 md:w-2/3  md:p-2`}
                         htmlFor="grid-password"
                       >
                         {item.label}
@@ -546,8 +523,8 @@ function Profile() {
                           <div
                             // type="text"
                             // maxLength="1"
-                            className="border bg-white border-black flex justify-center items-center text-center pointer-events-none sm:p-2 sm:text-sm  font-semibold lg:p-4 md:p-3"
-                            // value={value}
+                            className="border bg-white border-black  sm:flex sm:justify-center sm:items-center p-10 md:flex md:justify-center md:items-center lg:flex lg:justify-center lg:items-center text-center pointer-events-none sm:p-3.5 sm:text-sm  font-semibold lg:p-4 md:p-3.5"
+                             // value={value}
                             key={`${item.name}-${index}`}
                             readOnly
                           >
@@ -557,8 +534,7 @@ function Profile() {
                       </div>
                     </div>
                   ))}
-                </div>
-                <div className="flex flex-wrap mt-4 md:mt-8 items-center mb-4 sm:text-sm lg:text-sm sm:gap-4 md:gap-12 lg:gap-16 gap-4 font-bold">
+                  <div className="flex justify-between gap-16">
                   {ContactInfo?.slice(8).map((item) => (
                     <>
                       <label
@@ -575,10 +551,44 @@ function Profile() {
                       </label>
                     </>
                   ))}
+                  </div>
+                  </div>
+                  {/* {ContactInfo?.slice(6,7).map((item) => (
+                    <div
+                      className={`flex md:w-auto sm:w-auto mt-4 md:mt-6 gap-0 md:ml-2 lg:text-lg lg:m-4  w-full  print:hidden hide-in-screenshot`}
+                      key={item.name}
+                    >
+                      <label
+                        className={`uppercase sm:text-sm   md:-mt-1 lg:items-center lg:justify-center font-bold r flex sm:w-1/2 md:w-2/3  md:p-2`}
+                        htmlFor="grid-password"
+                      >
+                        {item.label}
+                      </label>
+                      <div className="flex  sm:h-5">
+                        {data[item.name]?.split("").map((value, index) => (
+                          <div
+                            // type="text"
+                            // maxLength="1"
+                            className="border bg-white border-black  flex justify-center items-center text-center pointer-events-none sm:p-0 sm:text-sm  font-semibold lg:p-4 md:p-3"
+                            // value={value}
+                            key={`${item.name}-${index}`}
+                            readOnly
+                          >
+                            {value}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))} */}
+                  
                 </div>
-                <div className=" md:mt-8 flex sm:flex-wrap sm:flex-row md:flex-row sm:w-full flex-col sm:mt-4 items-center sm:mb-4 ">
-                <div className="flex justify-between items-center">
-                <div className=" mb-3 md:w-1/3 lg:w-1/3 border-b-2">
+                {/* <div className="flex flex-wrap mt-3 md:mt-4 items-center sm:text-sm lg:text-sm sm:gap-4 md:gap-12 lg:gap-14 gap-4 font-bold">
+                  
+                </div> */}
+                <div className=" md:mt-4 flex  justify-between sm:flex-wrap sm:flex-row  sm:w-full sm:mt-4 items-center sm:mb-4 ">
+                {/* <div className="flex justify-between items-center"> */}
+                {/* <h1>Mobile</h1> */}
+                <div className=" mb-3  border-b-2">
                       <label
                         className="flex justify-center items-center uppercase  sm:text-sm lg:text-sm text-sm  font-bold mb-2"
                         htmlFor="grid-password"
@@ -597,7 +607,7 @@ function Profile() {
                         ))}
                          </div>
                     </div>
-                    <div className=" mb-3 md:w-1/3 lg:w-1/3 border-b-2 sm:ml-5 sm:mr-5">
+                    <div className=" mb-3  border-b-2">
                       <label
                         className="flex justify-center items-center  uppercase  sm:text-sm lg:text-sm text-sm  font-bold mb-2"
                         htmlFor="grid-password"
@@ -616,7 +626,7 @@ function Profile() {
                         ))}
                          </div>
                     </div>
-                    <div className=" mb-3 md:w-1/3 lg:w-1/3 border-b-2">
+                    <div className=" mb-3  border-b-2">
                       <label
                         className="flex justify-center items-center uppercase  sm:text-sm lg:text-sm text-sm  font-bold mb-2"
                         htmlFor="grid-password"
@@ -636,7 +646,7 @@ function Profile() {
                          </div>
                     </div>       
                     
-                </div>
+                {/* </div> */}
                 
                 </div>
                 

@@ -22,7 +22,8 @@ const Register = () => {
       "type": "number",
       "placeholder": "अपना आधार नंबर दर्ज करें",
       "label": "आधार नंबर",
-      "id": "25d2"
+      "id": "25d2",
+      "digit": 12,
     },
     {
       "_id": {
@@ -32,7 +33,8 @@ const Register = () => {
       "type": "number",
       "placeholder": "अपना पी.एच. नंबर दर्ज करें",
       "label": "प.ह. संख्या",
-      "id": "513d"
+      "id": "513d",
+      "digit": 3,
     },
     {
       "_id": {
@@ -42,37 +44,41 @@ const Register = () => {
       "type": "number",
       "placeholder": "अपना वार्ड नंबर दर्ज करें",
       "label": "वार्ड क्रमांक",
-      "id": "2e1f"
+      "id": "2e1f",
+      "digit" : 2
     },
     {
       "_id": {
         "$oid": "666718d8bdaeab4fb842b791"
       },
       "name": "मतदान परिचयापत",
-      "type": "text",
+      "type": "number",
       "placeholder": "अपना वोटर आईडी दर्ज करें",
       "label": "मतदान परिचय पत्र",
-      "id": "890a"
+      "id": "890a",
+      "digit" : 10
     },
     {
     "_id": {
       "$oid": "666718d8bdaeab4fb842b792"
     },
     "name": "परिवार ईद",
-    "type": "text",
+    "type": "number",
     "placeholder": "अपनी पारिवारिक आईडी दर्ज करें",
     "label": "परिवार ईद",
-    "id": "7dab"
+    "id": "7dab",
+    "digit" : 10
     },
     {
       "_id": {
         "$oid": "666718d8bdaeab4fb842b793"
       },
       "name": "परिवहन लाइसेंस",
-      "type": "text",
+      "type": "number",
       "placeholder": "अपना ड्राइविंग लाइसेंस दर्ज करें",
       "label": "परिवहन लाइसेंस",
-      "id": "c5c8"
+      "id": "c5c8",
+      "digit" : 10
     },
     {
       "_id": {
@@ -82,7 +88,8 @@ const Register = () => {
       "type": "number",
       "placeholder": "अपना विभाग दर्ज करें",
       "label": "मो",
-      "id": "b823"
+      "id": "b823",
+      "digit" : 10
     },
     {
       "_id": {
@@ -92,14 +99,15 @@ const Register = () => {
       "type": "date",
       "placeholder": "अपनी जन्म तिथि दर्ज करें",
       "label": "जन्म दिन",
-      "id": "f5d8"
+      "id": "f5d8",
+      "digit" : 8
     },
     {
       "_id": {
         "$oid": "666718d8bdaeab4fb842b796"
       },
       "name": "नियुक्ति पटेल",
-      "type": "text",
+      "type": "boolean",
       "placeholder": "अपना नियुक्त पटेल दर्ज करें",
       "label": "नियुक्ति पटेल",
       "id": "906f"
@@ -109,7 +117,7 @@ const Register = () => {
         "$oid": "666718d8bdaeab4fb842b797"
       },
       "name": "पुत्र",
-      "type": "text",
+      "type": "boolean",
       "placeholder": "अपने बेटे का नाम दर्ज करें",
       "label": "पुत्र",
       "id": "c7a7",
@@ -120,7 +128,7 @@ const Register = () => {
       "$oid": "666718d8bdaeab4fb842b798"
     },
     "name": "पौत्र",
-    "type": "text",
+    "type": "boolean",
     "placeholder": "अपने पोते का नाम दर्ज करें",
     "label": "पौत्र",
     "id": "6a6e",
@@ -131,7 +139,7 @@ const Register = () => {
       "$oid": "666718d8bdaeab4fb842b799"
     },
     "name": "पत्नी",
-    "type": "text",
+    "type": "boolean",
     "placeholder": "अपनी पत्नी का नाम दर्ज करें",
     "label": "पत्नी",
     "id": "9e62",
@@ -142,7 +150,7 @@ const Register = () => {
       "$oid": "666718d8bdaeab4fb842b79a"
     },
     "name": "भाई",
-    "type": "text",
+    "type": "boolean",
     "placeholder": "अपने भाई का नाम दर्ज करें",
     "label": "भाई",
     "id": "fd79",
@@ -153,7 +161,7 @@ const Register = () => {
       "$oid": "666718d8bdaeab4fb842b79b"
     },
     "name": "पुत्री",
-    "type": "text",
+    "type": "boolean",
     "placeholder": "अपनी बेटी का नाम दर्ज करें",
     "label": "पुत्री",
     "id": "b2e2",
@@ -164,7 +172,7 @@ const Register = () => {
       "$oid": "666718d8bdaeab4fb842b79c"
     },
     "name": "परिवारिक सदस्य",
-    "type": "text",
+    "type": "boolean",
     "placeholder": "अपने परिवार के सदस्य का नाम दर्ज करें",
     "label": "परिवारिक सदस्य",
     "id": "f794"
@@ -174,14 +182,13 @@ const Register = () => {
       "$oid": "666718d8bdaeab4fb842b79d"
     },
     "name": "अन्य",
-    "type": "text",
+    "type": "boolean",
     "placeholder": "अन्य विवरण दर्ज करें",
     "label": "अन्य",
     "id": "6701"
   },
   ]
-  const PersonalInfo = [
-    
+  const PersonalInfo = [ 
   {
     "_id": {
       "$oid": "666718ccbdaeab4fb842b77e"
@@ -192,7 +199,6 @@ const Register = () => {
     "label": "नाम",
     "id": "a5b5"
   },
-  
   {
     "_id": {
       "$oid": "666718ccbdaeab4fb842b77f"
@@ -337,23 +343,22 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    // Function to preprocess data and replace empty fields with "N/A"
-    const preprocessData = (data) => {
-      const processedData = { ...data };
-      for (const key in processedData) {
-        if (typeof processedData[key] === 'string' && processedData[key].trim() === "") {
-          processedData[key] = "N/A";
-        }
-      }
-      return processedData;
-    };    
-    const processedData = preprocessData(data);
-    // if (url) {
-      processedData["imageURL"] = url || "https://imgs.search.brave.com/oB6fgT45DC10B0RQfk3kTBtZ0W-2p7udZUxPnfvKT3M/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA0LzYyLzkzLzY2/LzM2MF9GXzQ2Mjkz/NjY4OV9CcEVFY3hm/Z011WVBmVGFJQU9D/MXRDRHVybXNubzdT/cC5qcGc";
-      setUrl(null); 
-      dispatch(createAccountAsync(processedData));
-      reset();
-    // }
+    console.log(data)
+    // const preprocessData = (data) => {
+    //   let processedData = { ...data };
+    //   for (const key in processedData) {
+    //     if (typeof processedData[key] === 'string' && processedData[key].trim() === "") {
+    //       processedData[key] = "N/A";
+    //     }
+    //   }
+    //   console.log(processedData)
+    //   return processedData;
+    // };    
+    const processedData = data;
+    processedData["imageURL"] = url || "https://imgs.search.brave.com/oB6fgT45DC10B0RQfk3kTBtZ0W-2p7udZUxPnfvKT3M/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA0LzYyLzkzLzY2/LzM2MF9GXzQ2Mjkz/NjY4OV9CcEVFY3hm/Z011WVBmVGFJQU9D/MXRDRHVybXNubzdT/cC5qcGc";
+    setUrl(null); 
+    dispatch(createAccountAsync(processedData));
+    reset();
   };
   
 
@@ -509,7 +514,9 @@ const Register = () => {
                       <input
                         type={item.type}
                         placeholder={item.placeholder}
-                        {...register(item.name)}
+                        {...register(item.name, {
+                          setValueAs: value => value ? value : "N/A"
+                        })}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
                       {errors[item.name] && <p>This field is required</p>}
@@ -538,7 +545,27 @@ const Register = () => {
                         type={item.type}
                         placeholder={item.placeholder}
                         {...register(item.name, {
-                          required: item.name === 'मो' // Conditionally apply required rule
+                          required: item.name === 'मो',
+                          setValueAs: value => {
+                            if (item.type === 'date' || item.type === 'number') {
+                              if (value === "" || value.length !== item.digit) {
+                                let newValue = value;
+                                // Adjust the value to meet the length criteria
+                                while (newValue.length < item.digit) {
+                                  newValue += " "; // Append spaces if shorter
+                                }
+                                if (newValue.length > item.digit) {
+                                  newValue = newValue.substring(0, item.digit); // Trim if longer
+                                }
+                                return newValue;
+                              } else {
+                                return value; // Return the value as is if it meets the criteria
+                              }
+                            } else {
+                              return value; // For 'date' type, always return the value as is
+                            }
+                            
+                          }
                         })}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
@@ -577,7 +604,15 @@ const Register = () => {
                       </label>
                       <input
                         type="text"
-                        {...register("phone1")}
+                        {...register("phone1", {
+                          setValueAs: (value) => {
+                            if (value.length === 9 || value.length === 10) {
+                              return value;
+                            } else {
+                              return value.padEnd(10, " ");
+                            }
+                          }
+                        })}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
                     </div>
@@ -593,7 +628,15 @@ const Register = () => {
                       <input
                         type="text"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        {...register("phone2")}
+                        {...register("phone2", {
+                          setValueAs: (value) => {
+                            if (value.length === 9 || value.length === 10) {
+                              return value;
+                            } else {
+                              return value.padEnd(10, " ");
+                            }
+                          }
+                        })}
                       />
                     </div>
                   </div>
@@ -607,7 +650,15 @@ const Register = () => {
                       </label>
                       <input
                         type="text"
-                        {...register("phone3")}
+                        {...register("phone3", {
+                          setValueAs: (value) => {
+                            if (value.length === 9 || value.length === 10) {
+                              return value;
+                            } else {
+                              return value.padEnd(10, " ");
+                            }
+                          }
+                        })}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
                     </div>
