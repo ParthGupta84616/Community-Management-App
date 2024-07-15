@@ -53,30 +53,30 @@ function Profile() {
       _id: {
         $oid: "666718d8bdaeab4fb842b791",
       },
-      name: "मतदान परिचयापत",
+      name: "मतदाता परिचयपत्र",
       type: "text",
       placeholder: "अपना वोटर आईडी दर्ज करें",
-      label: "मतदान परिचय पत्र",
+      label: "मतदाता परिचयपत्र",
       id: "890a",
     },
     {
       _id: {
         $oid: "666718d8bdaeab4fb842b792",
       },
-      name: "परिवार ईद",
+      name: "परिवार आईडी",
       type: "text",
       placeholder: "अपनी पारिवारिक आईडी दर्ज करें",
-      label: "परिवार ईद",
+      label: "परिवार आईडी",
       id: "7dab",
     },
     {
       _id: {
         $oid: "666718d8bdaeab4fb842b793",
       },
-      name: "परिवहन लाइसेंस",
+      name: "ड्राइविंग लाइसेंस",
       type: "text",
       placeholder: "अपना ड्राइविंग लाइसेंस दर्ज करें",
-      label: "परिवहन लाइसेंस",
+      label: "ड्राइविंग लाइसेंस",
       id: "c5c8",
     },
     {
@@ -93,10 +93,10 @@ function Profile() {
       _id: {
         $oid: "666718d8bdaeab4fb842b794",
       },
-      name: "जन्म दिन",
+      name: "जन्म दिन दिनांक",
       type: "date",
       placeholder: "अपनी जन्म तिथि दर्ज करें",
-      label: "जन्म दिन",
+      label: "जन्म दिन दिनांक",
       id: "f5d8",
     },
     {
@@ -168,10 +168,10 @@ function Profile() {
       _id: {
         $oid: "666718d8bdaeab4fb842b79c",
       },
-      name: "परिवारिक सदस्य",
+      name: "पारिवारिक सदस्य",
       type: "text",
       placeholder: "अपने परिवार के सदस्य का नाम दर्ज करें",
-      label: "परिवारिक सदस्य",
+      label: "पारिवारिक सदस्य",
       id: "f794",
     },
     {
@@ -201,10 +201,10 @@ function Profile() {
       _id: {
         $oid: "666718ccbdaeab4fb842b77f",
       },
-      name: "पिता श्री",
+      name: "पिताश्री",
       type: "text",
       placeholder: "अपने पिता का नाम दर्ज करें",
-      label: "पिता श्री",
+      label: "पिताश्री",
       id: "7be4",
     },
     {
@@ -251,10 +251,10 @@ function Profile() {
       _id: {
         $oid: "666718ccbdaeab4fb842b784",
       },
-      name: "पन्यायत",
+      name: "पंचायत",
       type: "text",
       placeholder: "अपनी पंचायत दर्ज करें",
-      label: "पन्यायत",
+      label: "पंचायत",
       id: "2231",
     },
     {
@@ -292,10 +292,10 @@ function Profile() {
       _id: {
         $oid: "666718ccbdaeab4fb842b788",
       },
-      name: "टप्पा",
+      name: "उपतहसील",
       type: "text",
-      placeholder: "अपना टप्पा दर्ज करें",
-      label: "टप्पा",
+      placeholder: "अपना उपतहसीलदर्ज करें",
+      label: "उपतहसील",
       id: "4b16",
     },
 
@@ -323,10 +323,10 @@ function Profile() {
       _id: {
         $oid: "6680041877511524890c4b8a",
       },
-      name: "पारिवारिक सदस्य का नाम",
+      name: "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम",
       type: "text",
-      placeholder: "अपना विभाग दर्ज करें",
-      label: "पारिवारिक सदस्य का नाम",
+      placeholder: "पारिवारिक सदस्य पटेल दर्ज करें",
+      label: "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम",
     },
   ];
   let { id } = useParams();
@@ -399,8 +399,8 @@ function Profile() {
   if (data) {
     newData["नियुक्ति तिथि"] =
       data["नियुक्ति तिथि"]?.split("-").reverse().join("") || "N/A";
-    newData["जन्म दिन"] =
-      data["जन्म दिन"]?.split("-").reverse().join("") || "N/A";
+    newData["जन्म दिन दिनांक"] =
+      data["जन्म दिन दिनांक"]?.split("-").reverse().join("") || "N/A";
   }
 
   if (data && ContactInfo && PersonalInfo) {
@@ -477,7 +477,7 @@ function Profile() {
                     <div className="flex justify-center -ml-52 w-full">
                       <label
                         htmlFor="dropzone-file"
-                        className="flex items-center  justify-center sm:w-1/4 w-screen md:w-1/4 h-64 sm:h-48 border-gray-300 cursor-pointer"
+                        className="flex items-center  justify-center sm:w-1/4 w-screen md:w-1/4 h-52 sm:h-48 border-gray-300 cursor-pointer"
                       >
                         <div className="pt-5 pb-6">
                           <img
@@ -497,10 +497,10 @@ function Profile() {
                   {PersonalInfo?.map((item) => (
                     <div
                       className={`flex sm:text-base lg:text-balance text-xs ${
-                        item.name === "पारिवारिक सदस्य का नाम"
-                          ? " md:w-2/5  sm:w-2/5 lg:w-2/5"
+                        item.name === "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम"
+                          ? " md:w-2/5  sm:w-full lg:w-1/2"
                           : "sm:w-1/5 md:w-1/5 lg:w-1/5"
-                      }  gap-2 justify-between w-full mb-4 p-2`}
+                      }  gap-2 justify-between w-full mb-4 p-1`}
                       key={item.name}
                     >
                       <label
@@ -521,13 +521,13 @@ function Profile() {
                     </div>
                   ))}
                   <div
-                    className="flex w-full flex-wrap sm:gap-8 md:gap-8 lg:gap-8  sm:text-lg lg:text-balance text-xs 
+                    className="flex w-full flex-wrap sm:gap-4 md:gap-6 lg:gap-8  sm:text-lg lg:text-balance text-xs 
                   "
                   >
                     {ContactInfo?.slice(0, 6).map((item) => (
                       <div
                         // className={`flex md:w-auto sm:w-auto  gap-0 lg:text-lg  w-full `}
-                        className={`flex md:w-auto sm:w-auto  gap-2 lg:text-lg `}
+                        className={`flex md:w-auto sm:w-auto  gap-6 lg:text-lg `}
                         key={item.name}
                       >
                         <label
@@ -579,12 +579,12 @@ function Profile() {
                         </div>
                       </div>
                     ))}
-                    <div className="flex justify-between w-screen">
+                    <div className="flex justify-between w-screen ">
                       {ContactInfo?.slice(8).map((item) => (
                         <>
                           <label
                             // className="flex items-center "
-                            className="flex items-center w-40"
+                            className="flex items-center"
                             key={item.name}
                           >
                             {item.label}
@@ -592,7 +592,7 @@ function Profile() {
                               type="checkbox"
                               name="status"
                               checked={data[item.name]}
-                              className="sm:ml-1   lg:ml-4 md:ml-2"
+                              className="ml-2"
                             />
                           </label>
                         </>
@@ -630,7 +630,7 @@ function Profile() {
                 {/* <div className="flex flex-wrap mt-3 md:mt-4 items-center sm:text-sm lg:text-sm sm:gap-4 md:gap-12 lg:gap-14 gap-4 font-bold">
                   
                 </div> */}
-                <div className=" md:mt-4 flex  justify-between sm:flex-wrap sm:flex-row  sm:w-full sm:mt-4 items-center sm:mb-4 ">
+                <div className=" md:mt-4 flex  justify-between sm:flex-wrap sm:flex-row  sm:w-full sm:mt-1 items-center sm:mb-4 ">
                   {/* <div className="flex justify-between items-center"> */}
                   {/* <h1>Mobile</h1> */}
                   <div className=" mb-3  border-b-2">
@@ -693,6 +693,18 @@ function Profile() {
 
                   {/* </div> */}
                 </div>
+                <div className="flex items-center justify-center min-h-screen bg-gray-100">
+                  <div className="">
+                    <div className="w-48 h-10 border-black border-2"></div>
+                    <div className="w-48 h-10 flex justify-between">
+                      <div className=" p-auto border-black border-2"></div>
+                      <div className=" p-auto border-black border-2"></div>
+                      <div className=" p-auto border-black border-2"></div>
+                    </div>
+                  </div>
+                </div>
+
+
               </form>
             </div>
           </div>
