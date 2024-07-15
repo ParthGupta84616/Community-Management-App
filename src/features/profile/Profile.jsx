@@ -690,21 +690,76 @@ function Profile() {
                       ))}
                     </div>
                   </div>
-
-                  {/* </div> */}
                 </div>
-                <div className="flex items-center justify-center min-h-screen bg-gray-100">
-                  <div className="">
-                    <div className="w-48 h-10 border-black border-2"></div>
-                    <div className="w-48 h-10 flex justify-between">
-                      <div className=" p-auto border-black border-2"></div>
-                      <div className=" p-auto border-black border-2"></div>
-                      <div className=" p-auto border-black border-2"></div>
+                <div className="flex items-center justify-between -mt-3 mb-4">
+                  <div className="flex items-center justify-center sm:items-center sm:justify-center ">
+                      <h1>उपस्थित :-</h1>
+                  </div>
+                  <div className="flex flex-col h-12 w-24 border-2 border-black ">
+                    <div className="flex-1 border-b-2 border-black"></div>
+                    <div className="flex justify-between flex-1">
+                      <div className="w-1/3 p-auto"></div>
+                      <div className="w-1/3 p-auto border-r-2 border-l-2  border-black"></div>
+                      <div className="w-1/3 p-auto"></div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col h-12 w-24 border-2 border-black ">
+                    <div className="flex-1 border-b-2 border-black"></div>
+                    <div className="flex justify-between flex-1">
+                      <div className="w-1/3 p-auto"></div>
+                      <div className="w-1/3 p-auto border-r-2 border-l-2  border-black"></div>
+                      <div className="w-1/3 p-auto"></div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col h-12 w-24 border-2 border-black ">
+                    <div className="flex-1 border-b-2 border-black"></div>
+                    <div className="flex justify-between flex-1">
+                      <div className="w-1/3 p-auto"></div>
+                      <div className="w-1/3 p-auto border-r-2 border-l-2  border-black"></div>
+                      <div className="w-1/3 p-auto"></div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col h-12 w-24 border-2 border-black ">
+                    <div className="flex-1 border-b-2 border-black"></div>
+                    <div className="flex justify-between flex-1">
+                      <div className="w-1/3 p-auto"></div>
+                      <div className="w-1/3 p-auto border-r-2 border-l-2  border-black"></div>
+                      <div className="w-1/3 p-auto"></div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col h-12 w-24 border-2 border-black ">
+                    <div className="flex-1 border-b-2 border-black"></div>
+                    <div className="flex justify-between flex-1">
+                      <div className="w-1/3 p-auto"></div>
+                      <div className="w-1/3 p-auto border-r-2 border-l-2  border-black"></div>
+                      <div className="w-1/3 p-auto"></div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col h-12 w-24 border-2 border-black ">
+                    <div className="flex-1 border-b-2 border-black"></div>
+                    <div className="flex justify-between flex-1">
+                      <div className="w-1/3 p-auto"></div>
+                      <div className="w-1/3 p-auto border-r-2 border-l-2  border-black"></div>
+                      <div className="w-1/3 p-auto"></div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col h-12 w-24 border-2 border-black ">
+                    <div className="flex-1 border-b-2 border-black"></div>
+                    <div className="flex justify-between flex-1">
+                      <div className="w-1/3 p-auto"></div>
+                      <div className="w-1/3 p-auto border-r-2 border-l-2  border-black"></div>
+                      <div className="w-1/3 p-auto"></div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col h-12 w-24 border-2 border-black ">
+                    <div className="flex-1 border-b-2 border-black"></div>
+                    <div className="flex justify-between flex-1">
+                      <div className="w-1/3 p-auto"></div>
+                      <div className="w-1/3 p-auto border-r-2 border-l-2  border-black"></div>
+                      <div className="w-1/3 p-auto"></div>
                     </div>
                   </div>
                 </div>
-
-
               </form>
             </div>
           </div>
