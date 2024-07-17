@@ -447,7 +447,7 @@ function Profile() {
                 </Link>
               </div>
             </div>
-            <div className="flex-auto px-4 sm:px-10 pt-0 border-black border-2 m-4 rounded-xl">
+            <div className="flex-auto px-4 sm:px-5 pt-0 border-black border-2 m-4 rounded-xl">
               <form noValidate>
                 <div className="flex flex-wrap">
                   <div className="p-4 w-full" >
@@ -498,16 +498,16 @@ function Profile() {
                     <div
                       className={`flex sm:text-base lg:text-balance text-xs ${
                         item.name === "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम"
-                          ? " md:w-2/5  sm:w-full lg:w-1/2"
+                          ? " md:w-full  sm:w-full lg:w-full"
                           : "sm:w-1/5 md:w-1/5 lg:w-1/5"
                       }  gap-2 justify-between w-full mb-4 p-1`}
                       key={item.name}
                     >
                       <label
                         className={`uppercase  font-bold justify-center flex ${
-                          item.name === "पारिवारिक सदस्य का नाम"
-                            ? "sm:w-full md:w-4/5 lg:w-4/5"
-                            : "sm:w-2/3 md:w-2/5 lg:w-2/5"
+                          item.name === "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम"
+                            ? "sm:w-full md:w-full lg:w-full"
+                            : "sm:w-2/5 md:w-2/5 lg:w-2/5"
                         } `}
                         htmlFor="grid-password"
                       >
@@ -521,13 +521,13 @@ function Profile() {
                     </div>
                   ))}
                   <div
-                    className="flex w-full flex-wrap sm:gap-4 md:gap-6 lg:gap-8  sm:text-lg lg:text-balance text-xs 
+                    className="flex w-full flex-wrap sm:gap-4 md:gap-4 lg:gap-3  sm:text-lg lg:text-balance text-xs 
                   "
                   >
                     {ContactInfo?.slice(0, 6).map((item) => (
                       <div
                         // className={`flex md:w-auto sm:w-auto  gap-0 lg:text-lg  w-full `}
-                        className={`flex md:w-auto sm:w-auto  gap-6 lg:text-lg `}
+                        className={`flex md:w-auto sm:w-auto  gap-4 md:gap-2 lg:text-lg `}
                         key={item.name}
                       >
                         <label
@@ -541,7 +541,7 @@ function Profile() {
                             <div
                               // type="text"
                               // maxLength="1"
-                              className="border bg-white border-black  sm:flex sm:justify-center sm:items-center md:flex md:justify-center md:items-center lg:flex lg:justify-center lg:items-center text-center pointer-events-none sm:text-base  font-semibold lg:p-4 md:p-3 sm:p-3 "
+                              className="border bg-white border-black  sm:flex sm:justify-center sm:items-center md:flex md:justify-center md:items-center lg:flex lg:justify-center lg:items-center text-center pointer-events-none sm:text-base  font-semibold lg:p-3 md:p-3 sm:p-3 "
                               // value={value}
                               key={`${item.name}-${index}`}
                               readOnly
@@ -630,10 +630,10 @@ function Profile() {
                 {/* <div className="flex flex-wrap mt-3 md:mt-4 items-center sm:text-sm lg:text-sm sm:gap-4 md:gap-12 lg:gap-14 gap-4 font-bold">
                   
                 </div> */}
-                <div className=" md:mt-4 flex  justify-between sm:flex-wrap sm:flex-row  sm:w-full sm:mt-1 items-center sm:mb-4 ">
+                <div className=" md:mt-4 flex  justify-between sm:flex-wrap sm:flex-row  sm:w-full sm:mt-1 items-center sm:mb-4 mdLmb-4 ">
                   {/* <div className="flex justify-between items-center"> */}
                   {/* <h1>Mobile</h1> */}
-                  <div className=" mb-3  border-b-2">
+                  <div className="   border-b-2">
                     <label
                       className="flex justify-center items-center uppercase  sm:text-sm lg:text-sm text-sm  font-bold mb-2"
                       htmlFor="grid-password"
@@ -643,7 +643,7 @@ function Profile() {
                         <div
                           type="text"
                           maxLength="1"
-                          className="border text-center  pointer-events-none flex items-center justify-center sm:p-3 sm:text-sm lg:p-3 lg:text-sm font-semibold md:p-3 "
+                          className="border text-center  pointer-events-none flex items-center justify-center sm:p-2.5 sm:text-sm lg:p-2.5 lg:text-sm md:text-sm font-semibold md:p-2.5 "
                           value={value}
                           readOnly
                         >
@@ -652,7 +652,7 @@ function Profile() {
                       ))}
                     </div>
                   </div>
-                  <div className=" mb-3  border-b-2">
+                  <div className="   border-b-2">
                     <label
                       className="flex justify-center items-center  uppercase  sm:text-sm lg:text-sm text-sm  font-bold mb-2"
                       htmlFor="grid-password"
@@ -662,7 +662,7 @@ function Profile() {
                         <div
                           type="text"
                           maxLength="1"
-                          className="border text-center   pointer-events-none flex items-center justify-center sm:p-3 sm:text-sm lg:p-3 lg:text-sm font-semibold md:p-3 "
+                          className="border text-center   pointer-events-none flex items-center justify-center sm:p-2.5 sm:text-sm lg:p-2.5 lg:text-sm font-semibold md:p-2.5 "
                           value={value}
                           readOnly
                         >
@@ -671,7 +671,7 @@ function Profile() {
                       ))}
                     </div>
                   </div>
-                  <div className=" mb-3  border-b-2">
+                  <div className="   border-b-2">
                     <label
                       className="flex justify-center items-center uppercase  sm:text-sm lg:text-sm text-sm  font-bold mb-2"
                       htmlFor="grid-password"
@@ -681,7 +681,7 @@ function Profile() {
                         <div
                           type="text"
                           maxLength="1"
-                          className="border text-center  pointer-events-none flex items-center justify-center sm:p-3 sm:text-sm lg:p-3 lg:text-sm font-semibold md:p-3 "
+                          className="border text-center  pointer-events-none flex items-center justify-center sm:p-2.5 sm:text-sm lg:p-2.5 lg:text-sm font-semibold md:p-2.5 "
                           value={value}
                           readOnly
                         >
