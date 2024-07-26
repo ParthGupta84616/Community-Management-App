@@ -7,6 +7,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      spacing: {
+        '4.5': '18px',
+      },
+      borderWidth: {
+        '1': '1px', // Define custom border width
+      },
       screens: {
         'xsm': '640px', // custom breakpoint at 640px
       },

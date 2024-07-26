@@ -2,18 +2,18 @@ import React, { createRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchUserProfileAsync, selectUser } from "./profileSlice";
-import CryptoJS from 'crypto-js';
+import CryptoJS from "crypto-js";
 
 const generateUniqueIdentifier = (id) => {
   const hash = CryptoJS.SHA256(id).toString(CryptoJS.enc.Hex);
-  let largeNumber = parseInt(hash.substring(0, 16), 16); 
+  let largeNumber = parseInt(hash.substring(0, 16), 16);
   if (largeNumber < 0) {
     largeNumber *= -1;
   }
-  
+
   const base = 10 ** 6;
-  const uniqueIdentifier = (largeNumber % base).toString().padStart(6, '0');
-  
+  const uniqueIdentifier = (largeNumber % base).toString().padStart(6, "0");
+
   return uniqueIdentifier;
 };
 
@@ -96,7 +96,7 @@ function Profile() {
       name: "जन्म दिन दिनांक",
       type: "date",
       placeholder: "अपनी जन्म तिथि दर्ज करें",
-      label: "जन्म दिन दिनांक",
+      label: "जन्मदिन दिनांक",
       id: "f5d8",
     },
     {
@@ -391,7 +391,6 @@ function Profile() {
   //   }
   // }, [data]);
 
-  
   let navigate = useNavigate();
   let newData = {};
 
@@ -450,17 +449,19 @@ function Profile() {
             <div className="flex-auto px-4 sm:px-5 pt-0 border-black border-2 m-4 rounded-xl">
               <form noValidate>
                 <div className="flex flex-wrap">
-                  <div className="p-4 w-full" >
-                        <div className="flex">
-                        <div className="flex items-center justify-start">
-                          <label
-                            className="uppercase sm:text-sm lg:text-sm text-sm font-bold mt-4 lg:mt-3 mb-2 sm:flex  sm:items-center sm:justify-center flex justify-center items-center"
-                            htmlFor="grid-password"
-                          >
-                            ID
-                          </label>
-                          <div className="flex sm:h-5 ml-2">
-                            {generateUniqueIdentifier(id)?.split("").map((value, index) => (
+                  <div className="p-4 w-full">
+                    <div className="flex">
+                      <div className="flex  justify-start">
+                        <label
+                          className="uppercase sm:text-base lg:text-sm text-sm font-bold mt-1 mb-2 sm:flex   sm:justify-center flex justify-cent"
+                          htmlFor="grid-password"
+                        >
+                          क्र
+                        </label>
+                        <div className="flex sm:h-5 ml-2">
+                          {generateUniqueIdentifier(id)
+                            ?.split("")
+                            .map((value, index) => (
                               <div
                                 key={index} // Added key for list items
                                 type="text"
@@ -472,40 +473,42 @@ function Profile() {
                                 {value}
                               </div>
                             ))}
+                        </div>
+                      </div>
+                      <div className="flex justify-center -ml-52 w-full">
+                        <label
+                          htmlFor="dropzone-file"
+                          className="flex items-center  justify-center sm:w-1/4 w-screen md:w-1/4 h-52 sm:h-48 border-gray-300 cursor-pointer"
+                        >
+                          <div className="pt-5 pb-6">
+                            <img
+                              src={
+                                data.imageURL ||
+                                "https://via.placeholder.com/150"
+                              }
+                              alt="Profile"
+                              className="rounded-xl sm:h-48 sm:w-48"
+                            />
                           </div>
-                        </div>
-                    <div className="flex justify-center -ml-52 w-full">
-                      <label
-                        htmlFor="dropzone-file"
-                        className="flex items-center  justify-center sm:w-1/4 w-screen md:w-1/4 h-52 sm:h-48 border-gray-300 cursor-pointer"
-                      >
-                        <div className="pt-5 pb-6">
-                          <img
-                            src={
-                              data.imageURL || "https://via.placeholder.com/150"
-                            }
-                            alt="Profile"
-                            className="rounded-xl sm:h-48 sm:w-48"
-                          />
-                        </div>
-                      </label>
-                    </div>
-                    
+                        </label>
+                      </div>
                     </div>
                   </div>
 
-                  {PersonalInfo?.map((item) => (
+                  {PersonalInfo?.slice(0, 13).map((item) => (
                     <div
                       className={`flex sm:text-base lg:text-balance text-xs ${
-                        item.name === "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम"
-                          ? " md:w-full  sm:w-full lg:w-full"
+                        item.name ===
+                        "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम"
+                          ? " md:w-full lg:w-full"
                           : "sm:w-1/5 md:w-1/5 lg:w-1/5"
                       }  gap-2 justify-between w-full mb-4 p-1`}
                       key={item.name}
                     >
                       <label
                         className={`uppercase  font-bold justify-center flex ${
-                          item.name === "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम"
+                          item.name ===
+                          "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम"
                             ? "sm:w-full md:w-full lg:w-full"
                             : "sm:w-2/5 md:w-2/5 lg:w-2/5"
                         } `}
@@ -513,15 +516,40 @@ function Profile() {
                       >
                         {item.label}
                       </label>
-                      <div className="pointer-events-none border-t-2 border-black font-semibold sm:w-full md:w-full flex justify-center   focus:outline-none focus:ring ease-linear transition-all duration-150">
+                      <div className="pointer-events-none border-t-1 border-black font-semibold sm:w-full md:w-full flex justify-center   focus:outline-none focus:ring ease-linear transition-all duration-150">
                         <div className="-my-1.5">
                           {data[item.name] || "N/A"}
                         </div>
                       </div>
                     </div>
                   ))}
+                  {PersonalInfo?.slice(13).map((item) => (
+                    <div
+                      className={`flex sm:text-base lg:text-balance text-xs md:w-full lg:w-full"
+                       gap-2 justify-between w-full mb-4 p-1`}
+                      key={item.name}
+                    >
+                      <label
+                        className={`uppercase  font-bold flex"
+                        } `}
+                        htmlFor="grid-password"
+                      >
+                        {item.label} &nbsp;:-&nbsp; नाम
+                      </label>
+                      <div className="pointer-events-none border-t-1 border-black font-semibold sm:w-1/4 flex justify-center   focus:outline-none focus:ring ease-linear transition-all duration-150">
+                        <div className="-my-1.5">
+                          {data[item.name] || "N/A"}
+                        </div>
+                      </div>
+                      <div className="font-semibold sm:w-1/3 md:w-full flex  focus:outline-none focus:ring ease-linear transition-all duration-150">
+                        (
+                        <div className="pointer-events-none border-t-1 border-black font-semibold sm:w-2/5 flex justify-center   focus:outline-none focus:ring ease-linear transition-all duration-150"></div>
+                        )
+                      </div>
+                    </div>
+                  ))}
                   <div
-                    className="flex w-full flex-wrap sm:gap-4 md:gap-4 lg:gap-3  sm:text-lg lg:text-balance text-xs 
+                    className="flex w-full flex-wrap sm:gap-4.5 md:gap-4 lg:gap-3  sm:text-lg lg:text-balance text-xs 
                   "
                   >
                     {ContactInfo?.slice(0, 6).map((item) => (
@@ -536,7 +564,7 @@ function Profile() {
                         >
                           {item.label}
                         </label>
-                        <div className="flex sm:h-10">
+                        <div className="flex sm:h-9">
                           {data[item.name]?.split("").map((value, index) => (
                             <div
                               // type="text"
@@ -546,7 +574,7 @@ function Profile() {
                               key={`${item.name}-${index}`}
                               readOnly
                             >
-                              {value}
+                              {value === " " ? <>&nbsp;&nbsp;</> : value}
                             </div>
                           ))}
                         </div>
@@ -563,18 +591,19 @@ function Profile() {
                         >
                           {item.label}
                         </label>
-                        <div className="flex sm:h-10">
+                        <div className="flex sm:h-9">
                           {newData[item.name]?.split("").map((value, index) => (
-                            <div
-                              // type="text"
-                              // maxLength="1"
-                              className="border bg-white border-black  sm:flex sm:justify-center sm:items-center p-10 md:flex md:justify-center md:items-center lg:flex lg:justify-center lg:items-center text-center pointer-events-none  sm:text-lg  font-semibold lg:p-4 md:p-3 sm:p-3"
-                              // value={value}
-                              key={`${item.name}-${index}`}
-                              readOnly
-                            >
-                              {value}
-                            </div>
+                            <React.Fragment key={`${item.name}-${index}`}>
+                              <div
+                                className="border bg-white border-black sm:flex sm:justify-center sm:items-center p-10 md:flex md:justify-center md:items-center lg:flex lg:justify-center lg:items-center text-center pointer-events-none sm:text-lg font-semibold lg:p-4 md:p-3 sm:p-2.5"
+                                readOnly
+                              >
+                                {value === " " ? <>&nbsp;&nbsp;</> : value}
+                              </div>
+                              {(index === 1 || index === 3) && (
+                                <>&nbsp;&nbsp;</>
+                              )}
+                            </React.Fragment>
                           ))}
                         </div>
                       </div>
@@ -584,7 +613,7 @@ function Profile() {
                         <>
                           <label
                             // className="flex items-center "
-                            className="flex items-center"
+                            className="flex items-center font-semibold text-base"
                             key={item.name}
                           >
                             {item.label}
@@ -592,62 +621,35 @@ function Profile() {
                               type="checkbox"
                               name="status"
                               checked={data[item.name]}
-                              className="ml-2"
+                              className="ml-2 size-5 sm:size-7"
                             />
                           </label>
                         </>
                       ))}
                     </div>
                   </div>
-                  {/* {ContactInfo?.slice(6,7).map((item) => (
-                    <div
-                      className={`flex md:w-auto sm:w-auto mt-4 md:mt-6 gap-0 md:ml-2 lg:text-lg lg:m-4  w-full  print:hidden hide-in-screenshot`}
-                      key={item.name}
-                    >
-                      <label
-                        className={`uppercase sm:text-sm   md:-mt-1 lg:items-center lg:justify-center font-bold r flex sm:w-1/2 md:w-2/3  md:p-2`}
-                        htmlFor="grid-password"
-                      >
-                        {item.label}
-                      </label>
-                      <div className="flex  sm:h-5">
-                        {data[item.name]?.split("").map((value, index) => (
-                          <div
-                            // type="text"
-                            // maxLength="1"
-                            className="border bg-white border-black  flex justify-center items-center text-center pointer-events-none sm:p-0 sm:text-sm  font-semibold lg:p-4 md:p-3"
-                            // value={value}
-                            key={`${item.name}-${index}`}
-                            readOnly
-                          >
-                            {value}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))} */}
                 </div>
                 {/* <div className="flex flex-wrap mt-3 md:mt-4 items-center sm:text-sm lg:text-sm sm:gap-4 md:gap-12 lg:gap-14 gap-4 font-bold">
                   
                 </div> */}
-                <div className=" md:mt-4 flex  justify-between sm:flex-wrap sm:flex-row  sm:w-full sm:mt-1 items-center sm:mb-4 mdLmb-4 ">
+                <div className=" sm:mt-4 flex  justify-between sm:flex-wrap sm:flex-row  sm:w-full sm:mt-1 items-center sm:mb-4 mdLmb-4 ">
                   {/* <div className="flex justify-between items-center"> */}
                   {/* <h1>Mobile</h1> */}
                   <div className="   border-b-2">
-                    <label
-                      className="flex justify-center items-center uppercase  sm:text-sm lg:text-sm text-sm  font-bold mb-2"
-                      htmlFor="grid-password"
-                    ></label>
-                    <div className="flex sm:h-10 ">
+                    <div className="flex sm:h-9 ">
+                      <label className="flex justify-center items-center   sm:text-base lg:text-sm text-base mr-4 font-bold">
+                        मो.
+                      </label>
+
                       {data?.phone1?.split("").map((value, index) => (
                         <div
                           type="text"
                           maxLength="1"
-                          className="border text-center  pointer-events-none flex items-center justify-center sm:p-2.5 sm:text-sm lg:p-2.5 lg:text-sm md:text-sm font-semibold md:p-2.5 "
+                          className="border text-center  pointer-events-none flex items-center justify-center sm:p-3 sm:text-sm lg:p-2.5 lg:text-sm md:text-sm font-semibold md:p-2.5 "
                           value={value}
                           readOnly
                         >
-                          {value}
+                          {value === " " ? <>&nbsp;</> : value}
                         </div>
                       ))}
                     </div>
@@ -657,16 +659,16 @@ function Profile() {
                       className="flex justify-center items-center  uppercase  sm:text-sm lg:text-sm text-sm  font-bold mb-2"
                       htmlFor="grid-password"
                     ></label>
-                    <div className="flex sm:h-10 ">
+                    <div className="flex sm:h-9 ">
                       {data?.phone2?.split("").map((value, index) => (
                         <div
                           type="text"
                           maxLength="1"
-                          className="border text-center   pointer-events-none flex items-center justify-center sm:p-2.5 sm:text-sm lg:p-2.5 lg:text-sm font-semibold md:p-2.5 "
+                          className="border text-center   pointer-events-none flex items-center justify-center sm:p-3 sm:text-sm lg:p-2.5 lg:text-sm font-semibold md:p-2.5 "
                           value={value}
                           readOnly
                         >
-                          {value}
+                          {value === " " ? <>&nbsp;</> : value}
                         </div>
                       ))}
                     </div>
@@ -676,89 +678,38 @@ function Profile() {
                       className="flex justify-center items-center uppercase  sm:text-sm lg:text-sm text-sm  font-bold mb-2"
                       htmlFor="grid-password"
                     ></label>
-                    <div className="flex sm:h-10 ">
+                    <div className="flex sm:h-9 ">
                       {data?.phone3?.split("").map((value, index) => (
                         <div
                           type="text"
                           maxLength="1"
-                          className="border text-center  pointer-events-none flex items-center justify-center sm:p-2.5 sm:text-sm lg:p-2.5 lg:text-sm font-semibold md:p-2.5 "
+                          className="border text-center  pointer-events-none flex items-center justify-center sm:p-3 sm:text-sm lg:p-2.5 lg:text-sm font-semibold md:p-2.5 "
                           value={value}
                           readOnly
                         >
-                          {value}
+                          {value === " " ? <>&nbsp;</> : value}
                         </div>
                       ))}
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center justify-between -mt-3 mb-4">
-                  <div className="flex items-center justify-center sm:items-center sm:justify-center ">
-                      <h1>उपस्थित :-</h1>
+                <div className="flex items-center justify-between  mb-4">
+                  <div className="flex items-center justify-center sm:items-center text-base font-semibold sm:justify-center ">
+                    <h1>उपस्थित :-</h1>
                   </div>
-                  <div className="flex flex-col h-12 w-24 border-2 border-black ">
-                    <div className="flex-1 border-b-2 border-black"></div>
-                    <div className="flex justify-between flex-1">
-                      <div className="w-1/3 p-auto"></div>
-                      <div className="w-1/3 p-auto border-r-2 border-l-2  border-black"></div>
-                      <div className="w-1/3 p-auto"></div>
+                  {Array.from({ length: 10 }).map((_, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col h-12 w-20 border border-black"
+                    >
+                      <div className="flex-1 border-b-2 border-black"></div>
+                      <div className="flex justify-between flex-1">
+                        <div className="w-1/3 p-0"></div>
+                        <div className="w-1/3 p-0 border-r border-l border-black"></div>
+                        <div className="w-1/3 p-0"></div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex flex-col h-12 w-24 border-2 border-black ">
-                    <div className="flex-1 border-b-2 border-black"></div>
-                    <div className="flex justify-between flex-1">
-                      <div className="w-1/3 p-auto"></div>
-                      <div className="w-1/3 p-auto border-r-2 border-l-2  border-black"></div>
-                      <div className="w-1/3 p-auto"></div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col h-12 w-24 border-2 border-black ">
-                    <div className="flex-1 border-b-2 border-black"></div>
-                    <div className="flex justify-between flex-1">
-                      <div className="w-1/3 p-auto"></div>
-                      <div className="w-1/3 p-auto border-r-2 border-l-2  border-black"></div>
-                      <div className="w-1/3 p-auto"></div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col h-12 w-24 border-2 border-black ">
-                    <div className="flex-1 border-b-2 border-black"></div>
-                    <div className="flex justify-between flex-1">
-                      <div className="w-1/3 p-auto"></div>
-                      <div className="w-1/3 p-auto border-r-2 border-l-2  border-black"></div>
-                      <div className="w-1/3 p-auto"></div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col h-12 w-24 border-2 border-black ">
-                    <div className="flex-1 border-b-2 border-black"></div>
-                    <div className="flex justify-between flex-1">
-                      <div className="w-1/3 p-auto"></div>
-                      <div className="w-1/3 p-auto border-r-2 border-l-2  border-black"></div>
-                      <div className="w-1/3 p-auto"></div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col h-12 w-24 border-2 border-black ">
-                    <div className="flex-1 border-b-2 border-black"></div>
-                    <div className="flex justify-between flex-1">
-                      <div className="w-1/3 p-auto"></div>
-                      <div className="w-1/3 p-auto border-r-2 border-l-2  border-black"></div>
-                      <div className="w-1/3 p-auto"></div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col h-12 w-24 border-2 border-black ">
-                    <div className="flex-1 border-b-2 border-black"></div>
-                    <div className="flex justify-between flex-1">
-                      <div className="w-1/3 p-auto"></div>
-                      <div className="w-1/3 p-auto border-r-2 border-l-2  border-black"></div>
-                      <div className="w-1/3 p-auto"></div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col h-12 w-24 border-2 border-black ">
-                    <div className="flex-1 border-b-2 border-black"></div>
-                    <div className="flex justify-between flex-1">
-                      <div className="w-1/3 p-auto"></div>
-                      <div className="w-1/3 p-auto border-r-2 border-l-2  border-black"></div>
-                      <div className="w-1/3 p-auto"></div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </form>
             </div>

@@ -127,13 +127,13 @@ function Search() {
                         <img
                           className="absolute rounded-2xl left-0 top-0 w-full h-full object-cover object-center transition duration-50  px-2 p-2"
                           loading="lazy"
-                          src={profile.imageURL}
+                          src={profile.imageURL || "https://via.placeholder.com/150"}
                           alt="Placeholder"
                         />
                       </div>
 
                       <div className="flex flex-col justify-start flex-grow p-2">
-                        <p className="text-xl font-bold p-2 ">{profile.नाम}</p>
+                        <p className="text-xl font-bold p-2 ">{profile.नाम || "Not Available"}</p>
 
                         <span className="flex items-center p-1">
                           <FaLocationDot className="text-red-500 mr-2" />
@@ -142,7 +142,7 @@ function Search() {
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            {profile.जिला}
+                            {profile.जिला || "Not Available"}
                           </a>
                         </span>
 
@@ -153,7 +153,7 @@ function Search() {
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            {profile.मो}
+                            {profile.मो || "Not Available"}
                           </a>
                         </span>
                       </div>
