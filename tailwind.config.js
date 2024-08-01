@@ -11,7 +11,7 @@ module.exports = {
         '4.5': '18px',
       },
       borderWidth: {
-        '1': '1px', // Define custom border width
+        '1': '0.05px', // Define custom border width
       },
       screens: {
         'xsm': '640px', // custom breakpoint at 640px
@@ -19,12 +19,17 @@ module.exports = {
       fontSize: {
         '2px': '8px', // custom font size
       },
+      width: {
+        'custom-1/12': '12%', // Custom width for 1/12
+        'custom-full': '100%',  // Custom full width
+      },
     },
   },
   plugins: [
     plugin(function({ addBase }) {
       addBase({
         '@media print': {
+          
           '@page': {
             margins: "None",
             size: 'landscape',
@@ -38,6 +43,12 @@ module.exports = {
           },
           '@page :left': {
             size: 'landscape',
+          },
+          '.border-t-1': {
+            borderTopWidth: '5px', // Ensure this matches your custom border width
+          },
+          '.border-1': {
+            borderWidth: '0.5px', // Ensure this matches your custom border width
           },
         },
       });

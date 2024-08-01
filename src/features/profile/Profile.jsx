@@ -36,7 +36,7 @@ function Profile() {
       name: "प_ह_ संख्या",
       type: "number",
       placeholder: "अपना पी.एच. नंबर दर्ज करें",
-      label: "प.ह. संख्या",
+      label: "प.ह.नं.",
       id: "513d",
     },
     {
@@ -46,7 +46,7 @@ function Profile() {
       name: "वार्ड क्रमांक",
       type: "number",
       placeholder: "अपना वार्ड नंबर दर्ज करें",
-      label: "वार्ड क्रमांक",
+      label: "वार्ड नं.",
       id: "2e1f",
     },
     {
@@ -96,7 +96,7 @@ function Profile() {
       name: "जन्म दिन दिनांक",
       type: "date",
       placeholder: "अपनी जन्म तिथि दर्ज करें",
-      label: "जन्मदिन दिनांक",
+      label: "जन्म दिनांक",
       id: "f5d8",
     },
     {
@@ -106,7 +106,7 @@ function Profile() {
       name: "नियुक्ति पटेल",
       type: "text",
       placeholder: "अपना नियुक्त पटेल दर्ज करें",
-      label: "नियुक्ति पटेल",
+      label: "नियुक्त पटेल",
       id: "906f",
     },
     {
@@ -400,6 +400,7 @@ function Profile() {
       data["नियुक्ति तिथि"]?.split("-").reverse().join("") || "N/A";
     newData["जन्म दिन दिनांक"] =
       data["जन्म दिन दिनांक"]?.split("-").reverse().join("") || "N/A";
+    // console.log(newData["जन्म दिन दिनांक"])
   }
 
   if (data && ContactInfo && PersonalInfo) {
@@ -475,19 +476,19 @@ function Profile() {
                             ))}
                         </div>
                       </div>
-                      <div className="flex justify-center -ml-52 w-full">
+                      <div className="flex justify-center mt-2 -ml-52 w-full">
                         <label
                           htmlFor="dropzone-file"
                           className="flex items-center  justify-center sm:w-1/4 w-screen md:w-1/4 h-52 sm:h-48 border-gray-300 cursor-pointer"
                         >
-                          <div className="pt-5 pb-6">
+                          <div className="">
                             <img
                               src={
                                 data.imageURL ||
                                 "https://via.placeholder.com/150"
                               }
                               alt="Profile"
-                              className="rounded-xl sm:h-48 sm:w-48"
+                              className="rounded-xl sm:h-40 sm:w-40"
                             />
                           </div>
                         </label>
@@ -516,13 +517,23 @@ function Profile() {
                       >
                         {item.label}
                       </label>
-                      <div className="pointer-events-none border-t-1 border-black font-semibold sm:w-full md:w-full flex justify-center   focus:outline-none focus:ring ease-linear transition-all duration-150">
+                      <div className="pointer-events-none border-t-1 border-gray-400 font-semibold sm:w-full md:w-full flex justify-center   focus:outline-none focus:ring ease-linear transition-all duration-150">
                         <div className="-my-1.5">
                           {data[item.name] || "N/A"}
                         </div>
                       </div>
                     </div>
                   ))}
+                  {Array.from({ length: 3 }).map((_, index) => (
+                    <div
+                      className={`flex sm:text-base lg:text-balance text-xs sm:w-custom-1/12 md:w-custom-1/12 lg:w-custom-1/12 ml-2 justify-between w-full mb-4 p-1`}
+                    >
+                      <div className="pointer-events-none border-t-1 border-gray-400 font-semibold sm:w-full md:w-full flex justify-center   focus:outline-none focus:ring ease-linear transition-all duration-150">
+                        <div className="-my-1.5"></div>
+                      </div>
+                    </div>
+                  ))}
+
                   {PersonalInfo?.slice(13).map((item) => (
                     <div
                       className={`flex sm:text-base lg:text-balance text-xs md:w-full lg:w-full"
@@ -536,18 +547,19 @@ function Profile() {
                       >
                         {item.label} &nbsp;:-&nbsp; नाम
                       </label>
-                      <div className="pointer-events-none border-t-1 border-black font-semibold sm:w-1/4 flex justify-center   focus:outline-none focus:ring ease-linear transition-all duration-150">
+                      <div className="pointer-events-none border-t-1 border-gray-400 font-semibold sm:w-1/4 flex justify-center   focus:outline-none focus:ring ease-linear transition-all duration-150">
                         <div className="-my-1.5">
                           {data[item.name] || "N/A"}
                         </div>
                       </div>
                       <div className="font-semibold sm:w-1/3 md:w-full flex  focus:outline-none focus:ring ease-linear transition-all duration-150">
                         (
-                        <div className="pointer-events-none border-t-1 border-black font-semibold sm:w-2/5 flex justify-center   focus:outline-none focus:ring ease-linear transition-all duration-150"></div>
+                        <div className="pointer-events-none border-t-1 border-gray-400 font-semibold sm:w-2/5 flex justify-center   focus:outline-none focus:ring ease-linear transition-all duration-150"></div>
                         )
                       </div>
                     </div>
                   ))}
+
                   <div
                     className="flex w-full flex-wrap sm:gap-4.5 md:gap-4 lg:gap-3  sm:text-lg lg:text-balance text-xs 
                   "
@@ -632,7 +644,7 @@ function Profile() {
                 {/* <div className="flex flex-wrap mt-3 md:mt-4 items-center sm:text-sm lg:text-sm sm:gap-4 md:gap-12 lg:gap-14 gap-4 font-bold">
                   
                 </div> */}
-                <div className=" sm:mt-4 flex  justify-between sm:flex-wrap sm:flex-row  sm:w-full sm:mt-1 items-center sm:mb-4 mdLmb-4 ">
+                <div className="  flex  justify-between sm:flex-wrap sm:flex-row  sm:w-full sm:mt-1 items-center sm:mb-4 mdLmb-4 ">
                   {/* <div className="flex justify-between items-center"> */}
                   {/* <h1>Mobile</h1> */}
                   <div className="   border-b-2">
@@ -645,7 +657,7 @@ function Profile() {
                         <div
                           type="text"
                           maxLength="1"
-                          className="border text-center  pointer-events-none flex items-center justify-center sm:p-3 sm:text-sm lg:p-2.5 lg:text-sm md:text-sm font-semibold md:p-2.5 "
+                          className="border text-center  pointer-events-none flex items-center justify-center sm:p-2.5 sm:text lg:p-2.5 lg:text-sm md:text-sm font-semibold md:p-2.5 "
                           value={value}
                           readOnly
                         >
@@ -664,7 +676,7 @@ function Profile() {
                         <div
                           type="text"
                           maxLength="1"
-                          className="border text-center   pointer-events-none flex items-center justify-center sm:p-3 sm:text-sm lg:p-2.5 lg:text-sm font-semibold md:p-2.5 "
+                          className="border text-center   pointer-events-none flex items-center justify-center sm:p-2.5 sm:text-sm lg:p-2.5 lg:text-sm font-semibold md:p-2.5 "
                           value={value}
                           readOnly
                         >
@@ -683,7 +695,7 @@ function Profile() {
                         <div
                           type="text"
                           maxLength="1"
-                          className="border text-center  pointer-events-none flex items-center justify-center sm:p-3 sm:text-sm lg:p-2.5 lg:text-sm font-semibold md:p-2.5 "
+                          className="border text-center  pointer-events-none flex items-center justify-center sm:p-2.5 sm:text-sm lg:p-2.5 lg:text-sm font-semibold md:p-2.5 "
                           value={value}
                           readOnly
                         >
@@ -702,11 +714,11 @@ function Profile() {
                       key={index}
                       className="flex flex-col h-12 w-20 border border-black"
                     >
-                      <div className="flex-1 border-b-2 border-black"></div>
+                      <div className="flex-1 border-b-2 k"></div>
                       <div className="flex justify-between flex-1">
-                        <div className="w-1/3 p-0"></div>
-                        <div className="w-1/3 p-0 border-r border-l border-black"></div>
-                        <div className="w-1/3 p-0"></div>
+                        <div className="w-1/3 p-0 border-t border-black"></div>
+                        <div className="w-1/3 p-0 border-r border-l border-t border-black"></div>
+                        <div className="w-1/3 p-0 border-t border-black"></div>
                       </div>
                     </div>
                   ))}

@@ -99,7 +99,7 @@ const Register = () => {
       placeholder: "अपनी जन्म तिथि दर्ज करें",
       label: "जन्म दिन दिनांक",
       id: "f5d8",
-      digit: "8",
+      digit: "10",
     },
     {
       _id: {
