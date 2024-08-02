@@ -194,6 +194,7 @@ function Profile() {
       type: "text",
       placeholder: "अपना नाम दर्ज करें",
       label: "नाम",
+      width: "1/4",
       id: "a5b5",
     },
 
@@ -205,6 +206,7 @@ function Profile() {
       type: "text",
       placeholder: "अपने पिता का नाम दर्ज करें",
       label: "पिताश्री",
+      width: "1/4",
       id: "7be4",
     },
     {
@@ -215,6 +217,7 @@ function Profile() {
       type: "text",
       placeholder: "अपने दादा का नाम दर्ज करें",
       label: "दादा श्री",
+      width: "1/5",
       id: "32ae",
     },
     {
@@ -225,6 +228,7 @@ function Profile() {
       type: "text",
       placeholder: "अपनी जाति दर्ज करें",
       label: "जाति",
+      width: "1/5",
       id: "69ed",
     },
     {
@@ -235,6 +239,7 @@ function Profile() {
       type: "text",
       placeholder: "अपना पेशा दर्ज करें",
       label: "व्यवसाय",
+      width: "1/5",
       id: "c33c",
     },
     {
@@ -333,63 +338,10 @@ function Profile() {
   let dispatch = useDispatch();
   let data = useSelector(selectUser);
   let ref = createRef();
-  // let [ takeScreenshot] = useScreenshot({
-  //   type: 'image/jpeg',
-  //   quality: 1.0,
-  // });
-  // let [imageLoaded, setImageLoaded] = useState(false);
-  // // console.log(image);
-
-  // let download = (image, { name = 'img', extension = 'jpeg' } = {}) => {
-  //   let a = document.createElement('a');
-  //   a.href = image;
-  //   a.download = `${name}.${extension}`;
-  //   a.click();
-  // };
-
-  // let hideElements = () => {
-  //   document.querySelectorAll('.hide-in-screenshot').forEach(element => {
-  //     element.style.visibility = 'hidden';
-  //   });
-  // };
-
-  // let showElements = () => {
-  //   document.querySelectorAll('.hide-in-screenshot').forEach(element => {
-  //     element.style.visibility = 'visible';
-  //   });
-  // };
-
-  // let downloadScreenshot = async () => {
-  //   if (imageLoaded) {
-  //     hideElements();
-  //     try {
-  //       let img = await takeScreenshot(ref.current);
-  //       showElements();
-  //       download(img);
-  //     } catch (err) {
-  //       showElements();
-  //       console.error(err);
-  //       alert("An error occurred while taking the screenshot.");
-  //     }
-  //   } else {
-  //     alert("Image not loaded. Cannot take screenshot.");
-  //   }
-  // };
 
   useEffect(() => {
     dispatch(fetchUserProfileAsync(id));
   }, [dispatch, id]);
-
-  // useEffect(() => {
-  //   if (data?.imageURL) {
-  //     let img = new Image();
-  //     img.src = data.imageURL;
-  //     img.onload = () => setImageLoaded(true);
-  //     img.onerror = () => setImageLoaded(false);
-  //   } else {
-  //     setImageLoaded(true);
-  //   }
-  // }, [data]);
 
   let navigate = useNavigate();
   let newData = {};
@@ -499,20 +451,19 @@ function Profile() {
                   {PersonalInfo?.slice(0, 13).map((item) => (
                     <div
                       className={`flex sm:text-base lg:text-balance text-xs ${
-                        item.name ===
-                        "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम"
-                          ? " md:w-full lg:w-full"
-                          : "sm:w-1/5 md:w-1/5 lg:w-1/5"
-                      }  gap-2 justify-between w-full mb-4 p-1`}
+                        item.width
+                          ? `md:w-${item.width} lg:w-${item.width} sm:w-${item.width}`
+                          : "sm:w-1/4 md:w-1/4 lg:w-1/4"
+                      } gap-2 justify-between mb-4 p-1 w-custom-10.5`}
                       key={item.name}
                     >
                       <label
-                        className={`uppercase  font-bold justify-center flex ${
-                          item.name ===
-                          "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम"
-                            ? "sm:w-full md:w-full lg:w-full"
-                            : "sm:w-2/5 md:w-2/5 lg:w-2/5"
-                        } `}
+                       className={`lassName=uppercase  font-bold justify-center flex ${
+                        item.name === "दादा श्री"? "sm:w-3/5 md:w-3/5 lg:w-3/5":
+                        "sm:w-2/5 md:w-2/5 lg:w-2/5"
+                       }
+
+                            `}
                         htmlFor="grid-password"
                       >
                         {item.label}
@@ -524,7 +475,7 @@ function Profile() {
                       </div>
                     </div>
                   ))}
-                  {Array.from({ length: 3 }).map((_, index) => (
+                  {/* {Array.from({ length: 3 }).map((_, index) => (
                     <div
                       className={`flex sm:text-base lg:text-balance text-xs sm:w-custom-1/12 md:w-custom-1/12 lg:w-custom-1/12 ml-2 justify-between w-full mb-4 p-1`}
                     >
@@ -532,7 +483,7 @@ function Profile() {
                         <div className="-my-1.5"></div>
                       </div>
                     </div>
-                  ))}
+                  ))} */}
 
                   {PersonalInfo?.slice(13).map((item) => (
                     <div
@@ -552,10 +503,14 @@ function Profile() {
                           {data[item.name] || "N/A"}
                         </div>
                       </div>
-                      <div className="font-semibold sm:w-1/3 md:w-full flex  focus:outline-none focus:ring ease-linear transition-all duration-150">
-                        (
-                        <div className="pointer-events-none border-t-1 border-gray-400 font-semibold sm:w-2/5 flex justify-center   focus:outline-none focus:ring ease-linear transition-all duration-150"></div>
-                        )
+                      <div className="font-semibold  sm:w-1/3 md:w-full flex  focus:outline-none focus:ring ease-linear transition-all duration-150">
+                      (
+                        <div className=" border-t-1 flex items-center justify-center  border-gray-400 font-semibold sm:w-1/2    focus:outline-none focus:ring ease-linear transition-all duration-150">
+                          <input className="text-center w-5/6 -mt-3.5 bg-transparent">
+                          
+                          </input>
+                        </div>
+                        &nbsp;&nbsp; )
                       </div>
                     </div>
                   ))}

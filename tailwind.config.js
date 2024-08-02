@@ -20,8 +20,11 @@ module.exports = {
         '2px': '8px', // custom font size
       },
       width: {
-        'custom-1/12': '12%', // Custom width for 1/12
-        'custom-full': '100%',  // Custom full width
+        'custom-1/12': '12%',
+        'custom-1/15': '15%', // Custom width for 1/12
+        'custom-full': '100%',
+        'custom-10.5': '10.5rem',
+          // Custom full width
       },
     },
   },
