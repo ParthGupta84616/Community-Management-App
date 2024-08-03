@@ -194,7 +194,6 @@ function Profile() {
       type: "text",
       placeholder: "अपना नाम दर्ज करें",
       label: "नाम",
-      width: "1/4",
       id: "a5b5",
     },
 
@@ -206,7 +205,7 @@ function Profile() {
       type: "text",
       placeholder: "अपने पिता का नाम दर्ज करें",
       label: "पिताश्री",
-      width: "1/4",
+      width: "1/5",
       id: "7be4",
     },
     {
@@ -239,7 +238,7 @@ function Profile() {
       type: "text",
       placeholder: "अपना पेशा दर्ज करें",
       label: "व्यवसाय",
-      width: "1/5",
+      width: "custom-6",
       id: "c33c",
     },
     {
@@ -399,8 +398,8 @@ function Profile() {
                 </Link>
               </div>
             </div>
-            <div className="flex-auto px-4 sm:px-5 pt-0 border-black border-2 m-4 rounded-xl">
-              <form noValidate>
+            <div className="flex-auto px-4 sm:px-3 pt-0 border-black border-2 m-4 rounded-xl">
+              <form noValidate className="m-1">
                 <div className="flex flex-wrap">
                   <div className="p-4 w-full">
                     <div className="flex">
@@ -440,7 +439,7 @@ function Profile() {
                                 "https://via.placeholder.com/150"
                               }
                               alt="Profile"
-                              className="rounded-xl sm:h-40 sm:w-40"
+                              className="rounded-xl sm:h-32 sm:w-32"
                             />
                           </div>
                         </label>
@@ -450,26 +449,49 @@ function Profile() {
 
                   {PersonalInfo?.slice(0, 13).map((item) => (
                     <div
-                      className={`flex sm:text-base lg:text-balance text-xs ${
-                        item.width
-                          ? `md:w-${item.width} lg:w-${item.width} sm:w-${item.width}`
-                          : "sm:w-1/4 md:w-1/4 lg:w-1/4"
-                      } gap-2 justify-between mb-4 p-1 w-custom-10.5`}
-                      key={item.name}
-                    >
+                    className={`flex sm:text-base lg:text-balance text-xs ${
+                      item.width
+                        ? item.name === "व्यवसाय"
+                          ? "w-custom-6"
+                          : item.name === "दादा श्री"
+                          ? "w-custom-10.5"
+                          : item.name === "पिताश्री"
+                          ? "w-custom-10"
+                          : "w-custom-8"
+                        : "sm:w-1/4 md:w-1/4 lg:w-1/4"
+                    } gap-2 justify-between mb-4 p-1`}
+                    key={item.name}
+                  >
                       <label
-                       className={`lassName=uppercase  font-bold justify-center flex ${
-                        item.name === "दादा श्री"? "sm:w-3/5 md:w-3/5 lg:w-3/5":
-                        "sm:w-2/5 md:w-2/5 lg:w-2/5"
-                       }
+                        className={`lassName=uppercase  font-bold  flex sm:flex -mt-1.5 ${
+                          item.name === "दादा श्री"
+                            // ? "sm:w-3/5 md:w-3/5 lg:w-3/5"
+                            // : "sm:w-2/5 md:w-2/5 lg:w-2/5"
+                        }
+
 
                             `}
+                        style={{
+                          whiteSpace: "nowrap",
+                        }}
                         htmlFor="grid-password"
                       >
                         {item.label}
                       </label>
-                      <div className="pointer-events-none border-t-1 border-gray-400 font-semibold sm:w-full md:w-full flex justify-center   focus:outline-none focus:ring ease-linear transition-all duration-150">
-                        <div className="-my-1.5">
+                      <div className="pointer-events-none border-t-1 border-gray-400 font-semibold 
+                      sm:w-full
+                      
+                      //  md:w-full 
+                       flex justify-center focus:outline-none focus:ring ease-linear transition-all duration-150">
+                        <div
+                          className="-my-1.5
+                          //  w-5/6
+                           text-center"
+                          style={{
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                          }}
+                        >
                           {data[item.name] || "N/A"}
                         </div>
                       </div>
@@ -504,11 +526,9 @@ function Profile() {
                         </div>
                       </div>
                       <div className="font-semibold  sm:w-1/3 md:w-full flex  focus:outline-none focus:ring ease-linear transition-all duration-150">
-                      (
+                        (
                         <div className=" border-t-1 flex items-center justify-center  border-gray-400 font-semibold sm:w-1/2    focus:outline-none focus:ring ease-linear transition-all duration-150">
-                          <input className="text-center w-5/6 -mt-3.5 bg-transparent">
-                          
-                          </input>
+                          <input className="text-center w-5/6 -mt-3.5 bg-transparent"></input>
                         </div>
                         &nbsp;&nbsp; )
                       </div>
@@ -599,7 +619,7 @@ function Profile() {
                 {/* <div className="flex flex-wrap mt-3 md:mt-4 items-center sm:text-sm lg:text-sm sm:gap-4 md:gap-12 lg:gap-14 gap-4 font-bold">
                   
                 </div> */}
-                <div className="  flex  justify-between sm:flex-wrap sm:flex-row  sm:w-full sm:mt-1 items-center sm:mb-4 mdLmb-4 ">
+                <div className="  flex mt-10  justify-between sm:flex-wrap sm:flex-row  sm:w-full sm:mt-3 items-center sm:mb-4 mdLmb-4 ">
                   {/* <div className="flex justify-between items-center"> */}
                   {/* <h1>Mobile</h1> */}
                   <div className="   border-b-2">
