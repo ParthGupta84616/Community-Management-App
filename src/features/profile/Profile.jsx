@@ -2,20 +2,16 @@ import React, { createRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchUserProfileAsync, selectUser } from "./profileSlice";
-import CryptoJS from "crypto-js";
 
-const generateUniqueIdentifier = (id) => {
-  const hash = CryptoJS.SHA256(id).toString(CryptoJS.enc.Hex);
-  let largeNumber = parseInt(hash.substring(0, 16), 16);
-  if (largeNumber < 0) {
-    largeNumber *= -1;
-  }
-
-  const base = 10 ** 6;
-  const uniqueIdentifier = (largeNumber % base).toString().padStart(6, "0");
-
-  return uniqueIdentifier;
+const extractDateParts = (dateStr) => {
+  const [year, month, day] = dateStr.split('-');
+  return {
+    day : day,
+    month : month,
+    year: year.slice(-2)
+  };
 };
+
 
 function Profile() {
   let ContactInfo = [
@@ -307,10 +303,10 @@ function Profile() {
       _id: {
         $oid: "666718ccbdaeab4fb842b78a",
       },
-      name: "संभाग",
+      name: "जनपद",
       type: "text",
       placeholder: "अपना विभाग दर्ज करें",
-      label: "संभाग",
+      label: "जनपद",
       id: "6dc8",
     },
     {
@@ -332,6 +328,15 @@ function Profile() {
       placeholder: "पारिवारिक सदस्य पटेल दर्ज करें",
       label: "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम",
     },
+    {
+      _id: {
+        $oid: "6680041877511524890c4b8h",
+      },
+      name: "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम ( नाम )",
+      type: "text",
+      placeholder: "पारिवारिक सदस्य पटेल दर्ज करें ( नाम )",
+      label: "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम ( नाम )",
+    },
   ];
   let { id } = useParams();
   let dispatch = useDispatch();
@@ -351,12 +356,12 @@ function Profile() {
       data["नियुक्ति तिथि"]?.split("-").reverse().join("") || "N/A";
     newData["जन्म दिन दिनांक"] =
       data["जन्म दिन दिनांक"]?.split("-").reverse().join("") || "N/A";
-    // console.log(newData["जन्म दिन दिनांक"])
   }
+  console.log(data);
 
   if (data && ContactInfo && PersonalInfo) {
     return (
-      <section className="py-1 ">
+      <section className="py-1 font-semibold text-base">
         <div className="w-full sm:w-full mx-auto ">
           <div
             className="relative flex flex-col min-w-0 break-words w-full  border-0"
@@ -367,23 +372,17 @@ function Profile() {
                 pri
                 className="text-center flex justify-between print:hidden hide-in-screenshot"
               >
-                <h6 className="text-blueGray-700 text-xl font-bold">
+                <h6 className="text-blueGray-700 text-xl ">
                   {data.नाम} Profile
                 </h6>
                 <button
-                  className="bg-pink-500 print:hidden hide-in-screenshot text-white active:bg-pink-600 font-bold uppercase sm:text-sm lg:text-sm text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  className="bg-pink-500 print:hidden hide-in-screenshot text-white active:bg-pink-600  uppercase sm:text-sm lg:text-sm text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   onClick={() => window.print()}
                 >
                   Print
                 </button>
-                {/* <button
-                  className="bg-pink-500 print:hidden hide-in-screenshot text-white active:bg-pink-600 font-bold uppercase sm:text-sm lg:text-sm text-xs  px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                  onClick={() => downloadScreenshot()}
-                >
-                  Download
-                </button> */}
                 <button
-                  className="bg-pink-500 print:hidden hide-in-screenshot text-white active:bg-pink-600 font-bold uppercase sm:text-sm lg:text-sm text-xs  px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  className="bg-pink-500 print:hidden hide-in-screenshot text-white active:bg-pink-600  uppercase sm:text-sm lg:text-sm text-xs  px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   onClick={() => navigate(`/edit/${id}`)}
                 >
                   Edit
@@ -391,7 +390,7 @@ function Profile() {
 
                 <Link
                   to="/search"
-                  className="bg-pink-500 print:hidden hide-in-screenshot text-white active:bg-pink-600 font-bold uppercase sm:text-sm lg:text-sm text-xs  px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  className="bg-pink-500 print:hidden hide-in-screenshot text-white active:bg-pink-600  uppercase sm:text-sm lg:text-sm text-xs  px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="button"
                 >
                   Back
@@ -405,26 +404,24 @@ function Profile() {
                     <div className="flex">
                       <div className="flex  justify-start">
                         <label
-                          className="uppercase sm:text-base lg:text-sm text-sm font-bold mt-1 mb-2 sm:flex   sm:justify-center flex justify-cent"
+                          className="uppercase  mt-1 mb-2 sm:flex   sm:justify-center flex justify-cent"
                           htmlFor="grid-password"
                         >
                           क्र
                         </label>
                         <div className="flex sm:h-5 ml-2">
-                          {generateUniqueIdentifier(id)
-                            ?.split("")
-                            .map((value, index) => (
-                              <div
-                                key={index} // Added key for list items
-                                type="text"
-                                maxLength="1"
-                                className="border text-center pointer-events-none flex items-center justify-center sm:p-3 sm:text-sm lg:p-3 lg:text-sm font-semibold md:p-3"
-                                value={value}
-                                readOnly
-                              >
-                                {value}
-                              </div>
-                            ))}
+                          {data.क्रमंक?.split("").map((value, index) => (
+                            <div
+                              key={index} // Added key for list items
+                              type="text"
+                              maxLength="1"
+                              className="border text-center pointer-events-none flex items-center justify-center sm:p-3 lg:p-3   md:p-3"
+                              value={value}
+                              readOnly
+                            >
+                              {value}
+                            </div>
+                          ))}
                         </div>
                       </div>
                       <div className="flex justify-center mt-2 -ml-52 w-full">
@@ -439,7 +436,7 @@ function Profile() {
                                 "https://via.placeholder.com/150"
                               }
                               alt="Profile"
-                              className="rounded-xl sm:h-32 sm:w-32"
+                              className="rounded-xl sm:h-36 sm:w-32"
                             />
                           </div>
                         </label>
@@ -449,24 +446,24 @@ function Profile() {
 
                   {PersonalInfo?.slice(0, 13).map((item) => (
                     <div
-                    className={`flex sm:text-base lg:text-balance text-xs ${
-                      item.width
-                        ? item.name === "व्यवसाय"
-                          ? "w-custom-6"
-                          : item.name === "दादा श्री"
-                          ? "w-custom-10.5"
-                          : item.name === "पिताश्री"
-                          ? "w-custom-10"
-                          : "w-custom-8"
-                        : "sm:w-1/4 md:w-1/4 lg:w-1/4"
-                    } gap-2 justify-between mb-4 p-1`}
-                    key={item.name}
-                  >
+                      className={`flex ${
+                        item.width
+                          ? item.name === "व्यवसाय"
+                            ? "w-custom-6"
+                            : item.name === "दादा श्री"
+                            ? "w-custom-10.5"
+                            : item.name === "पिताश्री"
+                            ? "w-custom-10"
+                            : "w-custom-8"
+                          : "sm:w-1/4 md:w-1/4 lg:w-1/4"
+                      } gap-2 justify-between mb-4 p-1`}
+                      key={item.name}
+                    >
                       <label
-                        className={`lassName=uppercase  font-bold  flex sm:flex -mt-1.5 ${
+                        className={`lassName=uppercase    flex sm:flex -mt-1.5 ${
                           item.name === "दादा श्री"
-                            // ? "sm:w-3/5 md:w-3/5 lg:w-3/5"
-                            // : "sm:w-2/5 md:w-2/5 lg:w-2/5"
+                          // ? "sm:w-3/5 md:w-3/5 lg:w-3/5"
+                          // : "sm:w-2/5 md:w-2/5 lg:w-2/5"
                         }
 
 
@@ -478,11 +475,13 @@ function Profile() {
                       >
                         {item.label}
                       </label>
-                      <div className="pointer-events-none border-t-1 border-gray-400 font-semibold 
+                      <div
+                        className="pointer-events-none border-t-1 border-gray-400  
                       sm:w-full
                       
                       //  md:w-full 
-                       flex justify-center focus:outline-none focus:ring ease-linear transition-all duration-150">
+                       flex justify-center focus:outline-none focus:ring ease-linear transition-all duration-150"
+                      >
                         <div
                           className="-my-1.5
                           //  w-5/6
@@ -492,43 +491,34 @@ function Profile() {
                             overflow: "hidden",
                           }}
                         >
-                          {data[item.name] || "N/A"}
+                          {data[item.name] || "-"}
                         </div>
                       </div>
                     </div>
                   ))}
-                  {/* {Array.from({ length: 3 }).map((_, index) => (
-                    <div
-                      className={`flex sm:text-base lg:text-balance text-xs sm:w-custom-1/12 md:w-custom-1/12 lg:w-custom-1/12 ml-2 justify-between w-full mb-4 p-1`}
-                    >
-                      <div className="pointer-events-none border-t-1 border-gray-400 font-semibold sm:w-full md:w-full flex justify-center   focus:outline-none focus:ring ease-linear transition-all duration-150">
-                        <div className="-my-1.5"></div>
-                      </div>
-                    </div>
-                  ))} */}
 
-                  {PersonalInfo?.slice(13).map((item) => (
+                  {PersonalInfo?.slice(13, 14).map((item) => (
                     <div
-                      className={`flex sm:text-base lg:text-balance text-xs md:w-full lg:w-full"
+                      className={`flex md:w-full lg:w-full"
                        gap-2 justify-between w-full mb-4 p-1`}
                       key={item.name}
                     >
                       <label
-                        className={`uppercase  font-bold flex"
+                        className={`uppercase   flex"
                         } `}
                         htmlFor="grid-password"
                       >
                         {item.label} &nbsp;:-&nbsp; नाम
                       </label>
-                      <div className="pointer-events-none border-t-1 border-gray-400 font-semibold sm:w-1/4 flex justify-center   focus:outline-none focus:ring ease-linear transition-all duration-150">
-                        <div className="-my-1.5">
-                          {data[item.name] || "N/A"}
-                        </div>
+                      <div className="pointer-events-none border-t-1 border-gray-400  sm:w-1/4 flex justify-center   focus:outline-none focus:ring ease-linear transition-all duration-150">
+                        <div className="-my-1.5">{data[item.name] || "-"}</div>
                       </div>
-                      <div className="font-semibold  sm:w-1/3 md:w-full flex  focus:outline-none focus:ring ease-linear transition-all duration-150">
-                        (
-                        <div className=" border-t-1 flex items-center justify-center  border-gray-400 font-semibold sm:w-1/2    focus:outline-none focus:ring ease-linear transition-all duration-150">
-                          <input className="text-center w-5/6 -mt-3.5 bg-transparent"></input>
+                      <div className="  sm:w-1/3 md:w-full flex  focus:outline-none focus:ring ease-linear transition-all duration-150">
+                        (&nbsp;&nbsp;
+                        <div className=" border-t-1 flex items-center justify-center  border-gray-400  sm:w-1/2    focus:outline-none focus:ring ease-linear transition-all duration-150">
+                          <div className="text-center w-5/6 -mt-2.5 bg-transparent">
+                            {data[PersonalInfo[14].name] || "-"}
+                          </div>
                         </div>
                         &nbsp;&nbsp; )
                       </div>
@@ -536,17 +526,16 @@ function Profile() {
                   ))}
 
                   <div
-                    className="flex w-full flex-wrap sm:gap-4.5 md:gap-4 lg:gap-3  sm:text-lg lg:text-balance text-xs 
+                    className="flex w-full flex-wrap sm:gap-4.5 md:gap-4 lg:gap-3 
                   "
                   >
                     {ContactInfo?.slice(0, 6).map((item) => (
                       <div
-                        // className={`flex md:w-auto sm:w-auto  gap-0 lg:text-lg  w-full `}
-                        className={`flex md:w-auto sm:w-auto  gap-4 md:gap-2 lg:text-lg `}
+                        className={`flex md:w-auto sm:w-auto  gap-4 md:gap-2  `}
                         key={item.name}
                       >
                         <label
-                          className={`uppercase sm:text-sm    lg:items-center mt-1 lg:justify-center sm:items-center sm:justify-center font-bold r flex sm:w-1/2 md:w-1/2  md:p-0`}
+                          className={`uppercase    lg:items-center mt-1 lg:justify-center sm:items-center sm:justify-center  r flex sm:w-1/2 md:w-1/2  md:p-0`}
                           htmlFor="grid-password"
                         >
                           {item.label}
@@ -556,7 +545,7 @@ function Profile() {
                             <div
                               // type="text"
                               // maxLength="1"
-                              className="border bg-white border-black  sm:flex sm:justify-center sm:items-center md:flex md:justify-center md:items-center lg:flex lg:justify-center lg:items-center text-center pointer-events-none sm:text-base  font-semibold lg:p-3 md:p-3 sm:p-3 "
+                              className="border bg-white border-black  sm:flex sm:justify-center sm:items-center md:flex md:justify-center md:items-center lg:flex lg:justify-center lg:items-center text-center pointer-events-none  lg:p-3 md:p-3 sm:p-3 "
                               // value={value}
                               key={`${item.name}-${index}`}
                               readOnly
@@ -569,11 +558,11 @@ function Profile() {
                     ))}
                     {ContactInfo?.slice(7, 8).map((item) => (
                       <div
-                        className={`flex md:w-auto sm:w-auto gap-4 lg:text-lg   w-full `}
+                        className={`flex md:w-auto sm:w-auto gap-4   w-full `}
                         key={item.name}
                       >
                         <label
-                          className={`uppercase sm:text-sm   sm:mt-2 lg:items-center lg:justify-center font-bold r flex sm:w-1/2 md:w-2/3  md:p-2`}
+                          className={`uppercase   sm:mt-2 lg:items-center lg:justify-center  r flex sm:w-1/2 md:w-2/3  md:p-2`}
                           htmlFor="grid-password"
                         >
                           {item.label}
@@ -582,7 +571,7 @@ function Profile() {
                           {newData[item.name]?.split("").map((value, index) => (
                             <React.Fragment key={`${item.name}-${index}`}>
                               <div
-                                className="border bg-white border-black sm:flex sm:justify-center sm:items-center p-10 md:flex md:justify-center md:items-center lg:flex lg:justify-center lg:items-center text-center pointer-events-none sm:text-lg font-semibold lg:p-4 md:p-3 sm:p-2.5"
+                                className="border bg-white border-black sm:flex sm:justify-center sm:items-center p-10 md:flex md:justify-center md:items-center lg:flex lg:justify-center lg:items-center text-center pointer-events-none lg:p-4 md:p-3 sm:p-2.5"
                                 readOnly
                               >
                                 {value === " " ? <>&nbsp;&nbsp;</> : value}
@@ -600,7 +589,7 @@ function Profile() {
                         <>
                           <label
                             // className="flex items-center "
-                            className="flex items-center font-semibold text-base"
+                            className="flex items-center "
                             key={item.name}
                           >
                             {item.label}
@@ -616,15 +605,11 @@ function Profile() {
                     </div>
                   </div>
                 </div>
-                {/* <div className="flex flex-wrap mt-3 md:mt-4 items-center sm:text-sm lg:text-sm sm:gap-4 md:gap-12 lg:gap-14 gap-4 font-bold">
-                  
-                </div> */}
+
                 <div className="  flex mt-10  justify-between sm:flex-wrap sm:flex-row  sm:w-full sm:mt-3 items-center sm:mb-4 mdLmb-4 ">
-                  {/* <div className="flex justify-between items-center"> */}
-                  {/* <h1>Mobile</h1> */}
                   <div className="   border-b-2">
                     <div className="flex sm:h-9 ">
-                      <label className="flex justify-center items-center   sm:text-base lg:text-sm text-base mr-4 font-bold">
+                      <label className="flex justify-center items-center   sm:text-base lg:text-sm text-base mr-4 ">
                         मो.
                       </label>
 
@@ -632,7 +617,7 @@ function Profile() {
                         <div
                           type="text"
                           maxLength="1"
-                          className="border text-center  pointer-events-none flex items-center justify-center sm:p-2.5 sm:text lg:p-2.5 lg:text-sm md:text-sm font-semibold md:p-2.5 "
+                          className="border text-center  pointer-events-none flex items-center justify-center sm:p-2.5 sm:text lg:p-2.5 lg:text-sm md:text-sm  md:p-2.5 "
                           value={value}
                           readOnly
                         >
@@ -643,7 +628,7 @@ function Profile() {
                   </div>
                   <div className="   border-b-2">
                     <label
-                      className="flex justify-center items-center  uppercase  sm:text-sm lg:text-sm text-sm  font-bold mb-2"
+                      className="flex justify-center items-center  uppercase  mb-2"
                       htmlFor="grid-password"
                     ></label>
                     <div className="flex sm:h-9 ">
@@ -651,7 +636,7 @@ function Profile() {
                         <div
                           type="text"
                           maxLength="1"
-                          className="border text-center   pointer-events-none flex items-center justify-center sm:p-2.5 sm:text-sm lg:p-2.5 lg:text-sm font-semibold md:p-2.5 "
+                          className="border text-center   pointer-events-none flex items-center justify-center sm:p-2.5 lg:p-2.5   md:p-2.5 "
                           value={value}
                           readOnly
                         >
@@ -662,7 +647,7 @@ function Profile() {
                   </div>
                   <div className="   border-b-2">
                     <label
-                      className="flex justify-center items-center uppercase  sm:text-sm lg:text-sm text-sm  font-bold mb-2"
+                      className="flex justify-center items-center uppercase    mb-2"
                       htmlFor="grid-password"
                     ></label>
                     <div className="flex sm:h-9 ">
@@ -670,7 +655,7 @@ function Profile() {
                         <div
                           type="text"
                           maxLength="1"
-                          className="border text-center  pointer-events-none flex items-center justify-center sm:p-2.5 sm:text-sm lg:p-2.5 lg:text-sm font-semibold md:p-2.5 "
+                          className="border text-center  pointer-events-none flex items-center justify-center sm:p-2.5 lg:p-2.5   md:p-2.5 "
                           value={value}
                           readOnly
                         >
@@ -681,19 +666,19 @@ function Profile() {
                   </div>
                 </div>
                 <div className="flex items-center justify-between  mb-4">
-                  <div className="flex items-center justify-center sm:items-center text-base font-semibold sm:justify-center ">
-                    <h1>उपस्थित :-</h1>
+                  <div className="flex items-center justify-center sm:items-center   sm:justify-center ">
+                    <h1>उपस्थिति   :-</h1>
                   </div>
-                  {Array.from({ length: 10 }).map((_, index) => (
+                  {data.उपस्थित.map((item, index) => (
                     <div
                       key={index}
                       className="flex flex-col h-12 w-20 border border-black"
                     >
-                      <div className="flex-1 border-b-2 k"></div>
+                      <div className="flex-1 border-b-2"></div>
                       <div className="flex justify-between flex-1">
-                        <div className="w-1/3 p-0 border-t border-black"></div>
-                        <div className="w-1/3 p-0 border-r border-l border-t border-black"></div>
-                        <div className="w-1/3 p-0 border-t border-black"></div>
+                        <div className="w-1/3 p-0 border-t border-black flex items-center justify-center">{extractDateParts(item).day}</div>
+                        <div className="w-1/3 p-0 border-r border-l border-t border-black flex items-center justify-center">{extractDateParts(item).month}</div>
+                        <div className="w-1/3 p-0 border-t border-black flex items-center justify-center">{extractDateParts(item).year}</div>
                       </div>
                     </div>
                   ))}

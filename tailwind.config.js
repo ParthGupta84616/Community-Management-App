@@ -31,6 +31,14 @@ module.exports = {
         // 'custom-10.5': '10rem',
           // Custom full width
       },
+      fontFamily: {
+        'devanagari': ['"Kruti Dev"', 'Mangal', 'sans-serif'],
+      },
+      fontSize: {
+        'custom-lg': ['1.075rem', {
+          lineHeight: '1.235rem',
+        }],
+      },
     },
   },
   plugins: [
@@ -58,6 +66,7 @@ module.exports = {
           '.border-1': {
             borderWidth: '0.5px', // Ensure this matches your custom border width
           },
+          
         },
       });
     }),

@@ -1,9 +1,7 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import {
-  createAccountAsync,
-} from "./registerSlice";
+import { createAccountAsync } from "./registerSlice";
 import { storage } from "../../firebaseConfig";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
@@ -190,6 +188,16 @@ const Register = () => {
   let PersonalInfo = [
     {
       _id: {
+        $oid: "666718ccbdaeab4fb842b77l",
+      },
+      name: "क्रमंक",
+      type: "number",
+      placeholder: "क्रमंक दर्ज करें",
+      label: "क्रमंक",
+      id: "a5be",
+    },
+    {
+      _id: {
         $oid: "666718ccbdaeab4fb842b77e",
       },
       name: "नाम",
@@ -305,10 +313,10 @@ const Register = () => {
       _id: {
         $oid: "666718ccbdaeab4fb842b78a",
       },
-      name: "संभाग",
+      name: "जनपद",
       type: "text",
       placeholder: "अपना विभाग दर्ज करें",
-      label: "संभाग",
+      label: "जनपद",
       id: "6dc8",
     },
     {
@@ -330,7 +338,18 @@ const Register = () => {
       placeholder: "पारिवारिक सदस्य पटेल दर्ज करें",
       label: "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम",
     },
+    {
+      _id: {
+        $oid: "6680041877511524890c4b8h",
+      },
+      name: "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम ( नाम )",
+      type: "text",
+      placeholder: "(                   )",
+      label: "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम ( नाम )",
+    },
   ];
+  // const [उपस्थित, setउपस्थित] = useState([]);
+
   // const [image, setImage] = useState(null);
   const [url, setUrl] = useState(null);
 
@@ -344,24 +363,21 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data)
-    // const preprocessData = (data) => {
-    //   let processedData = { ...data };
-    //   for (const key in processedData) {
-    //     if (typeof processedData[key] === 'string' && processedData[key].trim() === "") {
-    //       processedData[key] = "N/A";
-    //     }
-    //   }
-    //   console.log(processedData)
-    //   return processedData;
-    // };    
-    const processedData = data;
-    processedData["imageURL"] = url || "https://imgs.search.brave.com/oB6fgT45DC10B0RQfk3kTBtZ0W-2p7udZUxPnfvKT3M/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA0LzYyLzkzLzY2/LzM2MF9GXzQ2Mjkz/NjY4OV9CcEVFY3hm/Z011WVBmVGFJQU9D/MXRDRHVybXNubzdT/cC5qcGc";
-    setUrl(null); 
+    const inputs = Array.from({ length: 10 }).map(
+      (_, index) => data[`input${index}`]
+    );
+    for(let i = 0; i < inputs.length; i++) {
+      delete data[`input${i}`]
+    }
+    const processedData = { ...data, उपस्थित: inputs };
+    processedData["imageURL"] =
+      url ||
+      "https://imgs.search.brave.com/oB6fgT45DC10B0RQfk3kTBtZ0W-2p7udZUxPnfvKT3M/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA0LzYyLzkzLzY2/LzM2MF9GXzQ2Mjkz/NjY4OV9CcEVFY3hm/Z011WVBmVGFJQU9D/MXRDRHVybXNubzdT/cC5qcGc";
+    setUrl(null);
+    console.log(processedData);
     dispatch(createAccountAsync(processedData));
     reset();
   };
-  
 
   const handleFileUpload = (e) => {
     if (e.target.files[0]) {
@@ -394,10 +410,12 @@ const Register = () => {
             () => {
               getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                 // console.log('File available at', downloadURL);
-                setUrl(downloadURL || "https://imgs.search.brave.com/oB6fgT45DC10B0RQfk3kTBtZ0W-2p7udZUxPnfvKT3M/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA0LzYyLzkzLzY2/LzM2MF9GXzQ2Mjkz/NjY4OV9CcEVFY3hm/Z011WVBmVGFJQU9D/MXRDRHVybXNubzdT/cC5qcGc");
+                setUrl(
+                  downloadURL ||
+                    "https://imgs.search.brave.com/oB6fgT45DC10B0RQfk3kTBtZ0W-2p7udZUxPnfvKT3M/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA0LzYyLzkzLzY2/LzM2MF9GXzQ2Mjkz/NjY4OV9CcEVFY3hm/Z011WVBmVGFJQU9D/MXRDRHVybXNubzdT/cC5qcGc"
+                );
               });
             }
-            
           );
         })
         .catch((error) => {
@@ -440,27 +458,26 @@ const Register = () => {
                     </label>
                     {url ? (
                       <>
-                      <label
-                        for="dropzone-file"
-                        class="flex flex-col items-center justify-center lg:w-1/3 w-full md:w-1/2 h-64 border-2 border-dashed bg-slate-500 rounded-3xl border-gray-300 cursor-pointer dark:hover:bg-bray-800  hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-                      >
-                        <div class="flex flex-col  items-center justify-center pt-5 pb-6">
-                          <img
-                            src={url}
-                            alt="profileURL"
-                            className="size-64 rounded-lg"
-                          />
-                        </div>
-                        
-                      </label>
-                      <button
-                      className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                      type="button"
-                      onClick={() => setUrl(null)}
-                    >
-                      Remove Photo
-                    </button></>
-                      
+                        <label
+                          for="dropzone-file"
+                          class="flex flex-col items-center justify-center lg:w-1/3 w-full md:w-1/2 h-64 border-2 border-dashed bg-slate-500 rounded-3xl border-gray-300 cursor-pointer dark:hover:bg-bray-800  hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                        >
+                          <div class="flex flex-col  items-center justify-center pt-5 pb-6">
+                            <img
+                              src={url}
+                              alt="profileURL"
+                              className="size-64 rounded-lg"
+                            />
+                          </div>
+                        </label>
+                        <button
+                          className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={() => setUrl(null)}
+                        >
+                          Remove Photo
+                        </button>
+                      </>
                     ) : (
                       <label
                         htmlFor="dropzone-file"
@@ -516,7 +533,17 @@ const Register = () => {
                         type={item.type}
                         placeholder={item.placeholder}
                         {...register(item.name, {
-                          setValueAs: value => value ? value : " - "
+                          setValueAs: (value) => {
+                            if (item.name === "क्रमंक") {
+                              if (value && value.length < 6) {
+                                return value.padStart(6, "0");
+                              }
+                              else {
+                                return "000000";
+                              }
+                            }
+                            return value ? value : " - ";
+                          },
                         })}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
@@ -546,9 +573,12 @@ const Register = () => {
                         type={item.type}
                         placeholder={item.placeholder}
                         {...register(item.name, {
-                          required: item.name === 'मो',
-                          setValueAs: value => {
-                            if (item.type === 'date' || item.type === 'number') {
+                          required: item.name === "मो",
+                          setValueAs: (value) => {
+                            if (
+                              item.type === "date" ||
+                              item.type === "number"
+                            ) {
                               if (value === "" || value.length !== item.digit) {
                                 let newValue = value;
                                 // Adjust the value to meet the length criteria
@@ -565,8 +595,7 @@ const Register = () => {
                             } else {
                               return value; // For 'date' type, always return the value as is
                             }
-                            
-                          }
+                          },
                         })}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
@@ -579,7 +608,7 @@ const Register = () => {
                   <label className="w-32 ">स्थिति पॅटर्न:</label>
                   {ContactInfo?.slice(8).map((item) => (
                     // <div className="flex justify-b">
-                      <label className="flex items-center w-auto" key={item.name}>
+                    <label className="flex items-center w-auto" key={item.name}>
                       <input
                         type="checkbox"
                         name="status"
@@ -612,7 +641,7 @@ const Register = () => {
                             } else {
                               return value.padEnd(10, " ");
                             }
-                          }
+                          },
                         })}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
@@ -636,7 +665,7 @@ const Register = () => {
                             } else {
                               return value.padEnd(10, " ");
                             }
-                          }
+                          },
                         })}
                       />
                     </div>
@@ -658,11 +687,29 @@ const Register = () => {
                             } else {
                               return value.padEnd(10, " ");
                             }
-                          }
+                          },
                         })}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
                     </div>
+                  </div>
+                </div>
+                <div className="flex items-center w-full justify-between gap-1  m-4">
+                  <div className="flex items-center justify-center w-1/6">
+                    <h1 className="text-lg ">उपस्थिति :-</h1>
+                  </div>
+                  <div className="flex flex-wrap gap-4 w-full">
+                    {Array.from({ length: 10 }).map((_, index) => (
+                      <input
+                        key={index}
+                        type="date"
+                        placeholder={`दिनांक ${index + 1}`}
+                        {...register(`input${index}`, {
+                          setValueAs: (value) => value || "",
+                        })}
+                        className="border-0 px-3 py-3 w-full sm:w-1/6 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
+                      />
+                    ))}
                   </div>
                 </div>
 
