@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { fetchUserProfileAsync, selectUser } from '../profile/profileSlice';
-import { fetchEntriesAsync} from '../register/registerSlice';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { fetchUserProfileAsync, selectUser } from "../profile/profileSlice";
+import { fetchEntriesAsync } from "../register/registerSlice";
 import { useForm } from "react-hook-form";
 import ImageCompressor from "image-compressor.js";
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import { storage } from '../../firebaseConfig';
-import { updateUserAsync } from '../profile/profileSlice';
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../firebaseConfig";
+import { updateUserAsync } from "../profile/profileSlice";
 
 function Profile() {
   const { id } = useParams();
@@ -23,6 +23,7 @@ function Profile() {
       placeholder: "अपना आधार नंबर दर्ज करें",
       label: "आधार नंबर",
       id: "25d2",
+      digit: 12,
     },
     {
       _id: {
@@ -33,6 +34,7 @@ function Profile() {
       placeholder: "अपना पी.एच. नंबर दर्ज करें",
       label: "प.ह. संख्या",
       id: "513d",
+      digit: 3,
     },
     {
       _id: {
@@ -43,36 +45,40 @@ function Profile() {
       placeholder: "अपना वार्ड नंबर दर्ज करें",
       label: "वार्ड क्रमांक",
       id: "2e1f",
+      digit: 2,
     },
     {
       _id: {
         $oid: "666718d8bdaeab4fb842b791",
       },
       name: "मतदाता परिचयपत्र",
-      type: "text",
+      type: "number",
       placeholder: "अपना वोटर आईडी दर्ज करें",
       label: "मतदाता परिचयपत्र",
       id: "890a",
+      digit: 10,
     },
     {
       _id: {
         $oid: "666718d8bdaeab4fb842b792",
       },
       name: "परिवार आईडी",
-      type: "text",
+      type: "number",
       placeholder: "अपनी पारिवारिक आईडी दर्ज करें",
       label: "परिवार आईडी",
       id: "7dab",
+      digit: 10,
     },
     {
       _id: {
         $oid: "666718d8bdaeab4fb842b793",
       },
       name: "ड्राइविंग लाइसेंस",
-      type: "text",
+      type: "number",
       placeholder: "अपना ड्राइविंग लाइसेंस दर्ज करें",
       label: "ड्राइविंग लाइसेंस",
       id: "c5c8",
+      digit: 10,
     },
     {
       _id: {
@@ -93,13 +99,14 @@ function Profile() {
       placeholder: "अपनी जन्म तिथि दर्ज करें",
       label: "जन्म दिन दिनांक",
       id: "f5d8",
+      digit: "10",
     },
     {
       _id: {
         $oid: "666718d8bdaeab4fb842b796",
       },
       name: "नियुक्ति पटेल",
-      type: "text",
+      type: "boolean",
       placeholder: "अपना नियुक्त पटेल दर्ज करें",
       label: "नियुक्ति पटेल",
       id: "906f",
@@ -109,7 +116,7 @@ function Profile() {
         $oid: "666718d8bdaeab4fb842b797",
       },
       name: "पुत्र",
-      type: "text",
+      type: "boolean",
       placeholder: "अपने बेटे का नाम दर्ज करें",
       label: "पुत्र",
       id: "c7a7",
@@ -120,7 +127,7 @@ function Profile() {
         $oid: "666718d8bdaeab4fb842b798",
       },
       name: "पौत्र",
-      type: "text",
+      type: "boolean",
       placeholder: "अपने पोते का नाम दर्ज करें",
       label: "पौत्र",
       id: "6a6e",
@@ -131,7 +138,7 @@ function Profile() {
         $oid: "666718d8bdaeab4fb842b799",
       },
       name: "पत्नी",
-      type: "text",
+      type: "boolean",
       placeholder: "अपनी पत्नी का नाम दर्ज करें",
       label: "पत्नी",
       id: "9e62",
@@ -142,7 +149,7 @@ function Profile() {
         $oid: "666718d8bdaeab4fb842b79a",
       },
       name: "भाई",
-      type: "text",
+      type: "boolean",
       placeholder: "अपने भाई का नाम दर्ज करें",
       label: "भाई",
       id: "fd79",
@@ -153,7 +160,7 @@ function Profile() {
         $oid: "666718d8bdaeab4fb842b79b",
       },
       name: "पुत्री",
-      type: "text",
+      type: "boolean",
       placeholder: "अपनी बेटी का नाम दर्ज करें",
       label: "पुत्री",
       id: "b2e2",
@@ -164,7 +171,7 @@ function Profile() {
         $oid: "666718d8bdaeab4fb842b79c",
       },
       name: "पारिवारिक सदस्य",
-      type: "text",
+      type: "boolean",
       placeholder: "अपने परिवार के सदस्य का नाम दर्ज करें",
       label: "पारिवारिक सदस्य",
       id: "f794",
@@ -174,13 +181,23 @@ function Profile() {
         $oid: "666718d8bdaeab4fb842b79d",
       },
       name: "अन्य",
-      type: "text",
+      type: "boolean",
       placeholder: "अन्य विवरण दर्ज करें",
       label: "अन्य",
       id: "6701",
     },
   ];
   let PersonalInfo = [
+    {
+      _id: {
+        $oid: "666718ccbdaeab4fb842b77l",
+      },
+      name: "क्रमंक",
+      type: "number",
+      placeholder: "क्रमंक दर्ज करें",
+      label: "क्रमंक",
+      id: "a5be",
+    },
     {
       _id: {
         $oid: "666718ccbdaeab4fb842b77e",
@@ -298,10 +315,10 @@ function Profile() {
       _id: {
         $oid: "666718ccbdaeab4fb842b78a",
       },
-      name: "संभाग",
+      name: "जनपद",
       type: "text",
       placeholder: "अपना विभाग दर्ज करें",
-      label: "संभाग",
+      label: "जनपद",
       id: "6dc8",
     },
     {
@@ -323,6 +340,15 @@ function Profile() {
       placeholder: "पारिवारिक सदस्य पटेल दर्ज करें",
       label: "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम",
     },
+    {
+      _id: {
+        $oid: "6680041877511524890c4b8h",
+      },
+      name: "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम ( नाम )",
+      type: "text",
+      placeholder: "(                   )",
+      label: "पारिवारिक सदस्य पटेल के उत्तराधिकारी का नाम ( नाम )",
+    },
   ];
   const navigate = useNavigate();
   const [url, setUrl] = useState(data?.user?.imageURL);
@@ -337,26 +363,44 @@ function Profile() {
     dispatch(fetchEntriesAsync());
   }, [dispatch, id]);
 
-  const onSubmit = (formData) => {
+  const onSubmit = (data) => {
+
+    let उपस्थित = [];
+    let inputsअंक = [];
+
+    // Populate the arrays
+    for (let index = 0; index < 10; index++) {
+      let inputKey = `input${index}`;
+      let inputKeyअंक = `inputअंक${index}`;
+      // console.log(data[inputKey], data[inputKeyअंक]);
+
+       उपस्थित.push(data[inputKey]);
+       inputsअंक.push(data[inputKeyअंक]);
+
+      // Optionally delete the individual input properties
+      delete data[inputKey];
+      delete data[inputKeyअंक];
+    }
+    // console.log(उपस्थित , inputsअंक);
+    for (let i = 0; i < 10; i++) {
+      delete data[`input${i}`];
+      delete data[`inputअंक${i}`];
+    }
+
     const preprocessData = (data) => {
-      const processedData = { ...data };
-      for (const key in processedData) {
-        if (typeof processedData[key] === 'string' && processedData[key].trim() === "") {
-          processedData[key] = "N/A";
-        }
-      }
+      const processedData = { ...data,  उपस्थित,  inputsअंक };
+      // const processedData = { ...data };
       return processedData;
     };
-    const processedData = preprocessData(formData);
+    const processedData = preprocessData(data);
     if (url) {
       processedData["imageURL"] = url;
       setUrl(null);
-
     }
-    console.log(id, processedData)
-    dispatch(updateUserAsync({ data: { id: data?._id }, processedData }));
+    console.log(id, processedData);
+    dispatch(updateUserAsync({ data: { id: id }, processedData }));
     dispatch(fetchUserProfileAsync(id));
-    navigate("/profile/"+id );
+    navigate("/profile/" + id);
   };
 
   const handleFileUpload = (e) => {
@@ -392,7 +436,6 @@ function Profile() {
                 setUrl(downloadURL);
               });
             }
-            
           );
         })
         .catch((error) => {
@@ -402,7 +445,6 @@ function Profile() {
   };
 
   data = data?.user;
-
   if (data && ContactInfo && PersonalInfo) {
     return (
       <section className="py-1 bg-blueGray-50">
@@ -422,7 +464,8 @@ function Profile() {
                   Save
                 </button>
 
-                <Link to="/search"
+                <Link
+                  to="/search"
                   className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="button"
                 >
@@ -435,32 +478,34 @@ function Profile() {
                 <div className="flex flex-wrap">
                   {url ? (
                     <div
-                    className="flex items-center justify-center w-full p-4 flex-col lg:flex-row"
-                    style={{ margin: "1rem" }}
-                  >
-                    <label
-                      className="uppercase text-blueGray-600 text-xs font-bold mb-2 flex justify-center items-center"
-                      htmlFor="grid-password"
+                      className="flex items-center justify-center w-full p-4 flex-col lg:flex-row"
+                      style={{ margin: "1rem" }}
                     >
-                    </label>
-                    <label
-                      htmlFor="dropzone-file"
-                      className="flex flex-col items-center justify-center lg:w-1/4 w-full md:w-1/2 h-64 lg:h-36 border-gray-300 cursor-pointer"
-                    >
-                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        <img src={url || "https://via.placeholder.com/150"} alt="profileURL" className="rounded-xl lg:h-36" />
-                      </div>
-                    </label>
-                    <button
-                      className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                      type="button"
-                      onClick={() => setUrl(null)}
-                    >
-                      Remove Photo
-                    </button>
-                  </div>
-                  ):(
-                    
+                      <label
+                        className="uppercase text-blueGray-600 text-xs font-bold mb-2 flex justify-center items-center"
+                        htmlFor="grid-password"
+                      ></label>
+                      <label
+                        htmlFor="dropzone-file"
+                        className="flex flex-col items-center justify-center lg:w-1/4 w-full md:w-1/2 h-64 lg:h-36 border-gray-300 cursor-pointer"
+                      >
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          <img
+                            src={url || "https://via.placeholder.com/150"}
+                            alt="profileURL"
+                            className="rounded-xl lg:h-36"
+                          />
+                        </div>
+                      </label>
+                      <button
+                        className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                        type="button"
+                        onClick={() => setUrl(null)}
+                      >
+                        Remove Photo
+                      </button>
+                    </div>
+                  ) : (
                     <div className="w-full m-10 flex justify-center items-center">
                       <label
                         htmlFor="dropzone-file"
@@ -468,7 +513,7 @@ function Profile() {
                       >
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
                           <svg
-                            className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400 " 
+                            className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400 "
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -500,9 +545,7 @@ function Profile() {
                         />
                       </label>
                     </div>
-                  )
-
-                  }
+                  )}
                   {PersonalInfo?.map((item) => (
                     <div
                       className="relative lg:w-1/5 w-full mb-3 px-4 md:w-1/2"
@@ -516,7 +559,7 @@ function Profile() {
                       </label>
                       <input
                         type={item.type}
-                        defaultValue={data[item.name] || 'N/A'}
+                        defaultValue={data[item.name] || " - "}
                         placeholder={item.placeholder}
                         {...register(item.name)}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -531,7 +574,7 @@ function Profile() {
                   Contact Information
                 </h6>
                 <div className="flex flex-wrap">
-                {ContactInfo?.slice(0, 8).map((item) => (
+                  {ContactInfo?.slice(0, 8).map((item) => (
                     <div
                       className="relative lg:w-1/6 w-full mb-3 px-4 md:w-1/2"
                       key={item.name}
@@ -544,10 +587,32 @@ function Profile() {
                       </label>
                       <input
                         type={item.type}
-                        defaultValue={data[item.name] || 'N/A'}
+                        defaultValue={data[item.name] || " - "}
                         placeholder={item.placeholder}
                         {...register(item.name, {
-                          required: item.name === 'मो' // Conditionally apply required rule
+                          required: item.name === "मो",
+                          setValueAs: (value) => {
+                            if (
+                              item.type === "date" ||
+                              item.type === "number"
+                            ) {
+                              if (value === "" || value.length !== item.digit) {
+                                let newValue = value;
+                                // Adjust the value to meet the length criteria
+                                while (newValue.length < item.digit) {
+                                  newValue += " "; // Append spaces if shorter
+                                }
+                                if (newValue.length > item.digit) {
+                                  newValue = newValue.substring(0, item.digit); // Trim if longer
+                                }
+                                return newValue;
+                              } else {
+                                return value; // Return the value as is if it meets the criteria
+                              }
+                            } else {
+                              return value; // For 'date' type, always return the value as is
+                            }
+                          },
                         })}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
@@ -558,11 +623,12 @@ function Profile() {
                   <label className="w-32 ">स्थिति पॅटर्न:</label>
                   {ContactInfo?.slice(8).map((item) => (
                     // <div className="flex justify-b">
-                      <label className="flex items-center w-auto" key={item.name}>
-                        {item.label}
+                    <label className="flex items-center w-auto" key={item.name}>
+                      {item.label}
                       <input
                         type="checkbox"
                         name="status"
+                        defaultChecked={data[item.name]}
                         {...register(item.name)}
                         className="ml-2"
                       />
@@ -578,15 +644,24 @@ function Profile() {
                   <div className="w-full lg:w-4/12 px-4">
                     <div className="relative w-full mb-3">
                       <label
-                        className="block uppercase text-blueGray-600 text-sm font-bold mb-2"
+                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                         htmlFor="grid-password"
                       >
                         मो
                       </label>
                       <input
                         type="text"
-                        defaultValue={data.phone1 || 'N/A'}
-                        {...register("phone1")}
+                        defaultValue={data.phone1.replace(/\s+/g, "")}
+                        // onClick={()=>{data.phone1 = data.phone1}}
+                        {...register("phone1", {
+                          setValueAs: (value) => {
+                            if (value.length === 9 || value.length === 10) {
+                              return value;
+                            } else {
+                              return value.padEnd(10, " ");
+                            }
+                          },
+                        })}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
                     </div>
@@ -594,34 +669,81 @@ function Profile() {
                   <div className="w-full lg:w-4/12 px-4">
                     <div className="relative w-full mb-3">
                       <label
-                        className="block uppercase text-blueGray-600 text-sm font-bold mb-2"
+                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                         htmlFor="grid-password"
                       >
                         मो
                       </label>
                       <input
                         type="text"
-                        defaultValue={data.phone2 || 'N/A'}
-                        {...register("phone2")}
+                        defaultValue={data.phone2.replace(/\s+/g, "")}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                        {...register("phone2", {
+                          setValueAs: (value) => {
+                            if (value.length === 9 || value.length === 10) {
+                              return value;
+                            } else {
+                              return value.padEnd(10, " ");
+                            }
+                          },
+                        })}
                       />
                     </div>
                   </div>
                   <div className="w-full lg:w-4/12 px-4">
                     <div className="relative w-full mb-3">
                       <label
-                        className="block uppercase text-blueGray-600 text-sm font-bold mb-2"
+                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                         htmlFor="grid-password"
                       >
                         मो
                       </label>
                       <input
                         type="text"
-                        defaultValue={data.phone3 || 'N/A'}
-                        {...register("phone3")}
+                        defaultValue={data.phone3.replace(/\s+/g, "")}
+                        {...register("phone3", {
+                          setValueAs: (value) => {
+                            if (value.length === 9 || value.length === 10) {
+                              return value;
+                            } else {
+                              return value.padEnd(10, " ");
+                            }
+                          },
+                        })}
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       />
                     </div>
+                  </div>
+                </div>
+                <div className="flex items-center w-full justify-between gap-1  m-4">
+                  <div className="flex items-center justify-center w-1/6">
+                    <h1 className="text-lg ">उपस्थिति :-</h1>
+                  </div>
+                  <div className="flex flex-wrap gap-4 w-full">
+                    {Array.from({ length: 10 }).map((_, index) => (
+                      <>
+                        <input
+                          key={index + 10}
+                          type="number"
+                          placeholder={` 5 अंक ${index + 1}`}
+                          defaultValue={data?.inputsअंक[index]}
+                          {...register(`inputअंक${index}`, {
+                            setValueAs: (value) => value || "",
+                          })}
+                          className="border-0 px-3 py-3 w-full sm:w-1/5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
+                        />
+                        <input
+                          key={index}
+                          type="date"
+                          defaultValue={data.उपस्थित[index]}
+                          placeholder={`दिनांक ${index + 1}`}
+                          {...register(`input${index}`, {
+                            setValueAs: (value) => value || "",
+                          })}
+                          className="border-0 px-3 py-3 w-full sm:w-1/5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
+                        />
+                      </>
+                    ))}
                   </div>
                 </div>
               </form>
@@ -630,21 +752,34 @@ function Profile() {
         </div>
       </section>
     );
-  }
-  else{
+  } else {
     return (
       <div className="">
-        <div role="status" className="flex items-center justify-center h-screen">
-          <svg aria-hidden="true" class="inline w-10 h-10 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
-            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
+        <div
+          role="status"
+          className="flex items-center justify-center h-screen"
+        >
+          <svg
+            aria-hidden="true"
+            class="inline w-10 h-10 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+            viewBox="0 0 100 101"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+              fill="currentColor"
+            />
+            <path
+              d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+              fill="currentFill"
+            />
           </svg>
           <span class="sr-only">Loading...</span>
         </div>
       </div>
-    )
+    );
   }
- 
 }
 
-export default Profile
+export default Profile;

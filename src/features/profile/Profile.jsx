@@ -1,17 +1,18 @@
-import React, { createRef, useEffect } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchUserProfileAsync, selectUser } from "./profileSlice";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import PanoramaFishEyeIcon from "@mui/icons-material/PanoramaFishEye";
 
 const extractDateParts = (dateStr) => {
-  const [year, month, day] = dateStr.split('-');
+  const [year, month, day] = dateStr.split("-");
   return {
-    day : day,
-    month : month,
-    year: year.slice(-2)
+    day: day,
+    month: month,
+    year: year.slice(-2),
   };
 };
-
 
 function Profile() {
   let ContactInfo = [
@@ -342,6 +343,7 @@ function Profile() {
   let dispatch = useDispatch();
   let data = useSelector(selectUser);
   let ref = createRef();
+  const [icon, setIcon] = useState(false)
 
   useEffect(() => {
     dispatch(fetchUserProfileAsync(id));
@@ -402,41 +404,67 @@ function Profile() {
                 <div className="flex flex-wrap">
                   <div className="p-4 w-full">
                     <div className="flex">
-                      <div className="flex  justify-start">
-                        <label
-                          className="uppercase  mt-1 mb-2 sm:flex   sm:justify-center flex justify-cent"
-                          htmlFor="grid-password"
-                        >
-                          क्र
-                        </label>
-                        <div className="flex sm:h-5 ml-2">
-                          {data.क्रमंक?.split("").map((value, index) => (
-                            <div
-                              key={index} // Added key for list items
-                              type="text"
-                              maxLength="1"
-                              className="border text-center pointer-events-none flex items-center justify-center sm:p-3 lg:p-3   md:p-3"
-                              value={value}
-                              readOnly
+                      <div className="flex-col  justify-start">
+                        <div className="flex">
+                          <label
+                            className="uppercase  mt-1 mb-2 sm:flex   sm:justify-center flex justify-cent"
+                            htmlFor="grid-password"
+                          >
+                            क्र
+                          </label>
+                          <div className="flex sm:h-5 ml-2">
+                            {(data.क्रमंक === " - " ? "000000" : data.क्रमंक)
+                              ?.split("")
+                              .map((value, index) => (
+                                <div
+                                  key={index} // Added key for list items
+                                  type="text"
+                                  maxLength="1"
+                                  className="border text-center pointer-events-none flex items-center justify-center sm:p-3 lg:p-3 md:p-3"
+                                  value={value}
+                                  readOnly
+                                >
+                                  {value}
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                        <div className="flex m-4">
+                          {icon ? (
+                            <div className="flex w-full h-full"
+                            onClick={() => setIcon(false)}
                             >
-                              {value}
+                              <CheckCircleOutlineIcon 
+                              sx={{ height: 50, width: 50 }}
+                              onClick={() => setIcon(false)}
+                            />
                             </div>
-                          ))}
+                          ) : (
+                            <div className="flex w-full h-full"
+                            onClick={() => setIcon(true)}
+                            >
+                              <PanoramaFishEyeIcon
+                              sx={{ height: 50, width: 50 }}
+                              onClick={() => setIcon(true)}
+                            />
+                            </div>
+                          )}
                         </div>
                       </div>
-                      <div className="flex justify-center mt-2 -ml-52 w-full">
+
+                      <div className="flex justify-center mt-2 mx-8 w-full">
                         <label
                           htmlFor="dropzone-file"
-                          className="flex items-center  justify-center sm:w-1/4 w-screen md:w-1/4 h-52 sm:h-48 border-gray-300 cursor-pointer"
+                          className="flex items-center   sm:w-1/4 w-screen md:w-1/4 h-52 sm:h-48 ml-72 border-gray-300 cursor-pointer"
                         >
-                          <div className="">
+                          <div className="flex -mx-52">
                             <img
                               src={
                                 data.imageURL ||
                                 "https://via.placeholder.com/150"
                               }
                               alt="Profile"
-                              className="rounded-xl sm:h-36 sm:w-32"
+                              className="rounded-xl sm:h-36 sm:w-32 "
                             />
                           </div>
                         </label>
@@ -516,7 +544,7 @@ function Profile() {
                       <div className="  sm:w-1/3 md:w-full flex  focus:outline-none focus:ring ease-linear transition-all duration-150">
                         (&nbsp;&nbsp;
                         <div className=" border-t-1 flex items-center justify-center  border-gray-400  sm:w-1/2    focus:outline-none focus:ring ease-linear transition-all duration-150">
-                          <div className="text-center w-5/6 -mt-2.5 bg-transparent">
+                          <div className="text-center w-5/6 -mt-3 bg-transparent">
                             {data[PersonalInfo[14].name] || "-"}
                           </div>
                         </div>
@@ -667,18 +695,26 @@ function Profile() {
                 </div>
                 <div className="flex items-center justify-between  mb-4">
                   <div className="flex items-center justify-center sm:items-center   sm:justify-center ">
-                    <h1>उपस्थिति   :-</h1>
+                    <h1>उपस्थिति :-</h1>
                   </div>
                   {data.उपस्थित.map((item, index) => (
                     <div
                       key={index}
-                      className="flex flex-col h-12 w-20 border border-black"
+                      className="flex flex-col h-14 w-20 border border-black"
                     >
-                      <div className="flex-1 border-b-2"></div>
+                      <div className="flex flex-1 items-center justify-center border-b-2">
+                        {data.inputsअंक[index]}
+                      </div>
                       <div className="flex justify-between flex-1">
-                        <div className="w-1/3 p-0 border-t border-black flex items-center justify-center">{extractDateParts(item).day}</div>
-                        <div className="w-1/3 p-0 border-r border-l border-t border-black flex items-center justify-center">{extractDateParts(item).month}</div>
-                        <div className="w-1/3 p-0 border-t border-black flex items-center justify-center">{extractDateParts(item).year}</div>
+                        <div className="w-1/3 p-0 border-t border-black flex items-center justify-center">
+                          {extractDateParts(item).day}
+                        </div>
+                        <div className="w-1/3 p-0 border-r border-l border-t border-black flex items-center justify-center">
+                          {extractDateParts(item).month}
+                        </div>
+                        <div className="w-1/3 p-0 border-t border-black flex items-center justify-center">
+                          {extractDateParts(item).year}
+                        </div>
                       </div>
                     </div>
                   ))}

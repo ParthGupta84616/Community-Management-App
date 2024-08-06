@@ -363,13 +363,20 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    const inputs = Array.from({ length: 10 }).map(
-      (_, index) => data[`input${index}`]
-    );
-    for(let i = 0; i < inputs.length; i++) {
-      delete data[`input${i}`]
+    const inputs = Array.from({ length: 10 }).map((_, index) => {
+      const inputs = `input${index}`;
+      return data[inputs];
+    });
+    const inputsअंक = Array.from({ length: 10 }).map((_, index) => {
+      const inputsअंक = `inputअंक${index}`;
+      return data[inputsअंक];
+    });
+
+    for (let i = 0; i < inputs.length; i++) {
+      delete data[`input${i}`];
+      delete data[`inputअंक${i}`];
     }
-    const processedData = { ...data, उपस्थित: inputs };
+    const processedData = { ...data, उपस्थित: inputs , inputsअंक : inputsअंक};
     processedData["imageURL"] =
       url ||
       "https://imgs.search.brave.com/oB6fgT45DC10B0RQfk3kTBtZ0W-2p7udZUxPnfvKT3M/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA0LzYyLzkzLzY2/LzM2MF9GXzQ2Mjkz/NjY4OV9CcEVFY3hm/Z011WVBmVGFJQU9D/MXRDRHVybXNubzdT/cC5qcGc";
@@ -538,9 +545,6 @@ const Register = () => {
                               if (value && value.length < 6) {
                                 return value.padStart(6, "0");
                               }
-                              else {
-                                return "000000";
-                              }
                             }
                             return value ? value : " - ";
                           },
@@ -700,15 +704,26 @@ const Register = () => {
                   </div>
                   <div className="flex flex-wrap gap-4 w-full">
                     {Array.from({ length: 10 }).map((_, index) => (
-                      <input
-                        key={index}
-                        type="date"
-                        placeholder={`दिनांक ${index + 1}`}
-                        {...register(`input${index}`, {
-                          setValueAs: (value) => value || "",
-                        })}
-                        className="border-0 px-3 py-3 w-full sm:w-1/6 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
-                      />
+                      <>
+                        <input
+                          key={index+10}
+                          type="number"
+                          placeholder={` 5 अंक ${index + 1}`}
+                          {...register(`inputअंक${index}`, {
+                            setValueAs: (value) => value || "",
+                          })}
+                          className="border-0 px-3 py-3 w-full sm:w-1/5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
+                        />
+                        <input
+                          key={index}
+                          type="date"
+                          placeholder={`दिनांक ${index + 1}`}
+                          {...register(`input${index}`, {
+                            setValueAs: (value) => value || "",
+                          })}
+                          className="border-0 px-3 py-3 w-full sm:w-1/5 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
+                        />
+                      </>
                     ))}
                   </div>
                 </div>
