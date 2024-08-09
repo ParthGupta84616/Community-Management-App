@@ -6,7 +6,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import PanoramaFishEyeIcon from "@mui/icons-material/PanoramaFishEye";
 
 const extractDateParts = (dateStr) => {
-  const [year, month, day] = dateStr.split("-");
+  const [year, month, day] = dateStr?.split("-");
   return {
     day: day,
     month: month,
@@ -697,26 +697,26 @@ function Profile() {
                   <div className="flex items-center justify-center sm:items-center   sm:justify-center ">
                     <h1>उपस्थिति :-</h1>
                   </div>
-                  {data.उपस्थित.map((item, index) => (
+                  {data?.उपस्थित?.map((item, index) => (
                     <div
-                      key={index}
-                      className="flex flex-col h-14 w-20 border border-black"
-                    >
-                      <div className="flex flex-1 items-center justify-center border-b-2">
-                        {data.inputsअंक[index]}
+                    key={index}
+                    className="flex flex-col h-14 w-20 border border-black"
+                  >
+                    <div className="flex flex-1 items-center justify-center border-b-2">
+                      {data && data.inputsअंक ? data.inputsअंक[index] : '\u00A0'}
+                    </div>
+                    <div className="flex justify-between flex-1">
+                      <div className="w-1/3 p-0 border-t border-black flex items-center justify-center">
+                        {data && data.inputsअंक && item ? extractDateParts(item).day : '\u00A0'}
                       </div>
-                      <div className="flex justify-between flex-1">
-                        <div className="w-1/3 p-0 border-t border-black flex items-center justify-center">
-                          {extractDateParts(item).day}
-                        </div>
-                        <div className="w-1/3 p-0 border-r border-l border-t border-black flex items-center justify-center">
-                          {extractDateParts(item).month}
-                        </div>
-                        <div className="w-1/3 p-0 border-t border-black flex items-center justify-center">
-                          {extractDateParts(item).year}
-                        </div>
+                      <div className="w-1/3 p-0 border-r border-l border-t border-black flex items-center justify-center">
+                        {data && data.inputsअंक && item ? extractDateParts(item).month : '\u00A0'}
+                      </div>
+                      <div className="w-1/3 p-0 border-t border-black flex items-center justify-center">
+                        {data && data.inputsअंक && item ? extractDateParts(item).year : '\u00A0'}
                       </div>
                     </div>
+                  </div>
                   ))}
                 </div>
               </form>
