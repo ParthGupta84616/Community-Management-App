@@ -4,7 +4,7 @@ export function SearchUsers(query) {
       resolve({ "data": null });
     }
     else{
-      const response = await fetch("https://socialgeathering-deploy.onrender.com/user?search=" + query);
+      const response = await fetch("/user?search=" + query);
       const data = await response.json();
       resolve({ data });
     }
